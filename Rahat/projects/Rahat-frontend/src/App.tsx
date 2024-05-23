@@ -7,29 +7,31 @@
 // import Home from './Home'
 // import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Beneficiaries from './pages/Beneficiaries';
-import ProjectList from './pages/ProjectList';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Beneficiaries from "./pages/Beneficiaries";
+import ProjectList from "./pages/ProjectList";
 
-import Home from './Home';
-import AdminLayout from './layout/AdminLayout';
-import { AdminRoute } from './components/Routes';
-import Dashboard from './pages/Dashboard';
-import NavBar from './layout/Navbar';
+import Home from "./Home";
+import AdminLayout from "./layout/AdminLayout";
+import { AdminRoute } from "./components/Routes";
+import Dashboard from "./pages/Dashboard";
+import NavBar from "./layout/Navbar";
+import LoginPage from "./pages/Login";
 
 export default function App() {
   return (
     <div>
-      <BrowserRouter>
+      <LoginPage />
+      {/* <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />} /
 
           <Route path="/admin" element={<NavBar />}>
             <Route
               path="/admin/dashboard"
               element={
                 <AdminRoute>
-                  <Dashboard  />
+                  <Dashboard />
                 </AdminRoute>
               }
             />
@@ -40,8 +42,8 @@ export default function App() {
                   <ProjectList />
                 </AdminRoute>
               }
-            />
-            {/* <Route
+            /> */}
+      {/* <Route
               path="/admin/project/add"
               element={
                 <AdminRoute>
@@ -49,7 +51,7 @@ export default function App() {
                 </AdminRoute>
               }
             /> */}
-            {/* <Route
+      {/* <Route
               path="/admin/transaction"
               element={
                 <AdminRoute>
@@ -57,7 +59,7 @@ export default function App() {
                 </AdminRoute>
               }
             /> */}
-            <Route
+      {/* <Route
               path="/admin/beneficiary"
               element={
                 <AdminRoute>
@@ -67,7 +69,7 @@ export default function App() {
             />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
     </div>
   );
 }

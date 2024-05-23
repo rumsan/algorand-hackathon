@@ -21,10 +21,10 @@ import LoginPage from "./pages/Login";
 export default function App() {
   return (
     <div>
-      <LoginPage />
-      {/* <BrowserRouter>
+      
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} /
+          <Route path="/" element={<LoginPage />} />
 
           <Route path="/admin" element={<NavBar />}>
             <Route
@@ -42,7 +42,7 @@ export default function App() {
                   <ProjectList />
                 </AdminRoute>
               }
-            /> */}
+            /> 
       {/* <Route
               path="/admin/project/add"
               element={
@@ -59,7 +59,7 @@ export default function App() {
                 </AdminRoute>
               }
             /> */}
-      {/* <Route
+      <Route
               path="/admin/beneficiary"
               element={
                 <AdminRoute>
@@ -69,7 +69,7 @@ export default function App() {
             />
           </Route>
         </Routes>
-      </BrowserRouter> */}
+      </BrowserRouter>
     </div>
   );
 }

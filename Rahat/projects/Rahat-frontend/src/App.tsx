@@ -7,84 +7,67 @@
 // import Home from './Home'
 // import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Beneficiaries from "./components/templates/Beneficiaries";
-import NavBar from "./components/templates/Navbar";
-import ProjectList from "./components/templates/ProjectList";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Beneficiaries from './pages/Beneficiaries';
+import ProjectList from './pages/ProjectList';
 
-// let providersArray: ProvidersArray
-// if (import.meta.env.VITE_ALGOD_NETWORK === '') {
-//   const kmdConfig = getKmdConfigFromViteEnvironment()
-//   providersArray = [
-//     {
-//       id: PROVIDER_ID.KMD,
-//       clientOptions: {
-//         wallet: kmdConfig.wallet,
-//         password: kmdConfig.password,
-//         host: kmdConfig.server,
-//         token: String(kmdConfig.token),
-//         port: String(kmdConfig.port),
-//       },
-//     },
-//   ]
-// } else {
-//   providersArray = [
-//     { id: PROVIDER_ID.DEFLY, clientStatic: DeflyWalletConnect },
-//     { id: PROVIDER_ID.PERA, clientStatic: PeraWalletConnect },
-//     { id: PROVIDER_ID.DAFFI, clientStatic: DaffiWalletConnect },
-//     { id: PROVIDER_ID.EXODUS },
-//     // If you are interested in WalletConnect v2 provider
-//     // refer to https://github.com/TxnLab/use-wallet for detailed integration instructions
-//   ]
-// }
+import Home from './Home';
+import AdminLayout from './layout/AdminLayout';
+import { AdminRoute } from './components/Routes';
+import Dashboard from './pages/Dashboard';
+import NavBar from './layout/Navbar';
 
-// export default function App() {
-//   const algodConfig = getAlgodConfigFromViteEnvironment()
-
-//   const walletProviders = useInitializeProviders({
-//     providers: providersArray,
-//     nodeConfig: {
-//       network: algodConfig.network,
-//       nodeServer: algodConfig.server,
-//       nodePort: String(algodConfig.port),
-//       nodeToken: String(algodConfig.token),
-//     },
-//     algosdkStatic: algosdk,
-//   })
-
-//   return (
-//     <SnackbarProvider maxSnack={3}>
-//       <WalletProvider value={walletProviders}>
-//         <Home />
-//       </WalletProvider>
-//     </SnackbarProvider>
-//   )
-// }
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <NavBar />,
-    children: [
-      {
-        path: "/projects",
-        element: <ProjectList />,
-      },
-      {
-        path: "/beneficiaries",
-        element: <Beneficiaries />,
-      },
-      {
-        path: "/bye",
-        element: <h1>Bye</h1>,
-      },
-    ],
-  },
-]);
 export default function App() {
   return (
     <div>
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+
+          <Route path="/admin" element={<NavBar />}>
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminRoute>
+                  <Dashboard  />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/project"
+              element={
+                <AdminRoute>
+                  <ProjectList />
+                </AdminRoute>
+              }
+            />
+            {/* <Route
+              path="/admin/project/add"
+              element={
+                <AdminRoute>
+                  <AddProject />
+                </AdminRoute>
+              }
+            /> */}
+            {/* <Route
+              path="/admin/transaction"
+              element={
+                <AdminRoute>
+                  <Transaction />
+                </AdminRoute>
+              }
+            /> */}
+            <Route
+              path="/admin/beneficiary"
+              element={
+                <AdminRoute>
+                  <Beneficiaries />
+                </AdminRoute>
+              }
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

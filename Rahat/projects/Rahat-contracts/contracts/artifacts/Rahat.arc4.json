@@ -1,0 +1,89 @@
+{
+  "name": "Rahat",
+  "desc": "",
+  "methods": [
+    {
+      "name": "assignBeneficiary",
+      "desc": "A method to assign beneficiary to projects",
+      "args": [
+        {
+          "name": "_address",
+          "type": "address",
+          "desc": "Address"
+        }
+      ],
+      "returns": {
+        "type": "void",
+        "desc": "The result of the operation"
+      }
+    },
+    {
+      "name": "createAnAsset",
+      "desc": "A method to create token",
+      "args": [],
+      "returns": {
+        "type": "uint64",
+        "desc": "Asset (token)"
+      }
+    },
+    {
+      "name": "sendTokenToBeneficiary",
+      "desc": "A method to send tokens to beneficiary",
+      "args": [
+        {
+          "name": "benAddress",
+          "type": "address",
+          "desc": "Address of beneficiary to send token"
+        },
+        {
+          "name": "amount",
+          "type": "uint64",
+          "desc": "Amount of token to send"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "unfreezeBeneficiaryAsset",
+      "desc": "A method to unfreeze token",
+      "args": [
+        {
+          "name": "benAddress",
+          "type": "address",
+          "desc": "Address of beneficiary to unfreeze asset"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "sendTokenToVendor",
+      "desc": "A method to send tokens to vendors",
+      "args": [
+        {
+          "name": "venderAddress",
+          "type": "address",
+          "desc": "Address of vendor to receive tokens"
+        },
+        {
+          "name": "amount",
+          "type": "uint64",
+          "desc": "Amount of token to send to vendor"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

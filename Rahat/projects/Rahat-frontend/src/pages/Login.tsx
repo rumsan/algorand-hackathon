@@ -1,4 +1,3 @@
-import ConnectWallet from "../components/ConnectWallet";
 import connectWallet from "../connectWallet";
 
 /*
@@ -49,7 +48,7 @@ export default function LoginPage() {
                   >
                     Connect your wallet
                   </button> */}
-                  {/* {connectWallet()} */}
+                  {connectWallet()}
                 </div>
               </div>
 

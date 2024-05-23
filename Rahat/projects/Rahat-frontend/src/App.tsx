@@ -16,6 +16,7 @@ import AdminLayout from './layout/AdminLayout';
 import { AdminRoute } from './components/Routes';
 import Dashboard from './pages/Dashboard';
 import NavBar from './layout/Navbar';
+import CreateTokens from './pages/CreateTokens';
 
 export default function App() {
   return (
@@ -65,7 +66,17 @@ export default function App() {
                 </AdminRoute>
               }
             />
+            <Route
+              path="/admin/createToken"
+              element={
+                <AdminRoute>
+                  <CreateTokens />
+                </AdminRoute>
+              }
+            />
           </Route>
+
+
         </Routes>
       </BrowserRouter>
     </div>

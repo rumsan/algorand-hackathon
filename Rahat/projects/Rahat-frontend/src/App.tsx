@@ -23,7 +23,7 @@ export default function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />} 
+          <Route path="/" element={<LoginPage />} />
 
           <Route path="/admin" element={<NavBar />}>
             <Route
@@ -41,8 +41,8 @@ export default function App() {
                   <ProjectList />
                 </AdminRoute>
               }
-            /> 
-      {/* <Route
+            />
+            {/* <Route
               path="/admin/project/add"
               element={
                 <AdminRoute>
@@ -58,7 +58,7 @@ export default function App() {
                 </AdminRoute>
               }
             />  */}
-      <Route
+            <Route
               path="/admin/beneficiary"
               element={
                 <AdminRoute>
@@ -67,9 +67,8 @@ export default function App() {
               }
             />
           </Route>
-          
         </Routes>
-      </BrowserRouter> 
+      </BrowserRouter>
     </div>
   );
 }

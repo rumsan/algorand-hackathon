@@ -1,3 +1,4 @@
+import ConnectWallet from "../components/ConnectWallet";
 import connectWallet from "../connectWallet";
 
 /*
@@ -26,11 +27,11 @@ export default function LoginPage() {
           ```
         */}
       <div className="flex flex-row-reverse min-h-[100vh] flex-1 border">
-        <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-gray-100">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
-              <img className="h-20 w-auto" src="https://assets.rumsan.net/rumsan-group/footer-esatya-rahat-logo.png" alt="Your Company" />
-              <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Connect your wallet</h2>
+              {/* <img className="h-20 w-auto" src="https://assets.rumsan.net/rumsan-group/footer-esatya-rahat-logo.png" alt="Your Company" /> */}
+              {/* <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Connect your wallet</h2> */}
               {/* <p className="mt-2 text-sm leading-6 text-gray-500">
                 Not a member?{" "}
                 <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
@@ -48,7 +49,8 @@ export default function LoginPage() {
                   >
                     Connect your wallet
                   </button> */}
-                  {connectWallet()}
+                  {/* {connectWallet()} */}
+                  <ConnectWallet />
                 </div>
               </div>
 

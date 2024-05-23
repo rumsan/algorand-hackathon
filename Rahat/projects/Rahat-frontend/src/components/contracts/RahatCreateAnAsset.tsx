@@ -2,6 +2,7 @@
 import { ReactNode, useState } from 'react'
 import { Rahat, RahatClient } from '../../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
+import InputWithLabels from '../../reuseables/inputWithLabels'
 
 type Props = {
   buttonClass: string
@@ -28,12 +29,9 @@ const RahatCreateAnAsset = (props: Props) => {
   return (
 
     <>
-
-      <button className="" onClick={callMethod}>
-        {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode}
-      </button>
-      <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-      Create token
+    <InputWithLabels placeholder="Number of tokens" label='Number of tokens'/>
+      <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={callMethod}>
+      {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode}
       </button>
     </>
   )

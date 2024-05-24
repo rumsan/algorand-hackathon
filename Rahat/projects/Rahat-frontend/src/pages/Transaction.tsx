@@ -13,6 +13,7 @@
   ```
 */
 import { useLayoutEffect, useRef, useState } from "react";
+import TruncatedCell from "../components/TruncatedCell";
 
 const people = [
   {
@@ -77,10 +78,14 @@ function classNames(...classes: any) {
 }
 
 export default function TransactionPage() {
+
   const checkbox = useRef();
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
   const [selectedPeople, setSelectedPeople] = useState([]);
+
+
+  
 
   useLayoutEffect(() => {
     const isIndeterminate = selectedPeople.length > 0 && selectedPeople.length < people.length;
@@ -171,7 +176,7 @@ export default function TransactionPage() {
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {people.map((person) => (
-                    <tr key={person.beneficiaryId} className={selectedPeople.includes(person) ? "bg-gray-50" : undefined}>
+                    <tr key={person.beneficiaryId} className={selectedPeople.includes(person) ? 'bg-gray-50' : undefined}>
                       <td className="relative px-7 sm:w-12 sm:px-6">
                         {selectedPeople.includes(person) && <div className="absolute inset-y-0 left-0 w-0.5 bg-indigo-600" />}
                         <input
@@ -186,16 +191,21 @@ export default function TransactionPage() {
                       </td>
                       <td
                         className={classNames(
-                          "whitespace-nowrap py-4 pr-3 text-sm font-medium",
-                          selectedPeople.includes(person) ? "text-indigo-600" : "text-gray-900"
+                          'whitespace-nowrap py-4 pr-3 text-sm font-medium',
+                          selectedPeople.includes(person) ? 'text-indigo-600' : 'text-gray-900'
                         )}
                       >
                         {person.topic}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.beneficiaryId}</td>
+                      <TruncatedCell text={person.from} />
+                      <TruncatedCell text={person.to} />
+{/* 
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.from}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.to}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.to}</td> */}
+
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.timestamp}</td>
+
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.txnHash}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${person.amount}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${person.txnFee}</td>

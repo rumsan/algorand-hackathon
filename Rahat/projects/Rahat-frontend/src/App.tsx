@@ -18,14 +18,14 @@ import Dashboard from './pages/Dashboard';
 import NavBar from './layout/Navbar';
 import CreateTokens from './pages/CreateTokens';
 import LoginPage from "./pages/Login";
+import AddBeneficiary from "./pages/AddBeneficiary";
 
 export default function App() {
   return (
     <div>
-      <LoginPage />
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} /
+          <Route path="/" element={<LoginPage />} />
 
           <Route path="/admin" element={<NavBar />}>
             <Route
@@ -44,23 +44,23 @@ export default function App() {
                 </AdminRoute>
               }
             />
-      {/* <Route
+            {/* <Route
               path="/admin/project/add"
               element={
                 <AdminRoute>
                   <AddProject />
                 </AdminRoute>
               }
-            /> */}
-      {/* <Route
+            /> 
+       <Route
               path="/admin/transaction"
               element={
                 <AdminRoute>
                   <Transaction />
                 </AdminRoute>
               }
-            /> */}
-      {/* <Route
+            />  */}
+            <Route
               path="/admin/beneficiary"
               element={
                 <AdminRoute>
@@ -76,11 +76,20 @@ export default function App() {
                 </AdminRoute>
               }
             />
+
+<Route
+              path="/admin/add-beneficiary"
+              element={
+                <AdminRoute>
+                  <AddBeneficiary />
+                </AdminRoute>
+              }
+            />
           </Route>
 
 
         </Routes>
-      </BrowserRouter> */}
+      </BrowserRouter>
     </div>
   );
 }

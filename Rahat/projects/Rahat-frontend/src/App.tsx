@@ -7,9 +7,9 @@
 // import Home from './Home'
 // import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Beneficiaries from "./pages/Beneficiaries";
-import ProjectList from "./pages/ProjectList";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Beneficiaries from './pages/Beneficiaries';
+import ProjectList from './pages/ProjectList';
 
 import Home from './Home';
 import AdminLayout from './layout/AdminLayout';
@@ -17,14 +17,11 @@ import { AdminRoute } from './components/Routes';
 import Dashboard from './pages/Dashboard';
 import NavBar from './layout/Navbar';
 import CreateTokens from './pages/CreateTokens';
-import LoginPage from "./pages/Login";
-import AddBeneficiary from "./pages/AddBeneficiary";
-import { QueryClient, QueryClientProvider } from 'react-query';
+import LoginPage from './pages/Login';
+import AddBeneficiary from './pages/AddBeneficiary';
 
 export default function App() {
-  const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
     <div>
       <BrowserRouter>
         <Routes>
@@ -64,7 +61,7 @@ export default function App() {
               }
             />
 
-          <Route
+            <Route
               path="/admin/add-beneficiary"
               element={
                 <AdminRoute>
@@ -73,11 +70,8 @@ export default function App() {
               }
             />
           </Route>
-
-
         </Routes>
       </BrowserRouter>
     </div>
-    </QueryClientProvider>
   );
 }

@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@algorandfoundation/algokit-client-generator": "^3.0.3",
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^18.17.14",
     "@types/react": "^18.2.11",
     "@types/react-dom": "^18.2.4",
@@ -35,6 +36,7 @@
     "@walletconnect/modal-sign-html": "^2.6.1",
     "algosdk": "^2.7.0",
     "axios": "^1.7.2",
+    "crypto-js": "^4.2.0",
     "notistack": "^3.0.1",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",

@@ -1,8 +1,6 @@
-export const SERVER_URL: string = "http://localhost:3333";
+export const SERVER_URL: string = 'http://localhost:5500';
 
-const version: string = "/api/v1";
+const version: string = '/api/v1';
 export const URLS = {
-  AUTH: version + "/auths",
-  USERS: version + "/users",
-  BLOGS: version + "/blogs",
+  BENEFICIARY: version + '/beneficiary',
 };

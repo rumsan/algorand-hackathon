@@ -17,9 +17,9 @@ const usePost = (qkey: string) => {
     isPending,
   } = useMutation({
     mutationFn: async (payload: any) => {
-      console.log(payload, 'payload');
+    //   console.log(payload, 'payload');
       const { data } = await API.post(payload.urls, { ...payload.data });
-      console.log(data, 'hookswala');
+    //   console.log(data, 'hookswala');
       return data;
     },
     onError(error) {
@@ -35,7 +35,7 @@ const usePost = (qkey: string) => {
       if (qkey != 'false') var a = await queryClient.invalidateQueries({ queryKey: [qkey] });
     },
   });
-  console.log(data);
+//   console.log(data);
   return { postMutation, isError, isSuccess, data, error, success, isPending };
 };
 

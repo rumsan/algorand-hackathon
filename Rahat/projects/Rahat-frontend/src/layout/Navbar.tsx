@@ -1,33 +1,43 @@
-import { Fragment, useState } from 'react';
-import { Dialog, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, Cog6ToothIcon, FolderIcon, HomeIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { Link, Outlet } from 'react-router-dom';
-import ConnectWallet from '../components/ConnectWallet';
+import { Fragment, useState } from "react";
+import { Dialog, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, Cog6ToothIcon, FolderIcon, HomeIcon, UsersIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import { Link, Outlet } from "react-router-dom";
+import ConnectWallet from "../components/ConnectWallet";
+import { useWallet } from "@txnlab/use-wallet";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const navigation = [
-  { name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon, current: false },
-  { name: 'Projects', href: '/admin/project', icon: FolderIcon, current: false },
+  { name: "Dashboard", href: "/admin/dashboard", icon: HomeIcon, current: false },
+  { name: "Projects", href: "/admin/project", icon: FolderIcon, current: false },
   {
-    name: 'Beneficiaries',
-    href: '/admin/beneficiary',
+    name: "Beneficiaries",
+    href: "/admin/beneficiary",
     icon: UsersIcon,
     current: false,
   },
 ];
 
-const userNavigation = [{ name: 'Your profile', href: '#' }];
+const userNavigation = [{ name: "Your profile", href: "#" }];
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
-
-export default function NavBar() {
+const NavBar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [openWalletModal, setOpenWalletModal] = useState(false);
 
-  const toggleWalletModal = () => {
-    setOpenWalletModal(!openWalletModal);
+  const { providers, activeAddress } = useWallet();
+
+  const handleWalletLogout = async () => {
+    if (providers) {
+      const activeProvider = providers.find((p) => p.isActive);
+      if (activeProvider) {
+        await activeProvider.disconnect();
+      }
+    }
+    window.location.href = "/";
   };
 
   return (
@@ -91,8 +101,8 @@ export default function NavBar() {
                                 <Link
                                   to={item.href}
                                   className={classNames(
-                                    item.current ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                    item.current ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white hover:bg-gray-800",
+                                    "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                   )}
                                 >
                                   <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
@@ -134,8 +144,8 @@ export default function NavBar() {
                         <Link
                           to={item.href}
                           className={classNames(
-                            item.current ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                            item.current ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white hover:bg-gray-800",
+                            "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                           )}
                         >
                           <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
@@ -223,7 +233,7 @@ export default function NavBar() {
                           {({ active }) => (
                             <a
                               href={item.href}
-                              className={classNames(active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900')}
+                              className={classNames(active ? "bg-gray-50" : "", "block px-3 py-1 text-sm leading-6 text-gray-900")}
                             >
                               {item.name}
                             </a>
@@ -235,9 +245,9 @@ export default function NavBar() {
                           <button
                             type="button"
                             className="text-black  focus:ring-4 focus:outline-none  font-medium rounded-2xl text-sm mr-9 p-4 py-2 text-center "
-                            onClick={toggleWalletModal}
+                            onClick={handleWalletLogout}
                           >
-                            {openWalletModal ? 'Connect Wallet' : 'Sign out'}
+                            {openWalletModal ? "Connect Wallet" : "Sign out"}
                           </button>
                         )}
                       </Menu.Item>
@@ -246,7 +256,7 @@ export default function NavBar() {
                 </Menu>
               </div>
             </div>
-            {openWalletModal && <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />}
+            {/* {openWalletModal && <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />} */}
           </div>
 
           <main className="py-10">
@@ -258,4 +268,6 @@ export default function NavBar() {
       </div>
     </>
   );
-}
+};
+
+export default NavBar;

@@ -19,9 +19,12 @@ import NavBar from './layout/Navbar';
 import CreateTokens from './pages/CreateTokens';
 import LoginPage from "./pages/Login";
 import AddBeneficiary from "./pages/AddBeneficiary";
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 export default function App() {
+  const queryClient = new QueryClient();
   return (
+    <QueryClientProvider client={queryClient}>
     <div>
       <BrowserRouter>
         <Routes>
@@ -44,22 +47,6 @@ export default function App() {
                 </AdminRoute>
               }
             />
-            {/* <Route
-              path="/admin/project/add"
-              element={
-                <AdminRoute>
-                  <AddProject />
-                </AdminRoute>
-              }
-            /> 
-       <Route
-              path="/admin/transaction"
-              element={
-                <AdminRoute>
-                  <Transaction />
-                </AdminRoute>
-              }
-            />  */}
             <Route
               path="/admin/beneficiary"
               element={
@@ -77,7 +64,7 @@ export default function App() {
               }
             />
 
-<Route
+          <Route
               path="/admin/add-beneficiary"
               element={
                 <AdminRoute>
@@ -91,5 +78,6 @@ export default function App() {
         </Routes>
       </BrowserRouter>
     </div>
+    </QueryClientProvider>
   );
 }

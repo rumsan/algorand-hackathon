@@ -7,29 +7,31 @@
 // import Home from './Home'
 // import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Beneficiaries from './pages/Beneficiaries';
-import ProjectList from './pages/ProjectList';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Beneficiaries from "./pages/Beneficiaries";
+import ProjectList from "./pages/ProjectList";
 
-import Home from './Home';
-import AdminLayout from './layout/AdminLayout';
-import { AdminRoute } from './components/Routes';
-import Dashboard from './pages/Dashboard';
-import NavBar from './layout/Navbar';
+import Home from "./Home";
+import AdminLayout from "./layout/AdminLayout";
+import { AdminRoute } from "./components/Routes";
+import Dashboard from "./pages/Dashboard";
+import NavBar from "./layout/Navbar";
+import LoginPage from "./pages/Login";
+import Transaction from "./pages/Transaction";
 
 export default function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<LoginPage />} />
 
           <Route path="/admin" element={<NavBar />}>
             <Route
               path="/admin/dashboard"
               element={
                 <AdminRoute>
-                  <Dashboard  />
+                  <Dashboard />
                 </AdminRoute>
               }
             />
@@ -48,15 +50,16 @@ export default function App() {
                   <AddProject />
                 </AdminRoute>
               }
-            /> */}
-            {/* <Route
-              path="/admin/transaction"
+            /> 
+             */}
+            <Route
+              path="/admin/transactions"
               element={
                 <AdminRoute>
                   <Transaction />
                 </AdminRoute>
               }
-            /> */}
+            />
             <Route
               path="/admin/beneficiary"
               element={

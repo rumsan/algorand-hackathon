@@ -23,6 +23,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import ConnectWallet from "./components/ConnectWallet";
 import ConnectWalletTemp from "./pages/ConnectWalletTemp";
 import BeneficiaryDetail from "./pages/BeneficiaryDetail";
+import Transaction from "./pages/Transaction";
 
 export default function App() {
   const queryClient = new QueryClient();
@@ -47,6 +48,23 @@ export default function App() {
               element={
                 <AdminRoute>
                   <ProjectList />
+                </AdminRoute>
+              }
+            />
+            {/* <Route
+              path="/admin/project/add"
+              element={
+                <AdminRoute>
+                  <AddProject />
+                </AdminRoute>
+              }
+            /> */}
+
+            <Route
+              path="/admin/transactions"
+              element={
+                <AdminRoute>
+                  <Transaction />
                 </AdminRoute>
               }
             />

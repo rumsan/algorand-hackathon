@@ -59,7 +59,7 @@ const ConnectWallet = () => {
               data-test-id={`${provider.metadata.id}-connect`}
               className="btn border text-black flex items-center space-x-3 py-4 px-4 rounded-lg"
               key={`provider-${provider.metadata.id}`}
-              onClick={() => {
+              onClick={async () => {
                 return provider.connect();
               }}
             >

@@ -14,7 +14,7 @@ const useList = (qkey: string, urls: string, page: number, limit: number, email?
         walletAddress: walletAddress,
       };
       const { data } = await API.get(urls, { params });
-
+      console.log(data, 'hooks');
       return data;
     },
   });

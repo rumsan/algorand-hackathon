@@ -17,6 +17,7 @@ import { AdminRoute } from "./components/Routes";
 import Dashboard from "./pages/Dashboard";
 import NavBar from "./layout/Navbar";
 import LoginPage from "./pages/Login";
+import Transaction from "./pages/Transaction";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
               path="/admin/dashboard"
               element={
                 <AdminRoute>
+                  <Dashboard />
                   <Dashboard />
                 </AdminRoute>
               }
@@ -50,14 +52,15 @@ export default function App() {
                 </AdminRoute>
               }
             /> 
-       <Route
-              path="/admin/transaction"
+             */}
+            <Route
+              path="/admin/transactions"
               element={
                 <AdminRoute>
                   <Transaction />
                 </AdminRoute>
               }
-            />  */}
+            />
             <Route
               path="/admin/beneficiary"
               element={

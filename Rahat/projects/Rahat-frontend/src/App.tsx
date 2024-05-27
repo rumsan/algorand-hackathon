@@ -20,6 +20,9 @@ import CreateTokens from './pages/CreateTokens';
 import LoginPage from "./pages/Login";
 import AddBeneficiary from "./pages/AddBeneficiary";
 import { QueryClient, QueryClientProvider } from 'react-query';
+import ConnectWallet from "./components/ConnectWallet";
+import ConnectWalletTemp from "./pages/ConnectWalletTemp";
+import BeneficiaryDetail from "./pages/BeneficiaryDetail";
 
 export default function App() {
   const queryClient = new QueryClient();
@@ -70,6 +73,22 @@ export default function App() {
                 <AdminRoute>
                   <AddBeneficiary />
                 </AdminRoute>
+              }
+            />
+
+          
+            <Route
+              path="/admin/beneficiary/details"
+              element={
+                  <BeneficiaryDetail />
+              }
+            />
+
+          {/* Temporary Path to connect wallet */}
+            <Route
+              path="/admin/connect"
+              element={
+                  <ConnectWalletTemp />
               }
             />
           </Route>

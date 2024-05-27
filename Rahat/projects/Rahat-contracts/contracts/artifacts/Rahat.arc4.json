@@ -39,6 +39,10 @@
           "name": "amount",
           "type": "uint64",
           "desc": "Amount of token to send"
+        },
+        {
+          "name": "assetId",
+          "type": "uint64"
         }
       ],
       "returns": {
@@ -53,6 +57,10 @@
           "name": "benAddress",
           "type": "address",
           "desc": "Address of beneficiary to unfreeze asset"
+        },
+        {
+          "name": "assetId",
+          "type": "uint64"
         }
       ],
       "returns": {
@@ -72,6 +80,10 @@
           "name": "amount",
           "type": "uint64",
           "desc": "Amount of token to send to vendor"
+        },
+        {
+          "name": "assetId",
+          "type": "uint64"
         }
       ],
       "returns": {

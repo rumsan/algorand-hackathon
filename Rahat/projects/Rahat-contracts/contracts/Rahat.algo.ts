@@ -1,9 +1,7 @@
 import { Contract } from '@algorandfoundation/tealscript';
 
 export class Rahat extends Contract {
-  // Token
-  token = GlobalStateKey<AssetID>();
-
+ 
   beneficiaries = BoxMap<Address, uint64>({ prefix: 'beneficiary' });
 
   /**
@@ -29,7 +27,13 @@ export class Rahat extends Contract {
       configAssetTotal: 1_000_000_000_000_000,
       configAssetFreeze: this.app.address,
     });
-    this.token.value = asset;
+
+    sendAssetTransfer({
+      xferAsset: asset,
+      assetReceiver: this.app.creator,
+      assetAmount: 1_000_000_000_000_000,
+    });
+
     return asset;
   }
 
@@ -38,11 +42,14 @@ export class Rahat extends Contract {
    * @param benAddress Address of beneficiary to send token
    * @param amount Amount of token to send
    */
-  sendTokenToBeneficiary(benAddress: Address, amount: uint64): void {
-    assert(this.beneficiaries(benAddress).exists, 'Beneficiary is not assigned.');
+  sendTokenToBeneficiary(benAddress: Address, amount: uint64, assetId: AssetID): void {
+    // Uncomment this line when box issue is fixed
+
+    // assert(this.beneficiaries(benAddress).exists, 'Beneficiary is not assigned.');
+
     // Send asset to beneficiary
     sendAssetTransfer({
-      xferAsset: this.token.value,
+      xferAsset: assetId,
       assetReceiver: benAddress,
       assetAmount: amount,
     });
@@ -52,7 +59,7 @@ export class Rahat extends Contract {
 
     // Freeze their asset
     sendAssetFreeze({
-      freezeAsset: this.token.value,
+      freezeAsset: assetId,
       freezeAssetAccount: benAddress,
       freezeAssetFrozen: true,
     });
@@ -62,9 +69,9 @@ export class Rahat extends Contract {
    * A method to unfreeze token
    * @param benAddress Address of beneficiary to unfreeze asset
    */
-  unfreezeBeneficiaryAsset(benAddress: Address): void {
+  unfreezeBeneficiaryAsset(benAddress: Address, assetId: AssetID): void {
     sendAssetFreeze({
-      freezeAsset: this.token.value,
+      freezeAsset: assetId,
       freezeAssetAccount: benAddress,
       freezeAssetFrozen: false,
     });
@@ -75,10 +82,10 @@ export class Rahat extends Contract {
    * @param venderAddress Address of vendor to receive tokens
    * @param amount Amount of token to send to vendor
    */
-  sendTokenToVendor(venderAddress: Address, amount: uint64): void {
+  sendTokenToVendor(venderAddress: Address, amount: uint64, assetId: AssetID): void {
     // assert(this.beneficiaries(this.txn.sender).value > 0, "Beneficiary not assigned tokens");
     sendAssetTransfer({
-      xferAsset: this.token.value,
+      xferAsset: assetId,
       assetReceiver: venderAddress,
       assetAmount: amount,
     });

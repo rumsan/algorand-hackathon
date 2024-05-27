@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 import { ReactNode, useState } from 'react'
-import { Rahat, RahatClient } from '../contracts/RahatClient'
+import { Rahat, RahatClient } from '../../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
+import algosdk from 'algosdk'
+import { algodClient } from '../../utils/typedClient'
 
 /* Example usage
 <RahatSendTokenToBeneficiary
@@ -36,7 +38,7 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
     console.log(`Calling sendTokenToBeneficiary`)
     await props.typedClient.sendTokenToBeneficiary(
       {
-        benAddress: props.benAddress,
+        benAddress: "JPZB3XPBRKOCY4FDVLEGIRMRMX7TV7HUQKSX75BNGIQKOTS6Q3KNRGMVUU",
         amount: props.amount,
         assetId: props.assetId,
       },

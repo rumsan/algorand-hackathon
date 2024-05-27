@@ -3,29 +3,33 @@ import { generateRandomBeneficiaryAccount } from '../../utils/generateRandomBenA
 import { QRCodeSVG } from 'qrcode.react';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
+import * as algosdk from 'algosdk';
+import { algodClient } from '../../utils/typedClient';
 
 interface WalletType {
     mnemonicsQRText: string | undefined;
     walletAddress: string | undefined;
+    secretKey: Uint8Array | undefined;
 }
 
 const CreateBeneficiary = () => {
 
-  const secretKey = 'your-secret-key'; // Store this securely
+const secretKey = 'your-secret-key';
 
 const encryptData = (data: string) => {
   return CryptoJS.AES.encrypt(data, secretKey).toString();
 };
 
-    const [beneficiaryWallet, setBeneficiaryWallet] = useState<WalletType>({mnemonicsQRText: undefined, walletAddress: undefined})
+    const [beneficiaryWallet, setBeneficiaryWallet] = useState<WalletType>({mnemonicsQRText: undefined, walletAddress: undefined, secretKey: undefined})
     const createBeneficiaryWallet = () => {
-        const {mnemonics, walletAddress} = generateRandomBeneficiaryAccount();
+        const {mnemonics, walletAddress, secretKey} = generateRandomBeneficiaryAccount();
         const mnemonicsQRText = `{"version":"1.0", "mnemonic":"${mnemonics}"}`;
-        setBeneficiaryWallet({mnemonicsQRText, walletAddress})
+        setBeneficiaryWallet({mnemonicsQRText, walletAddress, secretKey})
     }
 
-    const createBeneficiary = (e: any) => {
+    const createBeneficiary = async (e: any) => {
       e.preventDefault();
+      // Encrypt mnemonics to send to backend
       const encryptedPassword = encryptData(beneficiaryWallet?.mnemonicsQRText as string);
       const payload = {
         email: e.target['email'].value,
@@ -36,8 +40,22 @@ const encryptData = (data: string) => {
         mnemonics: encryptedPassword,
       }
 
-      axios.post(`http://localhost:5500/beneficiary/create-ben`, payload)
       
+
+      // Opt in to transaction using beneficiary wallet
+      const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+        from: beneficiaryWallet?.walletAddress as string,
+        to: beneficiaryWallet?.walletAddress as string,
+        amount: 0,
+        suggestedParams: await algodClient.getTransactionParams().do(),
+        assetIndex: 671526136
+      })
+      
+      const signedTxn = txn.signTxn(beneficiaryWallet?.secretKey as Uint8Array)
+
+      const { txId } = await algodClient.sendRawTransaction(signedTxn).do();
+
+      await axios.post(`http://localhost:5500/beneficiary/create-ben`, payload)
     }
 
 
@@ -106,7 +124,7 @@ const encryptData = (data: string) => {
     {beneficiaryWallet?.mnemonicsQRText && <div className='mt-6'>
     <label className="block text-sm font-medium leading-6 text-gray-500">QR code of beneficiary wallet secret.</label>
     <div className='mt-4'>
-    <QRCodeSVG value={beneficiaryWallet?.mnemonicsQRText as string}/>
+    <QRCodeSVG value={beneficiaryWallet?.walletAddress as string}/>
     </div>
     </div>}
   <div className="mt-12 flex items-center justify-end gap-x-6">

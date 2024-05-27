@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { generateRandomBeneficiaryAccount } from '../../utils/generateRandomBenAccount';
 import { QRCodeSVG } from 'qrcode.react';
-import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import usePost from '../../hooks/usePost';
 import { URLS } from '../../constants';
@@ -9,6 +8,9 @@ import { URLS } from '../../constants';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Navigate } from 'react-router-dom';
+import success from '../../components/Toaster';
+import {SnackbarUtilsConfigurator} from '../../components/Toaster'
+import * as snack from '../../components/Toaster';
 
 interface WalletType {
   mnemonicsQRText: string | undefined;
@@ -22,7 +24,7 @@ const CreateBeneficiary = () => {
   const notify = () => (data.email ? toast('Wow so easy!') : toast('There was a problem with your request'));
 
   // const notify = () => toast('Wow so easy!');
-  const { postMutation, data, isSuccess, error, success, isPending } = usePost('false');
+  const { postMutation, data, isSuccess, success, isPending } = usePost('false');
 
   const secretKey = 'your-secret-key'; // Store this securely
 
@@ -56,23 +58,26 @@ const CreateBeneficiary = () => {
     await postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
 
     if (data.email) {
-      toast.success('Beneficiary created successfully');
+      snack.default.success('Beneficiary created successfully');
+
+      // toast.success('Beneficiary created successfully');
       setShouldNavigate(true);
     } else {
-      toast.error('There was a problem with your request');
+      snack.default.error('There was a problem with your request');
     }
   };
 
   if (shouldNavigate) {
-    toast.success('Beneficiary created successfully');
+    // toast.success('Beneficiary created successfully');
 
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin/beneficiary" replace />;
   }
 
   return (
     <>
       <div>
-        <ToastContainer />
+        
+        <SnackbarUtilsConfigurator />
       </div>
       <form onSubmit={(e) => createBeneficiary(e)}>
         <div className="space-y-6">

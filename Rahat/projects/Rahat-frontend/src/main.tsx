@@ -12,6 +12,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { AuthProvider } from "./context/AuthContext";
 
 import "./index.css";
+import TanstackProvider from "./providers/TanstackProvider";
 
 const ProvidersWrapper: React.FC = () => {
   let providersArray: ProvidersArray;
@@ -64,10 +65,15 @@ const ProvidersWrapper: React.FC = () => {
 // Render the React application
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
+            <TanstackProvider>
+
     <AuthProvider>
       <SnackbarProvider maxSnack={3}>
         <ProvidersWrapper />
       </SnackbarProvider>
+
     </AuthProvider>
+        </TanstackProvider>
+
   </React.StrictMode>
 );

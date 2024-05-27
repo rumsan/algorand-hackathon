@@ -40,17 +40,17 @@ export const APP_SPEC: AppSpec = {
         "no_op": "CALL"
       }
     },
-    "sendTokenToBeneficiary(address,uint64)void": {
+    "sendTokenToBeneficiary(address,uint64,uint64)void": {
       "call_config": {
         "no_op": "CALL"
       }
     },
-    "unfreezeBeneficiaryAsset(address)void": {
+    "unfreezeBeneficiaryAsset(address,uint64)void": {
       "call_config": {
         "no_op": "CALL"
       }
     },
-    "sendTokenToVendor(address,uint64)void": {
+    "sendTokenToVendor(address,uint64,uint64)void": {
       "call_config": {
         "no_op": "CALL"
       }
@@ -74,19 +74,14 @@ export const APP_SPEC: AppSpec = {
       "reserved": {}
     },
     "global": {
-      "declared": {
-        "token": {
-          "type": "uint64",
-          "key": "token"
-        }
-      },
+      "declared": {},
       "reserved": {}
     }
   },
   "state": {
     "global": {
       "num_byte_slices": 0,
-      "num_uints": 1
+      "num_uints": 0
     },
     "local": {
       "num_byte_slices": 0,
@@ -94,7 +89,7 @@ export const APP_SPEC: AppSpec = {
     }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjkyLjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGFzc2lnbkJlbmVmaWNpYXJ5KGFkZHJlc3Mpdm9pZAoqYWJpX3JvdXRlX2Fzc2lnbkJlbmVmaWNpYXJ5OgoJLy8gX2FkZHJlc3M6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoX2FkZHJlc3MpIGZvciBhc3NpZ25CZW5lZmljaWFyeSBtdXN0IGJlIGEgYWRkcmVzcwoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBhc3NpZ25CZW5lZmljaWFyeShhZGRyZXNzKXZvaWQKCWNhbGxzdWIgYXNzaWduQmVuZWZpY2lhcnkKCWludCAxCglyZXR1cm4KCi8vIGFzc2lnbkJlbmVmaWNpYXJ5KF9hZGRyZXNzOiBBZGRyZXNzKTogdm9pZAovLwovLyBBIG1ldGhvZCB0byBhc3NpZ24gYmVuZWZpY2lhcnkgdG8gcHJvamVjdHMKLy8gQHBhcmFtIF9hZGRyZXNzIEFkZHJlc3MKLy8KLy8gQHJldHVybnMgVGhlIHJlc3VsdCBvZiB0aGUgb3BlcmF0aW9uCmFzc2lnbkJlbmVmaWNpYXJ5OgoJcHJvdG8gMSAwCgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6MTYKCS8vIGFzc2VydCghdGhpcy5iZW5lZmljaWFyaWVzKF9hZGRyZXNzKS5leGlzdHMsICdCZW5lZmljaWFyeSBhbHJlYWR5IGFzc2lnbmVkIHRvIHByb2plY3QnKQoJYnl0ZSAweDYyNjU2ZTY1NjY2OTYzNjk2MTcyNzkgLy8gImJlbmVmaWNpYXJ5IgoJZnJhbWVfZGlnIC0xIC8vIF9hZGRyZXNzOiBBZGRyZXNzCgljb25jYXQKCWJveF9sZW4KCXN3YXAKCXBvcAoJIQoKCS8vIEJlbmVmaWNpYXJ5IGFscmVhZHkgYXNzaWduZWQgdG8gcHJvamVjdAoJYXNzZXJ0CgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6MTgKCS8vIHRoaXMuYmVuZWZpY2lhcmllcyhfYWRkcmVzcykudmFsdWUgPSAwCglieXRlIDB4NjI2NTZlNjU2NjY5NjM2OTYxNzI3OSAvLyAiYmVuZWZpY2lhcnkiCglmcmFtZV9kaWcgLTEgLy8gX2FkZHJlc3M6IEFkZHJlc3MKCWNvbmNhdAoJYnl0ZSAweDAwMDAwMDAwMDAwMDAwMDAKCWJveF9wdXQKCXJldHN1YgoKLy8gY3JlYXRlQW5Bc3NldCgpdWludDY0CiphYmlfcm91dGVfY3JlYXRlQW5Bc3NldDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBjcmVhdGVBbkFzc2V0KCl1aW50NjQKCWNhbGxzdWIgY3JlYXRlQW5Bc3NldAoJaXRvYgoJY29uY2F0Cglsb2cKCWludCAxCglyZXR1cm4KCi8vIGNyZWF0ZUFuQXNzZXQoKTogQXNzZXRJRAovLwovLyBBIG1ldGhvZCB0byBjcmVhdGUgdG9rZW4KLy8KLy8gQHJldHVybnMgQXNzZXQgKHRva2VuKQpjcmVhdGVBbkFzc2V0OgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czoyNwoJLy8gdmVyaWZ5VHhuKHRoaXMudHhuLCB7IHNlbmRlcjogdGhpcy5hcHAuY3JlYXRvciB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJdHhuIFNlbmRlcgoJdHhuYSBBcHBsaWNhdGlvbnMgMAoJYXBwX3BhcmFtc19nZXQgQXBwQ3JlYXRvcgoJcG9wCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoidGhpcy50eG4iLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuY3JlYXRvciJ9Cglhc3NlcnQKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czoyOAoJLy8gYXNzZXQgPSBzZW5kQXNzZXRDcmVhdGlvbih7CgkvLyAgICAgICBjb25maWdBc3NldFRvdGFsOiAxXzAwMF8wMDBfMDAwXzAwMF8wMDAsCgkvLyAgICAgICBjb25maWdBc3NldEZyZWV6ZTogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICB9KQoJaXR4bl9iZWdpbgoJaW50IGFjZmcKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czoyOQoJLy8gY29uZmlnQXNzZXRUb3RhbDogMV8wMDBfMDAwXzAwMF8wMDBfMDAwCglpbnQgMV8wMDBfMDAwXzAwMF8wMDBfMDAwCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0VG90YWwKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czozMAoJLy8gY29uZmlnQXNzZXRGcmVlemU6IHRoaXMuYXBwLmFkZHJlc3MKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0RnJlZXplCgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50IDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJaXR4biBDcmVhdGVkQXNzZXRJRAoJZnJhbWVfYnVyeSAwIC8vIGFzc2V0OiB1aW50NjQKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czozMgoJLy8gdGhpcy50b2tlbi52YWx1ZSA9IGFzc2V0CglieXRlIDB4NzQ2ZjZiNjU2ZSAvLyAidG9rZW4iCglmcmFtZV9kaWcgMCAvLyBhc3NldDogdWludDY0CglhcHBfZ2xvYmFsX3B1dAoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjMzCgkvLyByZXR1cm4gYXNzZXQ7CglmcmFtZV9kaWcgMCAvLyBhc3NldDogdWludDY0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCi8vIHNlbmRUb2tlblRvQmVuZWZpY2lhcnkoYWRkcmVzcyx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX3NlbmRUb2tlblRvQmVuZWZpY2lhcnk6CgkvLyBhbW91bnQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGJlbkFkZHJlc3M6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMSAoYmVuQWRkcmVzcykgZm9yIHNlbmRUb2tlblRvQmVuZWZpY2lhcnkgbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIGV4ZWN1dGUgc2VuZFRva2VuVG9CZW5lZmljaWFyeShhZGRyZXNzLHVpbnQ2NCl2b2lkCgljYWxsc3ViIHNlbmRUb2tlblRvQmVuZWZpY2lhcnkKCWludCAxCglyZXR1cm4KCi8vIHNlbmRUb2tlblRvQmVuZWZpY2lhcnkoYmVuQWRkcmVzczogQWRkcmVzcywgYW1vdW50OiB1aW50NjQpOiB2b2lkCi8vCi8vIEEgbWV0aG9kIHRvIHNlbmQgdG9rZW5zIHRvIGJlbmVmaWNpYXJ5Ci8vIEBwYXJhbSBiZW5BZGRyZXNzIEFkZHJlc3Mgb2YgYmVuZWZpY2lhcnkgdG8gc2VuZCB0b2tlbgovLyBAcGFyYW0gYW1vdW50IEFtb3VudCBvZiB0b2tlbiB0byBzZW5kCnNlbmRUb2tlblRvQmVuZWZpY2lhcnk6Cglwcm90byAyIDAKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czo0NwoJLy8gc2VuZEFzc2V0VHJhbnNmZXIoewoJLy8gICAgICAgeGZlckFzc2V0OiB0aGlzLnRva2VuLnZhbHVlLAoJLy8gICAgICAgYXNzZXRSZWNlaXZlcjogYmVuQWRkcmVzcywKCS8vICAgICAgIGFzc2V0QW1vdW50OiBhbW91bnQsCgkvLyAgICAgfSkKCWl0eG5fYmVnaW4KCWludCBheGZlcgoJaXR4bl9maWVsZCBUeXBlRW51bQoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjQ4CgkvLyB4ZmVyQXNzZXQ6IHRoaXMudG9rZW4udmFsdWUKCWJ5dGUgMHg3NDZmNmI2NTZlIC8vICJ0b2tlbiIKCWFwcF9nbG9iYWxfZ2V0CglpdHhuX2ZpZWxkIFhmZXJBc3NldAoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjQ5CgkvLyBhc3NldFJlY2VpdmVyOiBiZW5BZGRyZXNzCglmcmFtZV9kaWcgLTEgLy8gYmVuQWRkcmVzczogQWRkcmVzcwoJaXR4bl9maWVsZCBBc3NldFJlY2VpdmVyCgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6NTAKCS8vIGFzc2V0QW1vdW50OiBhbW91bnQKCWZyYW1lX2RpZyAtMiAvLyBhbW91bnQ6IHVpbnQ2NAoJaXR4bl9maWVsZCBBc3NldEFtb3VudAoKCS8vIEZlZSBmaWVsZCBub3Qgc2V0LCBkZWZhdWx0aW5nIHRvIDAKCWludCAwCglpdHhuX2ZpZWxkIEZlZQoKCS8vIFN1Ym1pdCBpbm5lciB0cmFuc2FjdGlvbgoJaXR4bl9zdWJtaXQKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czo1NAoJLy8gdGhpcy5iZW5lZmljaWFyaWVzKGJlbkFkZHJlc3MpLnZhbHVlID0gYW1vdW50CglieXRlIDB4NjI2NTZlNjU2NjY5NjM2OTYxNzI3OSAvLyAiYmVuZWZpY2lhcnkiCglmcmFtZV9kaWcgLTEgLy8gYmVuQWRkcmVzczogQWRkcmVzcwoJY29uY2F0CglmcmFtZV9kaWcgLTIgLy8gYW1vdW50OiB1aW50NjQKCWl0b2IKCWJveF9wdXQKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czo1NwoJLy8gc2VuZEFzc2V0RnJlZXplKHsKCS8vICAgICAgIGZyZWV6ZUFzc2V0OiB0aGlzLnRva2VuLnZhbHVlLAoJLy8gICAgICAgZnJlZXplQXNzZXRBY2NvdW50OiBiZW5BZGRyZXNzLAoJLy8gICAgICAgZnJlZXplQXNzZXRGcm96ZW46IHRydWUsCgkvLyAgICAgfSkKCWl0eG5fYmVnaW4KCWludCBhZnJ6CglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6NTgKCS8vIGZyZWV6ZUFzc2V0OiB0aGlzLnRva2VuLnZhbHVlCglieXRlIDB4NzQ2ZjZiNjU2ZSAvLyAidG9rZW4iCglhcHBfZ2xvYmFsX2dldAoJaXR4bl9maWVsZCBGcmVlemVBc3NldAoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjU5CgkvLyBmcmVlemVBc3NldEFjY291bnQ6IGJlbkFkZHJlc3MKCWZyYW1lX2RpZyAtMSAvLyBiZW5BZGRyZXNzOiBBZGRyZXNzCglpdHhuX2ZpZWxkIEZyZWV6ZUFzc2V0QWNjb3VudAoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjYwCgkvLyBmcmVlemVBc3NldEZyb3plbjogdHJ1ZQoJaW50IDEKCWl0eG5fZmllbGQgRnJlZXplQXNzZXRGcm96ZW4KCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnQgMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CglyZXRzdWIKCi8vIHVuZnJlZXplQmVuZWZpY2lhcnlBc3NldChhZGRyZXNzKXZvaWQKKmFiaV9yb3V0ZV91bmZyZWV6ZUJlbmVmaWNpYXJ5QXNzZXQ6CgkvLyBiZW5BZGRyZXNzOiBhZGRyZXNzCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50IDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGJlbkFkZHJlc3MpIGZvciB1bmZyZWV6ZUJlbmVmaWNpYXJ5QXNzZXQgbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIGV4ZWN1dGUgdW5mcmVlemVCZW5lZmljaWFyeUFzc2V0KGFkZHJlc3Mpdm9pZAoJY2FsbHN1YiB1bmZyZWV6ZUJlbmVmaWNpYXJ5QXNzZXQKCWludCAxCglyZXR1cm4KCi8vIHVuZnJlZXplQmVuZWZpY2lhcnlBc3NldChiZW5BZGRyZXNzOiBBZGRyZXNzKTogdm9pZAovLwovLyBBIG1ldGhvZCB0byB1bmZyZWV6ZSB0b2tlbgovLyBAcGFyYW0gYmVuQWRkcmVzcyBBZGRyZXNzIG9mIGJlbmVmaWNpYXJ5IHRvIHVuZnJlZXplIGFzc2V0CnVuZnJlZXplQmVuZWZpY2lhcnlBc3NldDoKCXByb3RvIDEgMAoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjY5CgkvLyBzZW5kQXNzZXRGcmVlemUoewoJLy8gICAgICAgZnJlZXplQXNzZXQ6IHRoaXMudG9rZW4udmFsdWUsCgkvLyAgICAgICBmcmVlemVBc3NldEFjY291bnQ6IGJlbkFkZHJlc3MsCgkvLyAgICAgICBmcmVlemVBc3NldEZyb3plbjogZmFsc2UsCgkvLyAgICAgfSkKCWl0eG5fYmVnaW4KCWludCBhZnJ6CglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6NzAKCS8vIGZyZWV6ZUFzc2V0OiB0aGlzLnRva2VuLnZhbHVlCglieXRlIDB4NzQ2ZjZiNjU2ZSAvLyAidG9rZW4iCglhcHBfZ2xvYmFsX2dldAoJaXR4bl9maWVsZCBGcmVlemVBc3NldAoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjcxCgkvLyBmcmVlemVBc3NldEFjY291bnQ6IGJlbkFkZHJlc3MKCWZyYW1lX2RpZyAtMSAvLyBiZW5BZGRyZXNzOiBBZGRyZXNzCglpdHhuX2ZpZWxkIEZyZWV6ZUFzc2V0QWNjb3VudAoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjcyCgkvLyBmcmVlemVBc3NldEZyb3plbjogZmFsc2UKCWludCAwCglpdHhuX2ZpZWxkIEZyZWV6ZUFzc2V0RnJvemVuCgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50IDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJcmV0c3ViCgovLyBzZW5kVG9rZW5Ub1ZlbmRvcihhZGRyZXNzLHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfc2VuZFRva2VuVG9WZW5kb3I6CgkvLyBhbW91bnQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIHZlbmRlckFkZHJlc3M6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMSAodmVuZGVyQWRkcmVzcykgZm9yIHNlbmRUb2tlblRvVmVuZG9yIG11c3QgYmUgYSBhZGRyZXNzCglhc3NlcnQKCgkvLyBleGVjdXRlIHNlbmRUb2tlblRvVmVuZG9yKGFkZHJlc3MsdWludDY0KXZvaWQKCWNhbGxzdWIgc2VuZFRva2VuVG9WZW5kb3IKCWludCAxCglyZXR1cm4KCi8vIHNlbmRUb2tlblRvVmVuZG9yKHZlbmRlckFkZHJlc3M6IEFkZHJlc3MsIGFtb3VudDogdWludDY0KTogdm9pZAovLwovLyBBIG1ldGhvZCB0byBzZW5kIHRva2VucyB0byB2ZW5kb3JzCi8vIEBwYXJhbSB2ZW5kZXJBZGRyZXNzIEFkZHJlc3Mgb2YgdmVuZG9yIHRvIHJlY2VpdmUgdG9rZW5zCi8vIEBwYXJhbSBhbW91bnQgQW1vdW50IG9mIHRva2VuIHRvIHNlbmQgdG8gdmVuZG9yCnNlbmRUb2tlblRvVmVuZG9yOgoJcHJvdG8gMiAwCgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6ODMKCS8vIHNlbmRBc3NldFRyYW5zZmVyKHsKCS8vICAgICAgIHhmZXJBc3NldDogdGhpcy50b2tlbi52YWx1ZSwKCS8vICAgICAgIGFzc2V0UmVjZWl2ZXI6IHZlbmRlckFkZHJlc3MsCgkvLyAgICAgICBhc3NldEFtb3VudDogYW1vdW50LAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglpbnQgYXhmZXIKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czo4NAoJLy8geGZlckFzc2V0OiB0aGlzLnRva2VuLnZhbHVlCglieXRlIDB4NzQ2ZjZiNjU2ZSAvLyAidG9rZW4iCglhcHBfZ2xvYmFsX2dldAoJaXR4bl9maWVsZCBYZmVyQXNzZXQKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czo4NQoJLy8gYXNzZXRSZWNlaXZlcjogdmVuZGVyQWRkcmVzcwoJZnJhbWVfZGlnIC0xIC8vIHZlbmRlckFkZHJlc3M6IEFkZHJlc3MKCWl0eG5fZmllbGQgQXNzZXRSZWNlaXZlcgoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjg2CgkvLyBhc3NldEFtb3VudDogYW1vdW50CglmcmFtZV9kaWcgLTIgLy8gYW1vdW50OiB1aW50NjQKCWl0eG5fZmllbGQgQXNzZXRBbW91bnQKCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnQgMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CgltZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJbWV0aG9kICJhc3NpZ25CZW5lZmljaWFyeShhZGRyZXNzKXZvaWQiCgltZXRob2QgImNyZWF0ZUFuQXNzZXQoKXVpbnQ2NCIKCW1ldGhvZCAic2VuZFRva2VuVG9CZW5lZmljaWFyeShhZGRyZXNzLHVpbnQ2NCl2b2lkIgoJbWV0aG9kICJ1bmZyZWV6ZUJlbmVmaWNpYXJ5QXNzZXQoYWRkcmVzcyl2b2lkIgoJbWV0aG9kICJzZW5kVG9rZW5Ub1ZlbmRvcihhZGRyZXNzLHVpbnQ2NCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9hc3NpZ25CZW5lZmljaWFyeSAqYWJpX3JvdXRlX2NyZWF0ZUFuQXNzZXQgKmFiaV9yb3V0ZV9zZW5kVG9rZW5Ub0JlbmVmaWNpYXJ5ICphYmlfcm91dGVfdW5mcmVlemVCZW5lZmljaWFyeUFzc2V0ICphYmlfcm91dGVfc2VuZFRva2VuVG9WZW5kb3IKCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnI=",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjkyLjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGFzc2lnbkJlbmVmaWNpYXJ5KGFkZHJlc3Mpdm9pZAoqYWJpX3JvdXRlX2Fzc2lnbkJlbmVmaWNpYXJ5OgoJLy8gX2FkZHJlc3M6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoX2FkZHJlc3MpIGZvciBhc3NpZ25CZW5lZmljaWFyeSBtdXN0IGJlIGEgYWRkcmVzcwoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBhc3NpZ25CZW5lZmljaWFyeShhZGRyZXNzKXZvaWQKCWNhbGxzdWIgYXNzaWduQmVuZWZpY2lhcnkKCWludCAxCglyZXR1cm4KCi8vIGFzc2lnbkJlbmVmaWNpYXJ5KF9hZGRyZXNzOiBBZGRyZXNzKTogdm9pZAovLwovLyBBIG1ldGhvZCB0byBhc3NpZ24gYmVuZWZpY2lhcnkgdG8gcHJvamVjdHMKLy8gQHBhcmFtIF9hZGRyZXNzIEFkZHJlc3MKLy8KLy8gQHJldHVybnMgVGhlIHJlc3VsdCBvZiB0aGUgb3BlcmF0aW9uCmFzc2lnbkJlbmVmaWNpYXJ5OgoJcHJvdG8gMSAwCgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6MTQKCS8vIGFzc2VydCghdGhpcy5iZW5lZmljaWFyaWVzKF9hZGRyZXNzKS5leGlzdHMsICdCZW5lZmljaWFyeSBhbHJlYWR5IGFzc2lnbmVkIHRvIHByb2plY3QnKQoJYnl0ZSAweDYyNjU2ZTY1NjY2OTYzNjk2MTcyNzkgLy8gImJlbmVmaWNpYXJ5IgoJZnJhbWVfZGlnIC0xIC8vIF9hZGRyZXNzOiBBZGRyZXNzCgljb25jYXQKCWJveF9sZW4KCXN3YXAKCXBvcAoJIQoKCS8vIEJlbmVmaWNpYXJ5IGFscmVhZHkgYXNzaWduZWQgdG8gcHJvamVjdAoJYXNzZXJ0CgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6MTYKCS8vIHRoaXMuYmVuZWZpY2lhcmllcyhfYWRkcmVzcykudmFsdWUgPSAwCglieXRlIDB4NjI2NTZlNjU2NjY5NjM2OTYxNzI3OSAvLyAiYmVuZWZpY2lhcnkiCglmcmFtZV9kaWcgLTEgLy8gX2FkZHJlc3M6IEFkZHJlc3MKCWNvbmNhdAoJYnl0ZSAweDAwMDAwMDAwMDAwMDAwMDAKCWJveF9wdXQKCXJldHN1YgoKLy8gY3JlYXRlQW5Bc3NldCgpdWludDY0CiphYmlfcm91dGVfY3JlYXRlQW5Bc3NldDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBjcmVhdGVBbkFzc2V0KCl1aW50NjQKCWNhbGxzdWIgY3JlYXRlQW5Bc3NldAoJaXRvYgoJY29uY2F0Cglsb2cKCWludCAxCglyZXR1cm4KCi8vIGNyZWF0ZUFuQXNzZXQoKTogQXNzZXRJRAovLwovLyBBIG1ldGhvZCB0byBjcmVhdGUgdG9rZW4KLy8KLy8gQHJldHVybnMgQXNzZXQgKHRva2VuKQpjcmVhdGVBbkFzc2V0OgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czoyNQoJLy8gdmVyaWZ5VHhuKHRoaXMudHhuLCB7IHNlbmRlcjogdGhpcy5hcHAuY3JlYXRvciB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJdHhuIFNlbmRlcgoJdHhuYSBBcHBsaWNhdGlvbnMgMAoJYXBwX3BhcmFtc19nZXQgQXBwQ3JlYXRvcgoJcG9wCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoidGhpcy50eG4iLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuY3JlYXRvciJ9Cglhc3NlcnQKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czoyNgoJLy8gYXNzZXQgPSBzZW5kQXNzZXRDcmVhdGlvbih7CgkvLyAgICAgICBjb25maWdBc3NldFRvdGFsOiAxXzAwMF8wMDBfMDAwXzAwMF8wMDAsCgkvLyAgICAgICBjb25maWdBc3NldEZyZWV6ZTogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICB9KQoJaXR4bl9iZWdpbgoJaW50IGFjZmcKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czoyNwoJLy8gY29uZmlnQXNzZXRUb3RhbDogMV8wMDBfMDAwXzAwMF8wMDBfMDAwCglpbnQgMV8wMDBfMDAwXzAwMF8wMDBfMDAwCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0VG90YWwKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czoyOAoJLy8gY29uZmlnQXNzZXRGcmVlemU6IHRoaXMuYXBwLmFkZHJlc3MKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0RnJlZXplCgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50IDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJaXR4biBDcmVhdGVkQXNzZXRJRAoJZnJhbWVfYnVyeSAwIC8vIGFzc2V0OiB1aW50NjQKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czozMAoJLy8gcmV0dXJuIGFzc2V0OwoJZnJhbWVfZGlnIDAgLy8gYXNzZXQ6IHVpbnQ2NAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoJcmV0c3ViCgovLyBzZW5kVG9rZW5Ub0JlbmVmaWNpYXJ5KGFkZHJlc3MsdWludDY0LHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfc2VuZFRva2VuVG9CZW5lZmljaWFyeToKCS8vIGFzc2V0SWQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJYnRvaQoKCS8vIGFtb3VudDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYmVuQWRkcmVzczogYWRkcmVzcwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCWludCAzMgoJPT0KCgkvLyBhcmd1bWVudCAyIChiZW5BZGRyZXNzKSBmb3Igc2VuZFRva2VuVG9CZW5lZmljaWFyeSBtdXN0IGJlIGEgYWRkcmVzcwoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBzZW5kVG9rZW5Ub0JlbmVmaWNpYXJ5KGFkZHJlc3MsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIHNlbmRUb2tlblRvQmVuZWZpY2lhcnkKCWludCAxCglyZXR1cm4KCi8vIHNlbmRUb2tlblRvQmVuZWZpY2lhcnkoYmVuQWRkcmVzczogQWRkcmVzcywgYW1vdW50OiB1aW50NjQsIGFzc2V0SWQ6IEFzc2V0SUQpOiB2b2lkCi8vCi8vIEEgbWV0aG9kIHRvIHNlbmQgdG9rZW5zIHRvIGJlbmVmaWNpYXJ5Ci8vIEBwYXJhbSBiZW5BZGRyZXNzIEFkZHJlc3Mgb2YgYmVuZWZpY2lhcnkgdG8gc2VuZCB0b2tlbgovLyBAcGFyYW0gYW1vdW50IEFtb3VudCBvZiB0b2tlbiB0byBzZW5kCnNlbmRUb2tlblRvQmVuZWZpY2lhcnk6Cglwcm90byAzIDAKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czo0NAoJLy8gc2VuZEFzc2V0VHJhbnNmZXIoewoJLy8gICAgICAgeGZlckFzc2V0OiBhc3NldElkLAoJLy8gICAgICAgYXNzZXRSZWNlaXZlcjogYmVuQWRkcmVzcywKCS8vICAgICAgIGFzc2V0QW1vdW50OiBhbW91bnQsCgkvLyAgICAgfSkKCWl0eG5fYmVnaW4KCWludCBheGZlcgoJaXR4bl9maWVsZCBUeXBlRW51bQoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjQ1CgkvLyB4ZmVyQXNzZXQ6IGFzc2V0SWQKCWZyYW1lX2RpZyAtMyAvLyBhc3NldElkOiBBc3NldElECglpdHhuX2ZpZWxkIFhmZXJBc3NldAoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjQ2CgkvLyBhc3NldFJlY2VpdmVyOiBiZW5BZGRyZXNzCglmcmFtZV9kaWcgLTEgLy8gYmVuQWRkcmVzczogQWRkcmVzcwoJaXR4bl9maWVsZCBBc3NldFJlY2VpdmVyCgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6NDcKCS8vIGFzc2V0QW1vdW50OiBhbW91bnQKCWZyYW1lX2RpZyAtMiAvLyBhbW91bnQ6IHVpbnQ2NAoJaXR4bl9maWVsZCBBc3NldEFtb3VudAoKCS8vIEZlZSBmaWVsZCBub3Qgc2V0LCBkZWZhdWx0aW5nIHRvIDAKCWludCAwCglpdHhuX2ZpZWxkIEZlZQoKCS8vIFN1Ym1pdCBpbm5lciB0cmFuc2FjdGlvbgoJaXR4bl9zdWJtaXQKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czo1MQoJLy8gdGhpcy5iZW5lZmljaWFyaWVzKGJlbkFkZHJlc3MpLnZhbHVlID0gYW1vdW50CglieXRlIDB4NjI2NTZlNjU2NjY5NjM2OTYxNzI3OSAvLyAiYmVuZWZpY2lhcnkiCglmcmFtZV9kaWcgLTEgLy8gYmVuQWRkcmVzczogQWRkcmVzcwoJY29uY2F0CglmcmFtZV9kaWcgLTIgLy8gYW1vdW50OiB1aW50NjQKCWl0b2IKCWJveF9wdXQKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czo1NAoJLy8gc2VuZEFzc2V0RnJlZXplKHsKCS8vICAgICAgIGZyZWV6ZUFzc2V0OiBhc3NldElkLAoJLy8gICAgICAgZnJlZXplQXNzZXRBY2NvdW50OiBiZW5BZGRyZXNzLAoJLy8gICAgICAgZnJlZXplQXNzZXRGcm96ZW46IHRydWUsCgkvLyAgICAgfSkKCWl0eG5fYmVnaW4KCWludCBhZnJ6CglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6NTUKCS8vIGZyZWV6ZUFzc2V0OiBhc3NldElkCglmcmFtZV9kaWcgLTMgLy8gYXNzZXRJZDogQXNzZXRJRAoJaXR4bl9maWVsZCBGcmVlemVBc3NldAoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjU2CgkvLyBmcmVlemVBc3NldEFjY291bnQ6IGJlbkFkZHJlc3MKCWZyYW1lX2RpZyAtMSAvLyBiZW5BZGRyZXNzOiBBZGRyZXNzCglpdHhuX2ZpZWxkIEZyZWV6ZUFzc2V0QWNjb3VudAoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjU3CgkvLyBmcmVlemVBc3NldEZyb3plbjogdHJ1ZQoJaW50IDEKCWl0eG5fZmllbGQgRnJlZXplQXNzZXRGcm96ZW4KCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnQgMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CglyZXRzdWIKCi8vIHVuZnJlZXplQmVuZWZpY2lhcnlBc3NldChhZGRyZXNzLHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfdW5mcmVlemVCZW5lZmljaWFyeUFzc2V0OgoJLy8gYXNzZXRJZDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYmVuQWRkcmVzczogYWRkcmVzcwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCWludCAzMgoJPT0KCgkvLyBhcmd1bWVudCAxIChiZW5BZGRyZXNzKSBmb3IgdW5mcmVlemVCZW5lZmljaWFyeUFzc2V0IG11c3QgYmUgYSBhZGRyZXNzCglhc3NlcnQKCgkvLyBleGVjdXRlIHVuZnJlZXplQmVuZWZpY2lhcnlBc3NldChhZGRyZXNzLHVpbnQ2NCl2b2lkCgljYWxsc3ViIHVuZnJlZXplQmVuZWZpY2lhcnlBc3NldAoJaW50IDEKCXJldHVybgoKLy8gdW5mcmVlemVCZW5lZmljaWFyeUFzc2V0KGJlbkFkZHJlc3M6IEFkZHJlc3MsIGFzc2V0SWQ6IEFzc2V0SUQpOiB2b2lkCi8vCi8vIEEgbWV0aG9kIHRvIHVuZnJlZXplIHRva2VuCi8vIEBwYXJhbSBiZW5BZGRyZXNzIEFkZHJlc3Mgb2YgYmVuZWZpY2lhcnkgdG8gdW5mcmVlemUgYXNzZXQKdW5mcmVlemVCZW5lZmljaWFyeUFzc2V0OgoJcHJvdG8gMiAwCgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6NjYKCS8vIHNlbmRBc3NldEZyZWV6ZSh7CgkvLyAgICAgICBmcmVlemVBc3NldDogYXNzZXRJZCwKCS8vICAgICAgIGZyZWV6ZUFzc2V0QWNjb3VudDogYmVuQWRkcmVzcywKCS8vICAgICAgIGZyZWV6ZUFzc2V0RnJvemVuOiBmYWxzZSwKCS8vICAgICB9KQoJaXR4bl9iZWdpbgoJaW50IGFmcnoKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czo2NwoJLy8gZnJlZXplQXNzZXQ6IGFzc2V0SWQKCWZyYW1lX2RpZyAtMiAvLyBhc3NldElkOiBBc3NldElECglpdHhuX2ZpZWxkIEZyZWV6ZUFzc2V0CgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6NjgKCS8vIGZyZWV6ZUFzc2V0QWNjb3VudDogYmVuQWRkcmVzcwoJZnJhbWVfZGlnIC0xIC8vIGJlbkFkZHJlc3M6IEFkZHJlc3MKCWl0eG5fZmllbGQgRnJlZXplQXNzZXRBY2NvdW50CgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6NjkKCS8vIGZyZWV6ZUFzc2V0RnJvemVuOiBmYWxzZQoJaW50IDAKCWl0eG5fZmllbGQgRnJlZXplQXNzZXRGcm96ZW4KCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnQgMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CglyZXRzdWIKCi8vIHNlbmRUb2tlblRvVmVuZG9yKGFkZHJlc3MsdWludDY0LHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfc2VuZFRva2VuVG9WZW5kb3I6CgkvLyBhc3NldElkOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCWJ0b2kKCgkvLyBhbW91bnQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIHZlbmRlckFkZHJlc3M6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMiAodmVuZGVyQWRkcmVzcykgZm9yIHNlbmRUb2tlblRvVmVuZG9yIG11c3QgYmUgYSBhZGRyZXNzCglhc3NlcnQKCgkvLyBleGVjdXRlIHNlbmRUb2tlblRvVmVuZG9yKGFkZHJlc3MsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIHNlbmRUb2tlblRvVmVuZG9yCglpbnQgMQoJcmV0dXJuCgovLyBzZW5kVG9rZW5Ub1ZlbmRvcih2ZW5kZXJBZGRyZXNzOiBBZGRyZXNzLCBhbW91bnQ6IHVpbnQ2NCwgYXNzZXRJZDogQXNzZXRJRCk6IHZvaWQKLy8KLy8gQSBtZXRob2QgdG8gc2VuZCB0b2tlbnMgdG8gdmVuZG9ycwovLyBAcGFyYW0gdmVuZGVyQWRkcmVzcyBBZGRyZXNzIG9mIHZlbmRvciB0byByZWNlaXZlIHRva2VucwovLyBAcGFyYW0gYW1vdW50IEFtb3VudCBvZiB0b2tlbiB0byBzZW5kIHRvIHZlbmRvcgpzZW5kVG9rZW5Ub1ZlbmRvcjoKCXByb3RvIDMgMAoKCS8vIGNvbnRyYWN0c1xSYWhhdC5hbGdvLnRzOjgwCgkvLyBzZW5kQXNzZXRUcmFuc2Zlcih7CgkvLyAgICAgICB4ZmVyQXNzZXQ6IGFzc2V0SWQsCgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiB2ZW5kZXJBZGRyZXNzLAoJLy8gICAgICAgYXNzZXRBbW91bnQ6IGFtb3VudCwKCS8vICAgICB9KQoJaXR4bl9iZWdpbgoJaW50IGF4ZmVyCglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6ODEKCS8vIHhmZXJBc3NldDogYXNzZXRJZAoJZnJhbWVfZGlnIC0zIC8vIGFzc2V0SWQ6IEFzc2V0SUQKCWl0eG5fZmllbGQgWGZlckFzc2V0CgoJLy8gY29udHJhY3RzXFJhaGF0LmFsZ28udHM6ODIKCS8vIGFzc2V0UmVjZWl2ZXI6IHZlbmRlckFkZHJlc3MKCWZyYW1lX2RpZyAtMSAvLyB2ZW5kZXJBZGRyZXNzOiBBZGRyZXNzCglpdHhuX2ZpZWxkIEFzc2V0UmVjZWl2ZXIKCgkvLyBjb250cmFjdHNcUmFoYXQuYWxnby50czo4MwoJLy8gYXNzZXRBbW91bnQ6IGFtb3VudAoJZnJhbWVfZGlnIC0yIC8vIGFtb3VudDogdWludDY0CglpdHhuX2ZpZWxkIEFzc2V0QW1vdW50CgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50IDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50IDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCW1ldGhvZCAiYXNzaWduQmVuZWZpY2lhcnkoYWRkcmVzcyl2b2lkIgoJbWV0aG9kICJjcmVhdGVBbkFzc2V0KCl1aW50NjQiCgltZXRob2QgInNlbmRUb2tlblRvQmVuZWZpY2lhcnkoYWRkcmVzcyx1aW50NjQsdWludDY0KXZvaWQiCgltZXRob2QgInVuZnJlZXplQmVuZWZpY2lhcnlBc3NldChhZGRyZXNzLHVpbnQ2NCl2b2lkIgoJbWV0aG9kICJzZW5kVG9rZW5Ub1ZlbmRvcihhZGRyZXNzLHVpbnQ2NCx1aW50NjQpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfYXNzaWduQmVuZWZpY2lhcnkgKmFiaV9yb3V0ZV9jcmVhdGVBbkFzc2V0ICphYmlfcm91dGVfc2VuZFRva2VuVG9CZW5lZmljaWFyeSAqYWJpX3JvdXRlX3VuZnJlZXplQmVuZWZpY2lhcnlBc3NldCAqYWJpX3JvdXRlX3NlbmRUb2tlblRvVmVuZG9yCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJy",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "contract": {
@@ -138,6 +133,10 @@ export const APP_SPEC: AppSpec = {
             "name": "amount",
             "type": "uint64",
             "desc": "Amount of token to send"
+          },
+          {
+            "name": "assetId",
+            "type": "uint64"
           }
         ],
         "returns": {
@@ -152,6 +151,10 @@ export const APP_SPEC: AppSpec = {
             "name": "benAddress",
             "type": "address",
             "desc": "Address of beneficiary to unfreeze asset"
+          },
+          {
+            "name": "assetId",
+            "type": "uint64"
           }
         ],
         "returns": {
@@ -171,6 +174,10 @@ export const APP_SPEC: AppSpec = {
             "name": "amount",
             "type": "uint64",
             "desc": "Amount of token to send to vendor"
+          },
+          {
+            "name": "assetId",
+            "type": "uint64"
           }
         ],
         "returns": {
@@ -280,7 +287,7 @@ export type Rahat = {
        */
       returns: bigint
     }>
-    & Record<'sendTokenToBeneficiary(address,uint64)void' | 'sendTokenToBeneficiary', {
+    & Record<'sendTokenToBeneficiary(address,uint64,uint64)void' | 'sendTokenToBeneficiary', {
       argsObj: {
         /**
          * Address of beneficiary to send token
@@ -290,21 +297,23 @@ export type Rahat = {
          * Amount of token to send
          */
         amount: bigint | number
+        assetId: bigint | number
       }
-      argsTuple: [benAddress: string, amount: bigint | number]
+      argsTuple: [benAddress: string, amount: bigint | number, assetId: bigint | number]
       returns: void
     }>
-    & Record<'unfreezeBeneficiaryAsset(address)void' | 'unfreezeBeneficiaryAsset', {
+    & Record<'unfreezeBeneficiaryAsset(address,uint64)void' | 'unfreezeBeneficiaryAsset', {
       argsObj: {
         /**
          * Address of beneficiary to unfreeze asset
          */
         benAddress: string
+        assetId: bigint | number
       }
-      argsTuple: [benAddress: string]
+      argsTuple: [benAddress: string, assetId: bigint | number]
       returns: void
     }>
-    & Record<'sendTokenToVendor(address,uint64)void' | 'sendTokenToVendor', {
+    & Record<'sendTokenToVendor(address,uint64,uint64)void' | 'sendTokenToVendor', {
       argsObj: {
         /**
          * Address of vendor to receive tokens
@@ -314,8 +323,9 @@ export type Rahat = {
          * Amount of token to send to vendor
          */
         amount: bigint | number
+        assetId: bigint | number
       }
-      argsTuple: [venderAddress: string, amount: bigint | number]
+      argsTuple: [venderAddress: string, amount: bigint | number, assetId: bigint | number]
       returns: void
     }>
     & Record<'createApplication()void' | 'createApplication', {
@@ -324,14 +334,6 @@ export type Rahat = {
       argsTuple: []
       returns: void
     }>
-  /**
-   * Defines the shape of the global and local state of the application.
-   */
-  state: {
-    global: {
-      token?: IntegerState
-    }
-  }
 }
 /**
  * Defines the possible abi call signatures
@@ -437,7 +439,7 @@ export abstract class RahatCallFactory {
     }
   }
   /**
-   * Constructs a no op call for the sendTokenToBeneficiary(address,uint64)void ABI method
+   * Constructs a no op call for the sendTokenToBeneficiary(address,uint64,uint64)void ABI method
    *
    * A method to send tokens to beneficiary
    *
@@ -445,15 +447,15 @@ export abstract class RahatCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
     return {
-      method: 'sendTokenToBeneficiary(address,uint64)void' as const,
-      methodArgs: Array.isArray(args) ? args : [args.benAddress, args.amount],
+      method: 'sendTokenToBeneficiary(address,uint64,uint64)void' as const,
+      methodArgs: Array.isArray(args) ? args : [args.benAddress, args.amount, args.assetId],
       ...params,
     }
   }
   /**
-   * Constructs a no op call for the unfreezeBeneficiaryAsset(address)void ABI method
+   * Constructs a no op call for the unfreezeBeneficiaryAsset(address,uint64)void ABI method
    *
    * A method to unfreeze token
    *
@@ -461,15 +463,15 @@ export abstract class RahatCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
     return {
-      method: 'unfreezeBeneficiaryAsset(address)void' as const,
-      methodArgs: Array.isArray(args) ? args : [args.benAddress],
+      method: 'unfreezeBeneficiaryAsset(address,uint64)void' as const,
+      methodArgs: Array.isArray(args) ? args : [args.benAddress, args.assetId],
       ...params,
     }
   }
   /**
-   * Constructs a no op call for the sendTokenToVendor(address,uint64)void ABI method
+   * Constructs a no op call for the sendTokenToVendor(address,uint64,uint64)void ABI method
    *
    * A method to send tokens to vendors
    *
@@ -477,10 +479,10 @@ export abstract class RahatCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
     return {
-      method: 'sendTokenToVendor(address,uint64)void' as const,
-      methodArgs: Array.isArray(args) ? args : [args.venderAddress, args.amount],
+      method: 'sendTokenToVendor(address,uint64,uint64)void' as const,
+      methodArgs: Array.isArray(args) ? args : [args.venderAddress, args.amount, args.assetId],
       ...params,
     }
   }
@@ -610,7 +612,7 @@ export class RahatClient {
   }
 
   /**
-   * Calls the sendTokenToBeneficiary(address,uint64)void ABI method.
+   * Calls the sendTokenToBeneficiary(address,uint64,uint64)void ABI method.
    *
    * A method to send tokens to beneficiary
    *
@@ -618,12 +620,12 @@ export class RahatClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
+  public sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
     return this.call(RahatCallFactory.sendTokenToBeneficiary(args, params))
   }
 
   /**
-   * Calls the unfreezeBeneficiaryAsset(address)void ABI method.
+   * Calls the unfreezeBeneficiaryAsset(address,uint64)void ABI method.
    *
    * A method to unfreeze token
    *
@@ -631,12 +633,12 @@ export class RahatClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
+  public unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
     return this.call(RahatCallFactory.unfreezeBeneficiaryAsset(args, params))
   }
 
   /**
-   * Calls the sendTokenToVendor(address,uint64)void ABI method.
+   * Calls the sendTokenToVendor(address,uint64,uint64)void ABI method.
    *
    * A method to send tokens to vendors
    *
@@ -644,64 +646,8 @@ export class RahatClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
+  public sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
     return this.call(RahatCallFactory.sendTokenToVendor(args, params))
-  }
-
-  /**
-   * Extracts a binary state value out of an AppState dictionary
-   *
-   * @param state The state dictionary containing the state value
-   * @param key The key of the state value
-   * @returns A BinaryState instance containing the state value, or undefined if the key was not found
-   */
-  private static getBinaryState(state: AppState, key: string): BinaryState | undefined {
-    const value = state[key]
-    if (!value) return undefined
-    if (!('valueRaw' in value))
-      throw new Error(`Failed to parse state value for ${key}; received an int when expected a byte array`)
-    return {
-      asString(): string {
-        return value.value
-      },
-      asByteArray(): Uint8Array {
-        return value.valueRaw
-      }
-    }
-  }
-
-  /**
-   * Extracts a integer state value out of an AppState dictionary
-   *
-   * @param state The state dictionary containing the state value
-   * @param key The key of the state value
-   * @returns An IntegerState instance containing the state value, or undefined if the key was not found
-   */
-  private static getIntegerState(state: AppState, key: string): IntegerState | undefined {
-    const value = state[key]
-    if (!value) return undefined
-    if ('valueRaw' in value)
-      throw new Error(`Failed to parse state value for ${key}; received a byte array when expected a number`)
-    return {
-      asBigInt() {
-        return typeof value.value === 'bigint' ? value.value : BigInt(value.value)
-      },
-      asNumber(): number {
-        return typeof value.value === 'bigint' ? Number(value.value) : value.value
-      },
-    }
-  }
-
-  /**
-   * Returns the smart contract's global state wrapped in a strongly typed accessor with options to format the stored value
-   */
-  public async getGlobalState(): Promise<Rahat['state']['global']> {
-    const state = await this.appClient.getGlobalState()
-    return {
-      get token() {
-        return RahatClient.getIntegerState(state, 'token')
-      },
-    }
   }
 
   public compose(): RahatComposer {
@@ -720,17 +666,17 @@ export class RahatClient {
         resultMappers.push(undefined)
         return this
       },
-      sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
+      sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
         promiseChain = promiseChain.then(() => client.sendTokenToBeneficiary(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
         return this
       },
-      unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
+      unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
         promiseChain = promiseChain.then(() => client.unfreezeBeneficiaryAsset(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
         return this
       },
-      sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
+      sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
         promiseChain = promiseChain.then(() => client.sendTokenToVendor(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
         return this
@@ -791,7 +737,7 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
   createAnAsset(args: MethodArgs<'createAnAsset()uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'createAnAsset()uint64'>]>
 
   /**
-   * Calls the sendTokenToBeneficiary(address,uint64)void ABI method.
+   * Calls the sendTokenToBeneficiary(address,uint64,uint64)void ABI method.
    *
    * A method to send tokens to beneficiary
    *
@@ -799,10 +745,10 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'sendTokenToBeneficiary(address,uint64)void'>]>
+  sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'sendTokenToBeneficiary(address,uint64,uint64)void'>]>
 
   /**
-   * Calls the unfreezeBeneficiaryAsset(address)void ABI method.
+   * Calls the unfreezeBeneficiaryAsset(address,uint64)void ABI method.
    *
    * A method to unfreeze token
    *
@@ -810,10 +756,10 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'unfreezeBeneficiaryAsset(address)void'>]>
+  unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'unfreezeBeneficiaryAsset(address,uint64)void'>]>
 
   /**
-   * Calls the sendTokenToVendor(address,uint64)void ABI method.
+   * Calls the sendTokenToVendor(address,uint64,uint64)void ABI method.
    *
    * A method to send tokens to vendors
    *
@@ -821,7 +767,7 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'sendTokenToVendor(address,uint64)void'>]>
+  sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'sendTokenToVendor(address,uint64,uint64)void'>]>
 
   /**
    * Makes a clear_state call to an existing instance of the Rahat smart contract.

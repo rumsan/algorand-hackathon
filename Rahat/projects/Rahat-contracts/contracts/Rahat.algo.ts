@@ -37,6 +37,14 @@ export class Rahat extends Contract {
     return asset;
   }
 
+  // sendAlgoToBeneficiaryForGasFee(benAddress: Address): void{
+  //   sendAssetTransfer({
+  //     xferAsset: 0,
+  //     assetReceiver: benAddress,
+  //     assetAmount: 2000
+  //   })
+  // }
+
   /**
    * A method to send tokens to beneficiary
    * @param benAddress Address of beneficiary to send token

@@ -1,5 +1,16 @@
 import { Link } from "react-router-dom";
+import useList from "../hooks/useList";
+import { URLS } from "../constants";
+import { useEffect, useState } from "react";
 
+type Beneficiary = {
+  email: string;
+  name: string;
+  age: number;
+  gender: string;
+  walletAddress: string;
+  mnemonics: string;
+};
 const people = [
   {
     name: "Lindsay Walton",
@@ -104,6 +115,14 @@ const people = [
 ];
 
 export default function Beneficiaries() {
+
+const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
+let { isLoading, isError, data } = useList('listBlog', URLS.BENEFICIARY, 1, 5);
+useEffect(() => {
+  if (data) {
+    setBeneficiaries(data.data);
+  }
+}, [data, setBeneficiaries]);
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
@@ -121,7 +140,7 @@ export default function Beneficiaries() {
             type="button"
             className="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-           <Link to={'/admin/add-beneficiary'}> Add beneficiaries</Link>
+            <Link to={'/admin/add-beneficiary'}> Add beneficiaries</Link>
           </button>
         </div>
       </div>
@@ -131,35 +150,20 @@ export default function Beneficiaries() {
             <table className="min-w-full divide-y divide-gray-300">
               <thead>
                 <tr>
-                  <th
-                    scope="col"
-                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                  >
+                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
                     Name
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    Wallet Address
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    Email
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    Title
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    Age
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    Status
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    Gender
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    Role
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    WalletAddress
                   </th>
                   <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
                     <span className="sr-only">Edit</span>
@@ -167,50 +171,39 @@ export default function Beneficiaries() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {people.map((person) => (
-                  <tr key={person.email}>
+                {beneficiaries.map((beneficiary) => (
+                  <tr key={beneficiary.email}>
                     <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                       <div className="flex items-center">
                         <div className="h-11 w-11 flex-shrink-0">
                           <img
                             className="h-11 w-11 rounded-full"
-                            src={person.image}
+                            src={
+                              'https://images.unsplash.com/photo-1502764613149-7f1d229e2306?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                            }
                             alt=""
                           />
                         </div>
                         <div className="ml-4">
-                          <div className="font-medium text-gray-900">
-                            {person.name}
-                          </div>
-                          <div className="mt-1 text-gray-500">
-                            {person.email}
-                          </div>
+                          <div className="font-medium text-gray-900">{beneficiary.name}</div>
+                          <div className="mt-1 text-gray-500">{beneficiary.email}</div>
                         </div>
                       </div>
                     </td>
+                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{beneficiary.age}</td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      {person.walletAddress}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      <div className="text-gray-900">{person.title}</div>
-                      <div className="mt-1 text-gray-500">
-                        {person.department}
-                      </div>
+                      <div className="text-gray-900">{beneficiary.gender}</div>
+                      <div className="mt-1 text-gray-500">{beneficiary.walletAddress}</div>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                       <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                         Active
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      {person.gender}
-                    </td>
+                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{beneficiary.gender}</td>
                     <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                      <a
-                        href="#"
-                        className="text-indigo-600 hover:text-indigo-900"
-                      >
-                        Edit<span className="sr-only">, {person.name}</span>
+                      <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                        Edit<span className="sr-only">, {beneficiary.name}</span>
                       </a>
                     </td>
                   </tr>

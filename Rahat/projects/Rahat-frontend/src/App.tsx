@@ -32,7 +32,6 @@ export default function App() {
               element={
                 <AdminRoute>
                   <Dashboard />
-                  <Dashboard />
                 </AdminRoute>
               }
             />
@@ -51,8 +50,8 @@ export default function App() {
                   <AddProject />
                 </AdminRoute>
               }
-            /> 
-             */}
+            /> */}
+
             <Route
               path="/admin/transactions"
               element={

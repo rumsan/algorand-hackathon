@@ -1,19 +1,12 @@
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-<<<<<<< HEAD
-import { Bars3Icon, BellIcon, Cog6ToothIcon, FolderIcon, HomeIcon, UsersIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { ChevronDownIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import { Link, Outlet } from "react-router-dom";
-import ConnectWallet from "../components/ConnectWallet";
 import { useWallet } from "@txnlab/use-wallet";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-=======
 import { Bars3Icon, BellIcon, Cog6ToothIcon, FolderIcon, HomeIcon, UsersIcon, XMarkIcon, BanknotesIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Link, Outlet } from "react-router-dom";
 import ConnectWallet from "../components/ConnectWallet";
->>>>>>> f956f5f68ad0216e13a12b9924b61aac7f1cb4e2
 
 const navigation = [
   { name: "Dashboard", href: "/admin/dashboard", icon: HomeIcon, current: false },

@@ -118,7 +118,6 @@ const people = [
 
 export default function Beneficiaries() {
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState<string[]>([]);
-  console.log(selectedBeneficiaries);
   const handleCheckboxChange = (walletAddress: string) => {
     // If beneficiary is already selected, deselect it
     if (selectedBeneficiaries.includes(walletAddress)) {

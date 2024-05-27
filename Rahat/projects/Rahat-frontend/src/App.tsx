@@ -50,8 +50,8 @@ export default function App() {
                   <AddProject />
                 </AdminRoute>
               }
-            /> 
-             */}
+            /> */}
+
             <Route
               path="/admin/transactions"
               element={

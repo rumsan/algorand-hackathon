@@ -1,5 +1,8 @@
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
+import { useWallet } from "@txnlab/use-wallet";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { Bars3Icon, BellIcon, Cog6ToothIcon, FolderIcon, HomeIcon, UsersIcon, XMarkIcon, BanknotesIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Link, Outlet } from "react-router-dom";
@@ -27,13 +30,20 @@ const userNavigation = [{ name: "Your profile", href: "#" }];
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
-
-export default function NavBar() {
+const NavBar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [openWalletModal, setOpenWalletModal] = useState(false);
 
-  const toggleWalletModal = () => {
-    setOpenWalletModal(!openWalletModal);
+  const { providers, activeAddress } = useWallet();
+
+  const handleWalletLogout = async () => {
+    if (providers) {
+      const activeProvider = providers.find((p) => p.isActive);
+      if (activeProvider) {
+        await activeProvider.disconnect();
+      }
+    }
+    window.location.href = "/";
   };
 
   return (
@@ -241,7 +251,7 @@ export default function NavBar() {
                           <button
                             type="button"
                             className="text-black  focus:ring-4 focus:outline-none  font-medium rounded-2xl text-sm mr-9 p-4 py-2 text-center "
-                            onClick={toggleWalletModal}
+                            onClick={handleWalletLogout}
                           >
                             {openWalletModal ? "Connect Wallet" : "Sign out"}
                           </button>
@@ -252,7 +262,7 @@ export default function NavBar() {
                 </Menu>
               </div>
             </div>
-            {openWalletModal && <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />}
+            {/* {openWalletModal && <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />} */}
           </div>
 
           <main className="py-10">
@@ -264,4 +274,6 @@ export default function NavBar() {
       </div>
     </>
   );
-}
+};
+
+export default NavBar;

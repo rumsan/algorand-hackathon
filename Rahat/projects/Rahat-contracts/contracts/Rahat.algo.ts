@@ -26,24 +26,12 @@ export class Rahat extends Contract {
     const asset = sendAssetCreation({
       configAssetTotal: 1_000_000_000_000_000,
       configAssetFreeze: this.app.address,
-    });
-
-    sendAssetTransfer({
-      xferAsset: asset,
-      assetReceiver: this.app.creator,
-      assetAmount: 1_000_000_000_000_000,
+      configAssetName: 'Subhasish Coin'
     });
 
     return asset;
   }
 
-  // sendAlgoToBeneficiaryForGasFee(benAddress: Address): void{
-  //   sendAssetTransfer({
-  //     xferAsset: 0,
-  //     assetReceiver: benAddress,
-  //     assetAmount: 2000
-  //   })
-  // }
 
   /**
    * A method to send tokens to beneficiary
@@ -54,16 +42,17 @@ export class Rahat extends Contract {
     // Uncomment this line when box issue is fixed
 
     // assert(this.beneficiaries(benAddress).exists, 'Beneficiary is not assigned.');
-
+    verifyTxn(this.txn, { sender: this.app.creator });
     // Send asset to beneficiary
     sendAssetTransfer({
+      assetSender: this.app.address,
       xferAsset: assetId,
       assetReceiver: benAddress,
       assetAmount: amount,
     });
 
     // Update mapping
-    this.beneficiaries(benAddress).value = amount;
+    // this.beneficiaries(benAddress).value = amount;
 
     // Freeze their asset
     sendAssetFreeze({

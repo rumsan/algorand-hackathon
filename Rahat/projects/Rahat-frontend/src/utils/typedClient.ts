@@ -5,5 +5,5 @@ export const algodClient = new algosdk.Algodv2("", "https://testnet-api.algonode
 
 export const typedClient = new RahatClient({
   resolveBy: "id",
-  id: 671523862
+  id: 672429119
 }, algodClient)

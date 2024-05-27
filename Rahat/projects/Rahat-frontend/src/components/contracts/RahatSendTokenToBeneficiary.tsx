@@ -4,6 +4,7 @@ import { Rahat, RahatClient } from '../../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
 import algosdk from 'algosdk'
 import { algodClient } from '../../utils/typedClient'
+import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount'
 
 /* Example usage
 <RahatSendTokenToBeneficiary
@@ -33,16 +34,23 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
+  const mnemonicsOfSender = 'announce ivory almost shine hotel stage final ordinary clay sing away make typical emotion slim cloud spray matrix story lobster bargain kidney also abandon hope'
+  const walletOfSender = 'GXJCRWIOC2QHB2VHWZ3ABAKOZBISP32QBUY2FNHMZBQIU3GO3IU7NR2YY4'
+
+  
+
   const callMethod = async () => {
+    
     setLoading(true)
-    console.log(`Calling sendTokenToBeneficiary`)
     await props.typedClient.sendTokenToBeneficiary(
       {
-        benAddress: "JPZB3XPBRKOCY4FDVLEGIRMRMX7TV7HUQKSX75BNGIQKOTS6Q3KNRGMVUU",
-        amount: props.amount,
-        assetId: props.assetId,
+        benAddress: "BQ63F7VH6FYQNFUK6YN6FGHI55FPE74FJT7EQ4NMBKHPT3QFSWJGXPPISA",
+        amount: 1,
+        assetId: 672431347,
       },
-      { sender },
+      { sender, 
+        sendParams: {fee: new AlgoAmount({algos: 0.02})}
+      },
     )
     setLoading(false)
   }

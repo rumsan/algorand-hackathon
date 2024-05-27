@@ -134,7 +134,7 @@ createAnAsset:
 	itxn CreatedAssetID
 	frame_bury 0 // asset: uint64
 
-	// contracts\Rahat.algo.ts:30
+	// contracts\Rahat.algo.ts:31
 	// return asset;
 	frame_dig 0 // asset: uint64
 
@@ -175,8 +175,9 @@ createAnAsset:
 sendTokenToBeneficiary:
 	proto 3 0
 
-	// contracts\Rahat.algo.ts:44
+	// contracts\Rahat.algo.ts:46
 	// sendAssetTransfer({
+	//       assetSender: this.app.address,
 	//       xferAsset: assetId,
 	//       assetReceiver: benAddress,
 	//       assetAmount: amount,
@@ -185,17 +186,22 @@ sendTokenToBeneficiary:
 	int axfer
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:45
+	// contracts\Rahat.algo.ts:47
+	// assetSender: this.app.address
+	global CurrentApplicationAddress
+	itxn_field AssetSender
+
+	// contracts\Rahat.algo.ts:48
 	// xferAsset: assetId
 	frame_dig -3 // assetId: AssetID
 	itxn_field XferAsset
 
-	// contracts\Rahat.algo.ts:46
+	// contracts\Rahat.algo.ts:49
 	// assetReceiver: benAddress
 	frame_dig -1 // benAddress: Address
 	itxn_field AssetReceiver
 
-	// contracts\Rahat.algo.ts:47
+	// contracts\Rahat.algo.ts:50
 	// assetAmount: amount
 	frame_dig -2 // amount: uint64
 	itxn_field AssetAmount
@@ -207,16 +213,7 @@ sendTokenToBeneficiary:
 	// Submit inner transaction
 	itxn_submit
 
-	// contracts\Rahat.algo.ts:51
-	// this.beneficiaries(benAddress).value = amount
-	byte 0x62656e6566696369617279 // "beneficiary"
-	frame_dig -1 // benAddress: Address
-	concat
-	frame_dig -2 // amount: uint64
-	itob
-	box_put
-
-	// contracts\Rahat.algo.ts:54
+	// contracts\Rahat.algo.ts:57
 	// sendAssetFreeze({
 	//       freezeAsset: assetId,
 	//       freezeAssetAccount: benAddress,
@@ -226,17 +223,17 @@ sendTokenToBeneficiary:
 	int afrz
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:55
+	// contracts\Rahat.algo.ts:58
 	// freezeAsset: assetId
 	frame_dig -3 // assetId: AssetID
 	itxn_field FreezeAsset
 
-	// contracts\Rahat.algo.ts:56
+	// contracts\Rahat.algo.ts:59
 	// freezeAssetAccount: benAddress
 	frame_dig -1 // benAddress: Address
 	itxn_field FreezeAssetAccount
 
-	// contracts\Rahat.algo.ts:57
+	// contracts\Rahat.algo.ts:60
 	// freezeAssetFrozen: true
 	int 1
 	itxn_field FreezeAssetFrozen
@@ -277,7 +274,7 @@ sendTokenToBeneficiary:
 unfreezeBeneficiaryAsset:
 	proto 2 0
 
-	// contracts\Rahat.algo.ts:66
+	// contracts\Rahat.algo.ts:69
 	// sendAssetFreeze({
 	//       freezeAsset: assetId,
 	//       freezeAssetAccount: benAddress,
@@ -287,17 +284,17 @@ unfreezeBeneficiaryAsset:
 	int afrz
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:67
+	// contracts\Rahat.algo.ts:70
 	// freezeAsset: assetId
 	frame_dig -2 // assetId: AssetID
 	itxn_field FreezeAsset
 
-	// contracts\Rahat.algo.ts:68
+	// contracts\Rahat.algo.ts:71
 	// freezeAssetAccount: benAddress
 	frame_dig -1 // benAddress: Address
 	itxn_field FreezeAssetAccount
 
-	// contracts\Rahat.algo.ts:69
+	// contracts\Rahat.algo.ts:72
 	// freezeAssetFrozen: false
 	int 0
 	itxn_field FreezeAssetFrozen
@@ -343,7 +340,7 @@ unfreezeBeneficiaryAsset:
 sendTokenToVendor:
 	proto 3 0
 
-	// contracts\Rahat.algo.ts:80
+	// contracts\Rahat.algo.ts:83
 	// sendAssetTransfer({
 	//       xferAsset: assetId,
 	//       assetReceiver: venderAddress,
@@ -353,17 +350,17 @@ sendTokenToVendor:
 	int axfer
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:81
+	// contracts\Rahat.algo.ts:84
 	// xferAsset: assetId
 	frame_dig -3 // assetId: AssetID
 	itxn_field XferAsset
 
-	// contracts\Rahat.algo.ts:82
+	// contracts\Rahat.algo.ts:85
 	// assetReceiver: venderAddress
 	frame_dig -1 // venderAddress: Address
 	itxn_field AssetReceiver
 
-	// contracts\Rahat.algo.ts:83
+	// contracts\Rahat.algo.ts:86
 	// assetAmount: amount
 	frame_dig -2 // amount: uint64
 	itxn_field AssetAmount

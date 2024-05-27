@@ -4,9 +4,10 @@ import { QRCodeSVG } from 'qrcode.react';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import * as algosdk from 'algosdk';
-import { algodClient } from '../../utils/typedClient';
+import { algodClient, typedClient } from '../../utils/typedClient';
 import { URLS } from '../../constants';
 import usePost from '../../hooks/usePost';
+import { useWallet } from '@txnlab/use-wallet';
 
 interface WalletType {
     mnemonicsQRText: string | undefined;
@@ -23,6 +24,11 @@ const secretKey = 'your-secret-key';
     return CryptoJS.AES.encrypt(data, secretKey).toString();
   };
 
+  const [loading, setLoading] = useState(false)
+
+  const mnemonicsOfSender = 'announce ivory almost shine hotel stage final ordinary clay sing away make typical emotion slim cloud spray matrix story lobster bargain kidney also abandon hope'
+  const walletOfSender = 'GXJCRWIOC2QHB2VHWZ3ABAKOZBISP32QBUY2FNHMZBQIU3GO3IU7NR2YY4'
+
   const [beneficiaryWallet, setBeneficiaryWallet] = useState<WalletType>({ mnemonicsQRText: undefined, walletAddress: undefined, secretKey: undefined });
   const createBeneficiaryWallet = () => {
     const { mnemonics, walletAddress, secretKey } = generateRandomBeneficiaryAccount();
@@ -30,8 +36,12 @@ const secretKey = 'your-secret-key';
     setBeneficiaryWallet({ mnemonicsQRText, walletAddress, secretKey });
   };
 
+  const { activeAddress, signer } = useWallet()
+  const sender = { signer, addr: activeAddress! }
+
   const createBeneficiary = async(e: any) => {
     e.preventDefault();
+    setLoading(true)
     const encryptedPassword = encryptData(beneficiaryWallet?.mnemonicsQRText as string);
     const data = {
       email: e.target['email'].value,
@@ -42,26 +52,34 @@ const secretKey = 'your-secret-key';
       mnemonics: encryptedPassword,
     };
 
-    // Create a payment transaction
-    const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+    // Send tokens to beneficiary from sender wallet
+    const secretOfSenderWallet = algosdk.mnemonicToSecretKey(mnemonicsOfSender)
+    const txnSender = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+      from: walletOfSender,
+      to: data.walletAddress as string,
+      amount: 500000,
+      suggestedParams: await algodClient.getTransactionParams().do()
+    });
+    const signedTxnSender = txnSender.signTxn(secretOfSenderWallet.sk);
+    await algodClient.sendRawTransaction(signedTxnSender).do();
+
+    // Optin to asset using beneficiary wallet
+    const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
       from: data.walletAddress as string,
       to: data.walletAddress as string,
       amount: 0,
-      suggestedParams: await algodClient.getTransactionParams().do()
+      suggestedParams: await algodClient.getTransactionParams().do(),
+      assetIndex: 672431347
     });
-
-    // Sign the transaction
     const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
-
-    // Send the transaction
     const { txId } = await algodClient.sendRawTransaction(signedTxn).do();
 
-   postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
+    postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
 
-    
     if(data.email){
       // Toast logic here
-    }else{
+      setLoading(false)
+    } else{
       console.log(false, 'res')
     }
   };
@@ -184,7 +202,7 @@ const secretKey = 'your-secret-key';
                 type="submit"
                 className="rounded-md bg-blue-600 px-12 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 w-[40%] focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Create
+                {loading ? "Creating asset..." : "Create"}
               </button>
             </div>
           </div>

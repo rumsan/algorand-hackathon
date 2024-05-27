@@ -1,24 +1,11 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { useLayoutEffect, useRef, useState } from "react";
 import TruncatedCell from "../components/TruncatedCell";
+import { useAlgorandAssetInfo } from "../hooks/useAlgorandInfo";
+import { error } from "console";
 
 const people = [
   {
     id: 1,
-    topic: "Payment",
     beneficiaryId: "B12345",
     from: "0xabcdef1234567890abcdef1234567890abcdef00",
     to: "0x1234567890abcdef1234567890abcdef12345600",
@@ -29,7 +16,6 @@ const people = [
   },
   {
     id: 2,
-    topic: "Refund",
     beneficiaryId: "B54321",
     from: "0x7890abcdef1234567890abcdef1234567890abcd",
     to: "0xef1234567890abcdef1234567890abcdef123400",
@@ -40,7 +26,6 @@ const people = [
   },
   {
     id: 3,
-    topic: "Transfer",
     beneficiaryId: "B67890",
     from: "0xabcdefabcdefabcdefabcdefabcdefabcdef00",
     to: "0xabcdefabcdefabcdefabcdefabcdefabcdef01",
@@ -51,7 +36,6 @@ const people = [
   },
   {
     id: 4,
-    topic: "Withdrawal",
     beneficiaryId: "B09876",
     from: "0x1234567890123456789012345678901234567890",
     to: "0x0987654321098765432109876543210987654321",
@@ -62,7 +46,6 @@ const people = [
   },
   {
     id: 5,
-    topic: "Deposit",
     beneficiaryId: "B11223",
     from: "0x0abcdef1234567890abcdef1234567890abcdef0",
     to: "0x0abcdef0987654321098765432109876543210ab",
@@ -73,19 +56,15 @@ const people = [
   },
 ];
 
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export default function TransactionPage() {
-
   const checkbox = useRef();
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
   const [selectedPeople, setSelectedPeople] = useState([]);
 
+  const { assetInfo, loading: assetLoading, error: assetError } = useAlgorandAssetInfo(671526136);
 
-  
+  console.log(assetInfo);
 
   useLayoutEffect(() => {
     const isIndeterminate = selectedPeople.length > 0 && selectedPeople.length < people.length;
@@ -144,9 +123,6 @@ export default function TransactionPage() {
                         onChange={toggleAll}
                       />
                     </th>
-                    <th scope="col" className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">
-                      Topic
-                    </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                       BeneficiaryId
                     </th>
@@ -176,7 +152,7 @@ export default function TransactionPage() {
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {people.map((person) => (
-                    <tr key={person.beneficiaryId} className={selectedPeople.includes(person) ? 'bg-gray-50' : undefined}>
+                    <tr key={person.beneficiaryId} className={selectedPeople.includes(person) ? "bg-gray-50" : undefined}>
                       <td className="relative px-7 sm:w-12 sm:px-6">
                         {selectedPeople.includes(person) && <div className="absolute inset-y-0 left-0 w-0.5 bg-indigo-600" />}
                         <input
@@ -189,18 +165,10 @@ export default function TransactionPage() {
                           }
                         />
                       </td>
-                      <td
-                        className={classNames(
-                          'whitespace-nowrap py-4 pr-3 text-sm font-medium',
-                          selectedPeople.includes(person) ? 'text-indigo-600' : 'text-gray-900'
-                        )}
-                      >
-                        {person.topic}
-                      </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.beneficiaryId}</td>
                       <TruncatedCell text={person.from} />
                       <TruncatedCell text={person.to} />
-{/* 
+                      {/* 
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.from}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.to}</td> */}
 

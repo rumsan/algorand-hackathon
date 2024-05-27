@@ -10,26 +10,23 @@ import { useWallet } from '@txnlab/use-wallet';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Navigate } from 'react-router-dom';
-import success from '../../components/Toaster';
-import {SnackbarUtilsConfigurator} from '../../components/Toaster'
+import { SnackbarUtilsConfigurator } from '../../components/Toaster'
 import * as snack from '../../components/Toaster';
 
 interface WalletType {
-    mnemonicsQRText: string | undefined;
-    walletAddress: string | undefined;
-    secretKey: Uint8Array | undefined;
+  mnemonicsQRText: string | undefined;
+  walletAddress: string | undefined;
+  secretKey: Uint8Array | undefined;
 }
 
 const CreateBeneficiary = () => {
-  const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const notify = () => (data.email ? toast('Wow so easy!') : toast('There was a problem with your request'));
 
   // const notify = () => toast('Wow so easy!');
   const { postMutation, data, isSuccess, success, isPending } = usePost('false');
 
-const secretKey = 'your-secret-key';
+  const secretKey = 'your-secret-key';
 
   const encryptData = (data: string) => {
     return CryptoJS.AES.encrypt(data, secretKey).toString();
@@ -50,7 +47,7 @@ const secretKey = 'your-secret-key';
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
-  const createBeneficiary = async(e: any) => {
+  const createBeneficiary = async (e: any) => {
     e.preventDefault();
     setLoading(true)
     const encryptedPassword = encryptData(beneficiaryWallet?.mnemonicsQRText as string);
@@ -87,25 +84,19 @@ const secretKey = 'your-secret-key';
 
     postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
 
-    if(data.email){
+    if (data.email) {
       // Toast logic here
+      snack.default.success("Beneficiary created successfully")
       setLoading(false)
-    } else{
-      console.log(false, 'res')
-    await postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
-  };
-}
-
-  if (shouldNavigate) {
-    // toast.success('Beneficiary created successfully');
-
-    return <Navigate to="/admin/beneficiary" replace />;
+    } else {
+      await postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
+    };
   }
 
   return (
     <>
       <div>
-        
+
         <SnackbarUtilsConfigurator />
       </div>
       <form onSubmit={(e) => createBeneficiary(e)}>
@@ -231,7 +222,7 @@ const secretKey = 'your-secret-key';
           </div>
         </div>
       </form>
-      {}
+      { }
     </>
   );
 };

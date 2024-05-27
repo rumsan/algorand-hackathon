@@ -117,7 +117,7 @@ const people = [
 export default function Beneficiaries() {
 
 const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
-let { isLoading, isError, data } = useList('listBlog', URLS.BENEFICIARY, 1, 5);
+let { isLoading, isError, data } = useList('listBlog', URLS.BENEFICIARY, 1, 5,{email:'asimneupoane'});
 useEffect(() => {
   if (data) {
     setBeneficiaries(data.data);

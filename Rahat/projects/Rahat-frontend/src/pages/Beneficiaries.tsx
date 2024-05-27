@@ -13,108 +13,7 @@ type Beneficiary = {
   walletAddress: string;
   mnemonics: string;
 };
-const people = [
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    department: 'Optimization',
-    email: 'lindsay.walton@example.com',
-    gender: 'Female',
-    walletAddress: '0x1a2b3c4d5e6f7g8h9i0j',
-    image:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'James Smith',
-    title: 'Back-end Developer',
-    department: 'Infrastructure',
-    email: 'james.smith@example.com',
-    gender: 'Male',
-    walletAddress: '0x2b3c4d5e6f7g8h9i0j1k',
-    image:
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Emily Johnson',
-    title: 'UX Designer',
-    department: 'Design',
-    email: 'emily.johnson@example.com',
-    gender: 'Female',
-    walletAddress: '0x3c4d5e6f7g8h9i0j1k2l',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Michael Williams',
-    title: 'Project Manager',
-    department: 'Management',
-    email: 'michael.williams@example.com',
-    gender: 'Male',
-    walletAddress: '0x4d5e6f7g8h9i0j1k2l3m',
-    image:
-      'https://images.unsplash.com/photo-1502767089025-6572583495c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Sophia Brown',
-    title: 'Data Scientist',
-    department: 'Analytics',
-    email: 'sophia.brown@example.com',
-    gender: 'Female',
-    walletAddress: '0x5e6f7g8h9i0j1k2l3m4n',
-    image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Daniel Davis',
-    title: 'DevOps Engineer',
-    department: 'Operations',
-    email: 'daniel.davis@example.com',
-    gender: 'Male',
-    walletAddress: '0x6f7g8h9i0j1k2l3m4n5o',
-    image:
-      'https://images.unsplash.com/photo-1506898668820-6fffa7b20a5a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Olivia Martinez',
-    title: 'Product Manager',
-    department: 'Product',
-    email: 'olivia.martinez@example.com',
-    gender: 'Female',
-    walletAddress: '0x7g8h9i0j1k2l3m4n5o6p',
-    image:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Ethan Wilson',
-    title: 'Marketing Specialist',
-    department: 'Marketing',
-    email: 'ethan.wilson@example.com',
-    gender: 'Male',
-    walletAddress: '0x8h9i0j1k2l3m4n5o6p7q',
-    image:
-      'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Isabella Garcia',
-    title: 'Sales Manager',
-    department: 'Sales',
-    email: 'isabella.garcia@example.com',
-    gender: 'Female',
-    walletAddress: '0x9i0j1k2l3m4n5o6p7q8r',
-    image:
-      'https://images.unsplash.com/photo-1502764613149-7f1d229e2306?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Jacob Anderson',
-    title: 'Content Writer',
-    department: 'Content',
-    email: 'jacob.anderson@example.com',
-    gender: 'Male',
-    walletAddress: '0x0j1k2l3m4n5o6p7q8r9s',
-    image:
-      'https://images.unsplash.com/photo-1502767089025-6572583495c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-];
+
 
 export default function Beneficiaries() {
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState<string[]>([]);
@@ -129,7 +28,7 @@ export default function Beneficiaries() {
   };
 
   const handleSelectAll = () => {
-    const allEmails = people.map((person) => person.walletAddress);
+    const allEmails = beneficiaries.map((person) => person.walletAddress);
     // If all are selected, deselect all; otherwise, select all
     if (selectedBeneficiaries.length === allEmails.length) {
       setSelectedBeneficiaries([]);
@@ -139,6 +38,7 @@ export default function Beneficiaries() {
   };
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
   let { isLoading, isError, data } = useList('listBlog', URLS.BENEFICIARY, 1, 5);
+  console.log(data,'data')
   const submitTransferToken = () => {
     console.log(selectedBeneficiaries);
   };
@@ -197,7 +97,7 @@ export default function Beneficiaries() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {people.map((beneficiary) => (
+                {beneficiaries.map((beneficiary) => (
                   <tr key={beneficiary.walletAddress}>
                     <td>
                       <input

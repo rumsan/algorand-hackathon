@@ -7,9 +7,9 @@
 // import Home from './Home'
 // import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Beneficiaries from './pages/Beneficiaries';
-import ProjectList from './pages/ProjectList';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Beneficiaries from "./pages/Beneficiaries";
+import ProjectList from "./pages/ProjectList";
 
 import Home from './Home';
 import AdminLayout from './layout/AdminLayout';
@@ -19,6 +19,7 @@ import NavBar from './layout/Navbar';
 import CreateTokens from './pages/CreateTokens';
 import LoginPage from './pages/Login';
 import AddBeneficiary from './pages/AddBeneficiary';
+import Transaction from "./pages/Transaction";
 
 export default function App() {
   return (
@@ -41,6 +42,23 @@ export default function App() {
               element={
                 <AdminRoute>
                   <ProjectList />
+                </AdminRoute>
+              }
+            />
+            {/* <Route
+              path="/admin/project/add"
+              element={
+                <AdminRoute>
+                  <AddProject />
+                </AdminRoute>
+              }
+            /> */}
+
+            <Route
+              path="/admin/transactions"
+              element={
+                <AdminRoute>
+                  <Transaction />
                 </AdminRoute>
               }
             />

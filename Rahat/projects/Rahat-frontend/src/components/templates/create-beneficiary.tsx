@@ -37,6 +37,7 @@ const CreateBeneficiary = () => {
     walletAddress: undefined,
     secretKey: undefined,
   });
+  
   const createBeneficiaryWallet = () => {
     const { mnemonics, walletAddress, secretKey } = generateRandomBeneficiaryAccount();
     const mnemonicsQRText = `{"version":"1.0", "mnemonic":"${mnemonics}"}`;

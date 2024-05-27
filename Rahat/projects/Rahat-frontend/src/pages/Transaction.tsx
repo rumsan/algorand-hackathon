@@ -64,8 +64,6 @@ export default function TransactionPage() {
 
   const { assetInfo, loading: assetLoading, error: assetError } = useAlgorandAssetInfo(671526136);
 
-  console.log(assetInfo);
-
   useLayoutEffect(() => {
     const isIndeterminate = selectedPeople.length > 0 && selectedPeople.length < people.length;
     setChecked(selectedPeople.length === people.length);
@@ -168,9 +166,6 @@ export default function TransactionPage() {
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.beneficiaryId}</td>
                       <TruncatedCell text={person.from} />
                       <TruncatedCell text={person.to} />
-                      {/* 
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.from}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.to}</td> */}
 
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.timestamp}</td>
 

@@ -29,7 +29,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LoginPage />} />
 
-          <Route path="/admin" element={<NavBar />}>
+          <Route path="/admin" element={<AdminLayout />}>
             <Route
               path="/admin/dashboard"
               element={

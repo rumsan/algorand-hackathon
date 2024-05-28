@@ -20,6 +20,7 @@ import CreateTokens from './pages/CreateTokens';
 import LoginPage from './pages/Login';
 import AddBeneficiary from './pages/AddBeneficiary';
 import Transaction from "./pages/Transaction";
+import ProjectDetail from "./pages/ProjectDetail";
 
 export default function App() {
   return (
@@ -42,6 +43,14 @@ export default function App() {
               element={
                 <AdminRoute>
                   <ProjectList />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/:id"
+              element={
+                <AdminRoute>
+                  <ProjectDetail />
                 </AdminRoute>
               }
             />

@@ -1,11 +1,4 @@
-// import { DeflyWalletConnect } from '@blockshake/defly-connect'
-// import { DaffiWalletConnect } from '@daffiwallet/connect'
-// import { PeraWalletConnect } from '@perawallet/connect'
-// import { PROVIDER_ID, ProvidersArray, WalletProvider, useInitializeProviders } from '@txnlab/use-wallet'
-// import algosdk from 'algosdk'
-// import { SnackbarProvider } from 'notistack'
-// import Home from './Home'
-// import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
+
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Beneficiaries from "./pages/Beneficiaries";

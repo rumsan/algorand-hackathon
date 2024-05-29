@@ -1,22 +1,24 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import { DeflyWalletConnect } from "@blockshake/defly-connect";
-import { DaffiWalletConnect } from "@daffiwallet/connect";
-import { PeraWalletConnect } from "@perawallet/connect";
-import { PROVIDER_ID, ProvidersArray, WalletProvider, useInitializeProviders } from "@txnlab/use-wallet";
-import algosdk from "algosdk";
-import { SnackbarProvider } from "notistack";
-import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from "./utils/network/getAlgoClientConfigs";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { AuthProvider } from "./context/AuthContext";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { DeflyWalletConnect } from '@blockshake/defly-connect';
+import { DaffiWalletConnect } from '@daffiwallet/connect';
+import { PeraWalletConnect } from '@perawallet/connect';
+import { PROVIDER_ID, ProvidersArray, WalletProvider, useInitializeProviders } from '@txnlab/use-wallet';
+import algosdk from 'algosdk';
+import { SnackbarProvider } from 'notistack';
+import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs';
+import ErrorBoundary from './components/ErrorBoundary';
+import { AuthProvider } from './context/AuthContext';
+import { ToastContainer } from 'react-toastify';
 
-import "./index.css";
-import TanstackProvider from "./providers/TanstackProvider";
+import './index.css';
+import TanstackProvider from './providers/TanstackProvider';
+import { SnackbarUtilsConfigurator } from './components/Toaster';
 
 const ProvidersWrapper: React.FC = () => {
   let providersArray: ProvidersArray;
-  if (import.meta.env.VITE_ALGOD_NETWORK === "") {
+  if (import.meta.env.VITE_ALGOD_NETWORK === '') {
     const kmdConfig = getKmdConfigFromViteEnvironment();
     providersArray = [
       {
@@ -63,17 +65,16 @@ const ProvidersWrapper: React.FC = () => {
 };
 
 // Render the React application
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-            <TanstackProvider>
-
-    <AuthProvider>
-      <SnackbarProvider maxSnack={3}>
-        <ProvidersWrapper />
-      </SnackbarProvider>
-
-    </AuthProvider>
-        </TanstackProvider>
-
+    <ToastContainer />
+    <SnackbarUtilsConfigurator />
+    <TanstackProvider>
+      <AuthProvider>
+        <SnackbarProvider maxSnack={3}>
+          <ProvidersWrapper />
+        </SnackbarProvider>
+      </AuthProvider>
+    </TanstackProvider>
   </React.StrictMode>
 );

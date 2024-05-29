@@ -14,6 +14,7 @@ type Beneficiary = {
 };
 const people = [
   {
+    id: 1,
     name: 'Lindsay Walton',
     title: 'Front-end Developer',
     age: 21,
@@ -26,6 +27,8 @@ const people = [
       'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
+    id: 2,
+
     name: 'James Smith',
     title: 'Back-end Developer',
     age: 21,
@@ -38,6 +41,8 @@ const people = [
       'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
+    id: 3,
+
     name: 'Emily Johnson',
     title: 'UX Designer',
     age: 21,
@@ -50,6 +55,8 @@ const people = [
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
+    id: 4,
+
     name: 'Michael Williams',
     title: 'Project Manager',
     age: 21,
@@ -62,6 +69,8 @@ const people = [
       'https://images.unsplash.com/photo-1502767089025-6572583495c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
+    id: 5,
+
     name: 'Sophia Brown',
     title: 'Data Scientist',
     age: 21,
@@ -74,6 +83,8 @@ const people = [
       'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
+    id: 6,
+
     name: 'Daniel Davis',
     title: 'DevOps Engineer',
     age: 21,
@@ -86,6 +97,8 @@ const people = [
       'https://images.unsplash.com/photo-1506898668820-6fffa7b20a5a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
+    id: 7,
+
     name: 'Olivia Martinez',
     title: 'Product Manager',
     age: 21,
@@ -98,6 +111,8 @@ const people = [
       'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
+    id: 8,
+
     name: 'Ethan Wilson',
     title: 'Marketing Specialist',
     age: 21,
@@ -110,6 +125,8 @@ const people = [
       'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
+    id: 9,
+
     name: 'Isabella Garcia',
     title: 'Sales Manager',
     age: 21,
@@ -121,6 +138,8 @@ const people = [
       'https://images.unsplash.com/photo-1502764613149-7f1d229e2306?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
+    id: 10,
+
     name: 'Jacob Anderson',
     age: 25,
     title: 'Content Writer',
@@ -170,12 +189,14 @@ export default function ProjectBeneficiary() {
             </p> */}
           </div>
           <div className="mt-4 flex gap-2 sm:ml-16 sm:mt-0 sm:flex-none">
-            <button
-              type="button"
-              className="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              <Link to={'/admin/add-beneficiary'}> Add beneficiaries</Link>
-            </button>
+            <Link to={'/admin/add-beneficiary'}>
+              <button
+                type="button"
+                className="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Add beneficiaries
+              </button>
+            </Link>
           </div>
         </div>
         <div className="mt-8 flow-root">
@@ -197,7 +218,7 @@ export default function ProjectBeneficiary() {
                       Gender
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                      WalletAddress
+                      Wallet Address
                     </th>
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
                       <span className="sr-only">Edit</span>
@@ -205,18 +226,15 @@ export default function ProjectBeneficiary() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
+
                   {people.map((beneficiary) => (
-                    <tr key={beneficiary.name}>
+                                          <Link to={`/admin/beneficiary/${beneficiary.id}`} className="text-indigo-600 hover:text-indigo-900">
+                    
+                    <tr key={beneficiary.id}>
                       <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                         <div className="flex items-center">
                           <div className="h-11 w-11 flex-shrink-0">
-                            <img
-                              className="h-11 w-11 rounded-full"
-                              src={
-                                'https://images.unsplash.com/photo-1502764613149-7f1d229e2306?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-                              }
-                              alt=""
-                            />
+                            <img className="h-11 w-11 rounded-full" src={beneficiary.image} alt="" />
                           </div>
                           <div className="ml-4">
                             <div className="font-medium text-gray-900">{beneficiary.name}</div>
@@ -227,18 +245,11 @@ export default function ProjectBeneficiary() {
                       <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                         <div className="text-gray-900">{beneficiary.age}</div>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                          Active
-                        </span>
-                      </td>
                       <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{beneficiary.gender}</td>
-                      <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                          Edit<span className="sr-only">, {beneficiary.name}</span>
-                        </a>
-                      </td>
+                      <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{beneficiary.walletAddress}</td>
+                      
                     </tr>
+                        </Link>
                   ))}
                 </tbody>
               </table>

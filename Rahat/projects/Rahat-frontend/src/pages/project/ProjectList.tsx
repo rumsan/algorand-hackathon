@@ -57,17 +57,18 @@ export default function ProjectList() {
       <div className="sm:flex sm:items-center mb-3">
         <div className="sm:flex-auto"></div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <button
+          <Link to={`/admin/project/add`}
             type="button"
             className="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Add Project
-          </button>
+          </Link>
+         
         </div>
       </div>
       <ul role="list" className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
         {projects.map((project) => (
-          <Link to={`/admin/${project.id}`} key={project.id} className="overflow-hidden rounded-xl border border-gray-200">
+          <Link to={`/admin/project/${project.id}`} key={project.id} className="overflow-hidden rounded-xl border border-gray-200">
             <li key={project.id} className="overflow-hidden rounded-xl border border-gray-200">
               <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
                 <img

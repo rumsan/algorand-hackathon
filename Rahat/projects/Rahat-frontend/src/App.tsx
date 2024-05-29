@@ -14,10 +14,12 @@ import Transaction from './pages/project/Transaction';
 import ProjectDetail from './pages/project/ProjectDetail';
 import ProjectBeneficiart from './pages/project/ProjectBeneficiary';
 import ProjectBeneficiary from './pages/project/ProjectBeneficiary';
+import AddProject from './pages/project/AddProject';
+import BeneficiaryDetail from './pages/project/BeneficiaryDetail';
 
 export default function App() {
   return (
-    <div>
+    <div className="">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
@@ -40,6 +42,14 @@ export default function App() {
               }
             />
             <Route
+              path="/admin/project/add"
+              element={
+                <AdminRoute>
+                  <AddProject />
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/admin/project/beneficiary"
               element={
                 <AdminRoute>
@@ -48,7 +58,15 @@ export default function App() {
               }
             />
             <Route
-              path="/admin/:id"
+              path="/admin/beneficiary/:id"
+              element={
+                <AdminRoute>
+                  <BeneficiaryDetail />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/project/:id"
               element={
                 <AdminRoute>
                   <ProjectDetail />

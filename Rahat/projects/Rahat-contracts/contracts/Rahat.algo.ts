@@ -1,8 +1,21 @@
 import { Contract } from '@algorandfoundation/tealscript';
+import { verifyMultisig } from 'algosdk';
 
 export class Rahat extends Contract {
  
   beneficiaries = BoxMap<Address, uint64>({ prefix: 'beneficiary' });
+
+  token = GlobalStateKey<AssetID>() 
+
+  multisigParams = {
+    version: 1,
+    threshold: 2,
+    addrs: [
+      "ADDRESS1",
+      "ADDRESS2",
+      "ADDRESS3"
+    ]
+  };
 
   /**
    * A method to assign beneficiary to projects
@@ -18,17 +31,20 @@ export class Rahat extends Contract {
 
   /**
    * A method to create token
-   *
+   *@param benAddress Address of beneficiary to send token
+   @param benAddress Address of beneficiary to send token
    * @returns Asset (token)
    */
-  createAnAsset(): AssetID {
+  createAnAsset(asaName: string, asaSymbol: string): AssetID {
     verifyTxn(this.txn, { sender: this.app.creator });
     const asset = sendAssetCreation({
       configAssetTotal: 1_000_000_000_000_000,
       configAssetFreeze: this.app.address,
-      configAssetName: 'Subhasish Coin'
+      configAssetName: asaName,
+      configAssetUnitName: asaSymbol
     });
 
+    this.token.value = asset;
     return asset;
   }
 
@@ -40,15 +56,15 @@ export class Rahat extends Contract {
    */
   sendTokenToBeneficiary(benAddress: Address, amount: uint64, assetId: AssetID): void {
     // Uncomment this line when box issue is fixed
-
     // assert(this.beneficiaries(benAddress).exists, 'Beneficiary is not assigned.');
+
     verifyTxn(this.txn, { sender: this.app.creator });
+
     // Send asset to beneficiary
     sendAssetTransfer({
-      assetSender: this.app.address,
       xferAsset: assetId,
       assetReceiver: benAddress,
-      assetAmount: amount,
+      assetAmount: amount
     });
 
     // Update mapping

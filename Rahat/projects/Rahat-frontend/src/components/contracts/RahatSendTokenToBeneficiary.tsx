@@ -33,22 +33,17 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
-
-  const mnemonicsOfSender = 'announce ivory almost shine hotel stage final ordinary clay sing away make typical emotion slim cloud spray matrix story lobster bargain kidney also abandon hope'
-  const walletOfSender = 'GXJCRWIOC2QHB2VHWZ3ABAKOZBISP32QBUY2FNHMZBQIU3GO3IU7NR2YY4'
-
-  
-
   const callMethod = async () => {
     
     setLoading(true)
     await props.typedClient.sendTokenToBeneficiary(
       {
-        benAddress: "BQ63F7VH6FYQNFUK6YN6FGHI55FPE74FJT7EQ4NMBKHPT3QFSWJGXPPISA",
-        amount: 1,
-        assetId: 672431347,
+        benAddress: props?.benAddress,
+        amount: props?.amount,
+        assetId: Number(import.meta.env.VITE_ASA_ID)
       },
-      { sender, 
+      { sender,
+        assets: [Number(import.meta.env.VITE_ASA_ID)],
         sendParams: {fee: new AlgoAmount({algos: 0.02})}
       },
     )
@@ -57,7 +52,8 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
 
   return (
     <button className={props.buttonClass} onClick={callMethod}>
-      {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode}
+      {/* {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode} */}
+      Send token to beneficiary
     </button>
   )
 }

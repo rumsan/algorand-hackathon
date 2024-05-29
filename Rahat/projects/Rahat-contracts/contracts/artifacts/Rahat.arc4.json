@@ -20,10 +20,18 @@
     {
       "name": "createAnAsset",
       "desc": "A method to create token",
-      "args": [],
+      "args": [
+        {
+          "name": "asaName",
+          "type": "string"
+        },
+        {
+          "name": "asaSymbol",
+          "type": "string"
+        }
+      ],
       "returns": {
-        "type": "uint64",
-        "desc": "Asset (token)"
+        "type": "uint64"
       }
     },
     {

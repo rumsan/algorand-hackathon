@@ -26,7 +26,7 @@ const CreateBeneficiary = () => {
   // const notify = () => toast('Wow so easy!');
   const { postMutation, data, isSuccess, success, isPending } = usePost('false');
 
-  const secretKey = 'your-secret-key';
+  const secretKey = import.meta.env.VITE_SECRET_KEY;
 
   const encryptData = (data: string) => {
     return CryptoJS.AES.encrypt(data, secretKey).toString();
@@ -34,8 +34,8 @@ const CreateBeneficiary = () => {
 
   const [loading, setLoading] = useState(false)
 
-  const mnemonicsOfSender = 'announce ivory almost shine hotel stage final ordinary clay sing away make typical emotion slim cloud spray matrix story lobster bargain kidney also abandon hope'
-  const walletOfSender = 'GXJCRWIOC2QHB2VHWZ3ABAKOZBISP32QBUY2FNHMZBQIU3GO3IU7NR2YY4'
+  const mnemonicsOfSender = import.meta.env.VITE_SENDER_MNEMONICS
+  const walletOfSender = import.meta.env.VITE_SENDER_WALLET
 
   const [beneficiaryWallet, setBeneficiaryWallet] = useState<WalletType>({ mnemonicsQRText: undefined, walletAddress: undefined, secretKey: undefined });
   const createBeneficiaryWallet = () => {
@@ -77,7 +77,7 @@ const CreateBeneficiary = () => {
       to: data.walletAddress as string,
       amount: 0,
       suggestedParams: await algodClient.getTransactionParams().do(),
-      assetIndex: 672431347
+      assetIndex: Number(import.meta.env.VITE_ASA_ID)
     });
     const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
     const { txId } = await algodClient.sendRawTransaction(signedTxn).do();
@@ -96,8 +96,7 @@ const CreateBeneficiary = () => {
   return (
     <>
       <div>
-
-        <SnackbarUtilsConfigurator />
+      <SnackbarUtilsConfigurator />
       </div>
       <form onSubmit={(e) => createBeneficiary(e)}>
         <div className="space-y-6">

@@ -6,6 +6,9 @@ import InputWithLabels from '../../reuseables/inputWithLabels'
 import algosdk from 'algosdk'
 import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount'
 import axios from 'axios'
+import { algodClient } from '@/utils/typedClient'
+import { PeraWalletConnect } from '@perawallet/connect';
+import { SignerTransaction } from '@perawallet/connect/dist/util/model/peraWalletModels'
 
 type Props = {
   buttonClass: string
@@ -19,16 +22,7 @@ const RahatCreateAnAsset = (props: Props) => {
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
-  // const callMethod = async () => {
-  //   setLoading(true)
-  //   await props.typedClient.createAnAsset(
-  //     {},
-  //     { sender, 
-  //       sendParams: {fee: new AlgoAmount({algos: 0.02})}
-  //      },
-  //   )
-  //   setLoading(false)
-  // }
+  const peraWallet = new PeraWalletConnect();
 
   const createVoucher = async (e: any) => {
     e.preventDefault();
@@ -45,14 +39,13 @@ const RahatCreateAnAsset = (props: Props) => {
         {},
         { sender, 
           sendParams: {fee: new AlgoAmount({algos: 0.02})}
-          },
+        },
       )
       const assetId = Number(algoResponse?.return).toString()
       if(assetId){
       await axios.post('http://localhost:5500/vouchers', {...payload, assetId})
       }
     }
-
   }
 
   return (

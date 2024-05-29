@@ -5,7 +5,6 @@ import CryptoJS from 'crypto-js';
 import usePost from '../../hooks/usePost';
 import { URLS } from '../../constants';
 
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Navigate } from 'react-router-dom';
 import success from '../../components/Toaster';
@@ -21,9 +20,7 @@ interface WalletType {
 const CreateBeneficiary = () => {
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
-  const notify = () => (data.email ? toast('Wow so easy!') : toast('There was a problem with your request'));
 
-  // const notify = () => toast('Wow so easy!');
   const { postMutation, data, isSuccess, success, isPending } = usePost('false');
 
   const secretKey = 'your-secret-key'; // Store this securely

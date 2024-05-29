@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TruncatedCell = ({ text }) => {
+const TruncatedCell = ({ text }: { text: string }) => {
   const maxLength = 20;
 
   const copyToClipboard = () => {
@@ -14,7 +14,7 @@ const TruncatedCell = ({ text }) => {
       });
   };
 
-  const truncateMiddle = (str, maxLength) => {
+  const truncateMiddle = (str: string, maxLength: number) => {
     const strLength = str.length;
     if (strLength <= maxLength) return str;
     const partLength = Math.floor(maxLength / 2);

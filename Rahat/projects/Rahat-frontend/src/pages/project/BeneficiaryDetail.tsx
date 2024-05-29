@@ -187,7 +187,7 @@ export default function BeneficiaryDetail() {
               {/* Project Details */}
               <div className="w-1/2 mx-auto px-4 py-8 shadow-sm ring-1 ring-gray-900/5 sm:rounded-lg sm:px-8 sm:pb-14 xl:px-16 xl:pb-20 xl:pt-16">
                 <h2 className="text-2xl font-semibold leading-6 text-gray-900 mb-6">Project Enrollment</h2>
-                <table className="w-full text-lg leading-8">
+                <table className="w-full text-sm leading-8">
                   <thead>
                     <tr>
                       <th className="px-6 py-3 text-left font-semibold text-gray-900">Project ID</th>

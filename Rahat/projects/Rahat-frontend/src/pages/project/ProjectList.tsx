@@ -68,7 +68,7 @@ export default function ProjectList() {
       </div>
       <ul role="list" className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
         {projects.map((project) => (
-          <Link to={`/admin/project/${project.id}`} key={project.id} className="overflow-hidden rounded-xl border border-gray-200">
+          <Link to={`/admin/project/${project.id}`} key={project.id} className=" ">
             <li key={project.id} className="overflow-hidden rounded-xl border border-gray-200">
               <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
                 <img

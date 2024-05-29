@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext';
 import { Bars3Icon, BellIcon, Cog6ToothIcon, FolderIcon, HomeIcon, UsersIcon, XMarkIcon, BanknotesIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { Link, Outlet } from 'react-router-dom';
+import { PhoneCall } from 'lucide-react';
+import TruncatedCell from '@/components/TruncatedCell';
 
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon, current: false },
@@ -43,9 +45,13 @@ const NavBar = () => {
     <>
       <div>
         <div className="lg:fixed lg:top-0 lg:w-full lg:z-50">
-          <div className="flex h-20 items-center bg-gray-900 px-6">
+          <div className="flex h-20 items-center bg-gray-900 px-20">
             <div className="flex items-center">
-              <img className="h-8 w-auto" src="https://assets.rumsan.net/rumsan-group/footer-esatya-rahat-logo.png" alt="Your Company" />
+              <img
+                className="h-16 pr-5 w-auto"
+                src="https://assets.rumsan.net/rumsan-group/footer-esatya-rahat-logo.png"
+                alt="Your Company"
+              />
             </div>
             <nav className="flex-1">
               <ul role="list" className="flex gap-x-6">
@@ -58,7 +64,7 @@ const NavBar = () => {
                         'group flex items-center gap-x-3 rounded-md px-4 py-2 text-sm leading-6 font-semibold'
                       )}
                     >
-                      <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
+                      {/* <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" /> */}
                       {item.name}
                     </Link>
                   </li>
@@ -69,13 +75,14 @@ const NavBar = () => {
               <Menu as="div" className="relative">
                 <Menu.Button className="-m-1.5 flex items-center p-1.5">
                   <span className="sr-only">Open user menu</span>
+                  {/* //@ts-ignore */}
+                  <p className="text-white">{<TruncatedCell text={activeAddress?.toString() ?? ''} />}</p>
                   <img
                     className="h-8 w-8 rounded-full bg-gray-50"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPmYB6XE3DV1YfFD3Y41ej68S8pg2lbxMecA&usqp=CAU"
                     alt=""
                   />
                   <span className="hidden lg:flex lg:items-center">
-                   
                     <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                   </span>
                 </Menu.Button>

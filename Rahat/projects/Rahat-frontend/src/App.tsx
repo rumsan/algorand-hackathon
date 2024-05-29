@@ -1,4 +1,3 @@
-\
 
 import Home from './Home';
 import AdminLayout from './layout/AdminLayout';
@@ -14,13 +13,10 @@ import ProjectBeneficiart from './pages/project/ProjectBeneficiary';
 import ProjectBeneficiary from './pages/project/ProjectBeneficiary';
 import AddProject from './pages/project/AddProject';
 import BeneficiaryDetail from './pages/project/BeneficiaryDetail';
-<<<<<<< HEAD
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProjectList from './pages/project/ProjectList';
 import Beneficiaries from './pages/Beneficiaries';
 
-=======
->>>>>>> 7be2aae (detailpage)
 
 export default function App() {
   return (
@@ -63,7 +59,6 @@ export default function App() {
               }
             />
             <Route
-<<<<<<< HEAD
               path="/admin/project/add"
               element={
                 <AdminRoute>
@@ -80,8 +75,6 @@ export default function App() {
               }
             />
             <Route
-=======
->>>>>>> 7be2aae (detailpage)
               path="/admin/beneficiary/:id"
               element={
                 <AdminRoute>

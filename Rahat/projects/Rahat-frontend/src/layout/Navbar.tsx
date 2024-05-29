@@ -16,12 +16,7 @@ const navigation = [
     icon: UsersIcon,
     current: false,
   },
-  {
-    name: 'Transactions',
-    href: '/admin/transactions',
-    icon: BanknotesIcon,
-    current: false,
-  },
+ 
 ];
 
 const userNavigation = [{ name: 'Your profile', href: '#' }];

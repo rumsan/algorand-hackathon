@@ -1,8 +1,6 @@
-
-
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Beneficiaries from "./pages/Beneficiaries";
-import ProjectList from "./pages/ProjectList";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Beneficiaries from './pages/Beneficiaries';
+import ProjectList from './pages/project/ProjectList';
 
 import Home from './Home';
 import AdminLayout from './layout/AdminLayout';
@@ -12,8 +10,10 @@ import NavBar from './layout/Navbar';
 import CreateTokens from './pages/CreateTokens';
 import LoginPage from './pages/Login';
 import AddBeneficiary from './pages/AddBeneficiary';
-import Transaction from "./pages/Transaction";
-import ProjectDetail from "./pages/ProjectDetail";
+import Transaction from './pages/project/Transaction';
+import ProjectDetail from './pages/project/ProjectDetail';
+import ProjectBeneficiart from './pages/project/ProjectBeneficiary';
+import ProjectBeneficiary from './pages/project/ProjectBeneficiary';
 
 export default function App() {
   return (
@@ -40,6 +40,14 @@ export default function App() {
               }
             />
             <Route
+              path="/admin/project/beneficiary"
+              element={
+                <AdminRoute>
+                  <ProjectBeneficiary />
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/admin/:id"
               element={
                 <AdminRoute>
@@ -55,7 +63,6 @@ export default function App() {
                 </AdminRoute>
               }
             /> */}
-
             <Route
               path="/admin/transactions"
               element={
@@ -80,7 +87,6 @@ export default function App() {
                 </AdminRoute>
               }
             />
-
             <Route
               path="/admin/add-beneficiary"
               element={

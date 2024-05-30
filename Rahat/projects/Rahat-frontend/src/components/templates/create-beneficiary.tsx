@@ -8,7 +8,6 @@ import { URLS } from '../../constants';
 import usePost from '../../hooks/usePost';
 import { useWallet } from '@txnlab/use-wallet';
 
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SnackbarUtilsConfigurator } from '../../components/Toaster'
 import * as snack from '../../components/Toaster';
@@ -21,9 +20,7 @@ interface WalletType {
 
 const CreateBeneficiary = () => {
 
-  const notify = () => (data.email ? toast('Wow so easy!') : toast('There was a problem with your request'));
 
-  // const notify = () => toast('Wow so easy!');
   const { postMutation, data, isSuccess, success, isPending } = usePost('false');
 
   const secretKey = import.meta.env.VITE_SECRET_KEY;

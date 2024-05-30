@@ -32,7 +32,7 @@ const RahatAssignBeneficiary = (props: Props) => {
       },
       { sender,
         boxes: [{
-          appIndex: 0,
+          appIndex: impo,
           name: boxKey}]
        },
     )

@@ -5,22 +5,22 @@
         "no_op": "CALL"
       }
     },
-    "createAnAsset()uint64": {
+    "createAnAsset(string,string)uint64": {
       "call_config": {
         "no_op": "CALL"
       }
     },
-    "sendTokenToBeneficiary(address,uint64)void": {
+    "sendTokenToBeneficiary(address,uint64,uint64)void": {
       "call_config": {
         "no_op": "CALL"
       }
     },
-    "unfreezeBeneficiaryAsset(address)void": {
+    "unfreezeBeneficiaryAsset(address,uint64)void": {
       "call_config": {
         "no_op": "CALL"
       }
     },
-    "sendTokenToVendor(address,uint64)void": {
+    "sendTokenToVendor(address,uint64,uint64)void": {
       "call_config": {
         "no_op": "CALL"
       }
@@ -89,10 +89,18 @@
       {
         "name": "createAnAsset",
         "desc": "A method to create token",
-        "args": [],
+        "args": [
+          {
+            "name": "asaName",
+            "type": "string"
+          },
+          {
+            "name": "asaSymbol",
+            "type": "string"
+          }
+        ],
         "returns": {
-          "type": "uint64",
-          "desc": "Asset (token)"
+          "type": "uint64"
         }
       },
       {
@@ -108,6 +116,10 @@
             "name": "amount",
             "type": "uint64",
             "desc": "Amount of token to send"
+          },
+          {
+            "name": "assetId",
+            "type": "uint64"
           }
         ],
         "returns": {
@@ -122,6 +134,10 @@
             "name": "benAddress",
             "type": "address",
             "desc": "Address of beneficiary to unfreeze asset"
+          },
+          {
+            "name": "assetId",
+            "type": "uint64"
           }
         ],
         "returns": {
@@ -141,6 +157,10 @@
             "name": "amount",
             "type": "uint64",
             "desc": "Amount of token to send to vendor"
+          },
+          {
+            "name": "assetId",
+            "type": "uint64"
           }
         ],
         "returns": {

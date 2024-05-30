@@ -34,22 +34,22 @@ export const APP_SPEC: AppSpec = {
         "no_op": "CALL"
       }
     },
-    "createAnAsset()uint64": {
+    "createAnAsset(string,string)uint64": {
       "call_config": {
         "no_op": "CALL"
       }
     },
-    "sendTokenToBeneficiary(address,uint64)void": {
+    "sendTokenToBeneficiary(address,uint64,uint64)void": {
       "call_config": {
         "no_op": "CALL"
       }
     },
-    "unfreezeBeneficiaryAsset(address)void": {
+    "unfreezeBeneficiaryAsset(address,uint64)void": {
       "call_config": {
         "no_op": "CALL"
       }
     },
-    "sendTokenToVendor(address,uint64)void": {
+    "sendTokenToVendor(address,uint64,uint64)void": {
       "call_config": {
         "no_op": "CALL"
       }
@@ -118,10 +118,18 @@ export const APP_SPEC: AppSpec = {
       {
         "name": "createAnAsset",
         "desc": "A method to create token",
-        "args": [],
+        "args": [
+          {
+            "name": "asaName",
+            "type": "string"
+          },
+          {
+            "name": "asaSymbol",
+            "type": "string"
+          }
+        ],
         "returns": {
-          "type": "uint64",
-          "desc": "Asset (token)"
+          "type": "uint64"
         }
       },
       {
@@ -137,6 +145,10 @@ export const APP_SPEC: AppSpec = {
             "name": "amount",
             "type": "uint64",
             "desc": "Amount of token to send"
+          },
+          {
+            "name": "assetId",
+            "type": "uint64"
           }
         ],
         "returns": {
@@ -151,6 +163,10 @@ export const APP_SPEC: AppSpec = {
             "name": "benAddress",
             "type": "address",
             "desc": "Address of beneficiary to unfreeze asset"
+          },
+          {
+            "name": "assetId",
+            "type": "uint64"
           }
         ],
         "returns": {
@@ -170,6 +186,10 @@ export const APP_SPEC: AppSpec = {
             "name": "amount",
             "type": "uint64",
             "desc": "Amount of token to send to vendor"
+          },
+          {
+            "name": "assetId",
+            "type": "uint64"
           }
         ],
         "returns": {
@@ -263,16 +283,15 @@ export type Rahat = {
        */
       returns: void
     }>
-    & Record<'createAnAsset()uint64' | 'createAnAsset', {
+    & Record<'createAnAsset(string,string)uint64' | 'createAnAsset', {
       argsObj: {
+        asaName: string
+        asaSymbol: string
       }
-      argsTuple: []
-      /**
-       * Asset (token)
-       */
+      argsTuple: [asaName: string, asaSymbol: string]
       returns: bigint
     }>
-    & Record<'sendTokenToBeneficiary(address,uint64)void' | 'sendTokenToBeneficiary', {
+    & Record<'sendTokenToBeneficiary(address,uint64,uint64)void' | 'sendTokenToBeneficiary', {
       argsObj: {
         /**
          * Address of beneficiary to send token
@@ -282,21 +301,23 @@ export type Rahat = {
          * Amount of token to send
          */
         amount: bigint | number
+        assetId: bigint | number
       }
-      argsTuple: [benAddress: string, amount: bigint | number]
+      argsTuple: [benAddress: string, amount: bigint | number, assetId: bigint | number]
       returns: void
     }>
-    & Record<'unfreezeBeneficiaryAsset(address)void' | 'unfreezeBeneficiaryAsset', {
+    & Record<'unfreezeBeneficiaryAsset(address,uint64)void' | 'unfreezeBeneficiaryAsset', {
       argsObj: {
         /**
          * Address of beneficiary to unfreeze asset
          */
         benAddress: string
+        assetId: bigint | number
       }
-      argsTuple: [benAddress: string]
+      argsTuple: [benAddress: string, assetId: bigint | number]
       returns: void
     }>
-    & Record<'sendTokenToVendor(address,uint64)void' | 'sendTokenToVendor', {
+    & Record<'sendTokenToVendor(address,uint64,uint64)void' | 'sendTokenToVendor', {
       argsObj: {
         /**
          * Address of vendor to receive tokens
@@ -306,8 +327,9 @@ export type Rahat = {
          * Amount of token to send to vendor
          */
         amount: bigint | number
+        assetId: bigint | number
       }
-      argsTuple: [venderAddress: string, amount: bigint | number]
+      argsTuple: [venderAddress: string, amount: bigint | number, assetId: bigint | number]
       returns: void
     }>
     & Record<'createApplication()void' | 'createApplication', {
@@ -413,7 +435,7 @@ export abstract class RahatCallFactory {
     }
   }
   /**
-   * Constructs a no op call for the createAnAsset()uint64 ABI method
+   * Constructs a no op call for the createAnAsset(string,string)uint64 ABI method
    *
    * A method to create token
    *
@@ -421,15 +443,15 @@ export abstract class RahatCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static createAnAsset(args: MethodArgs<'createAnAsset()uint64'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static createAnAsset(args: MethodArgs<'createAnAsset(string,string)uint64'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
     return {
-      method: 'createAnAsset()uint64' as const,
-      methodArgs: Array.isArray(args) ? args : [],
+      method: 'createAnAsset(string,string)uint64' as const,
+      methodArgs: Array.isArray(args) ? args : [args.asaName, args.asaSymbol],
       ...params,
     }
   }
   /**
-   * Constructs a no op call for the sendTokenToBeneficiary(address,uint64)void ABI method
+   * Constructs a no op call for the sendTokenToBeneficiary(address,uint64,uint64)void ABI method
    *
    * A method to send tokens to beneficiary
    *
@@ -437,15 +459,15 @@ export abstract class RahatCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
     return {
-      method: 'sendTokenToBeneficiary(address,uint64)void' as const,
-      methodArgs: Array.isArray(args) ? args : [args.benAddress, args.amount],
+      method: 'sendTokenToBeneficiary(address,uint64,uint64)void' as const,
+      methodArgs: Array.isArray(args) ? args : [args.benAddress, args.amount, args.assetId],
       ...params,
     }
   }
   /**
-   * Constructs a no op call for the unfreezeBeneficiaryAsset(address)void ABI method
+   * Constructs a no op call for the unfreezeBeneficiaryAsset(address,uint64)void ABI method
    *
    * A method to unfreeze token
    *
@@ -453,15 +475,15 @@ export abstract class RahatCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
     return {
-      method: 'unfreezeBeneficiaryAsset(address)void' as const,
-      methodArgs: Array.isArray(args) ? args : [args.benAddress],
+      method: 'unfreezeBeneficiaryAsset(address,uint64)void' as const,
+      methodArgs: Array.isArray(args) ? args : [args.benAddress, args.assetId],
       ...params,
     }
   }
   /**
-   * Constructs a no op call for the sendTokenToVendor(address,uint64)void ABI method
+   * Constructs a no op call for the sendTokenToVendor(address,uint64,uint64)void ABI method
    *
    * A method to send tokens to vendors
    *
@@ -469,10 +491,10 @@ export abstract class RahatCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
     return {
-      method: 'sendTokenToVendor(address,uint64)void' as const,
-      methodArgs: Array.isArray(args) ? args : [args.venderAddress, args.amount],
+      method: 'sendTokenToVendor(address,uint64,uint64)void' as const,
+      methodArgs: Array.isArray(args) ? args : [args.venderAddress, args.amount, args.assetId],
       ...params,
     }
   }
@@ -589,20 +611,20 @@ export class RahatClient {
   }
 
   /**
-   * Calls the createAnAsset()uint64 ABI method.
+   * Calls the createAnAsset(string,string)uint64 ABI method.
    *
    * A method to create token
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
-   * @returns The result of the call: Asset (token)
+   * @returns The result of the call
    */
-  public createAnAsset(args: MethodArgs<'createAnAsset()uint64'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
+  public createAnAsset(args: MethodArgs<'createAnAsset(string,string)uint64'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
     return this.call(RahatCallFactory.createAnAsset(args, params))
   }
 
   /**
-   * Calls the sendTokenToBeneficiary(address,uint64)void ABI method.
+   * Calls the sendTokenToBeneficiary(address,uint64,uint64)void ABI method.
    *
    * A method to send tokens to beneficiary
    *
@@ -610,12 +632,12 @@ export class RahatClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
+  public sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
     return this.call(RahatCallFactory.sendTokenToBeneficiary(args, params))
   }
 
   /**
-   * Calls the unfreezeBeneficiaryAsset(address)void ABI method.
+   * Calls the unfreezeBeneficiaryAsset(address,uint64)void ABI method.
    *
    * A method to unfreeze token
    *
@@ -623,12 +645,12 @@ export class RahatClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
+  public unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
     return this.call(RahatCallFactory.unfreezeBeneficiaryAsset(args, params))
   }
 
   /**
-   * Calls the sendTokenToVendor(address,uint64)void ABI method.
+   * Calls the sendTokenToVendor(address,uint64,uint64)void ABI method.
    *
    * A method to send tokens to vendors
    *
@@ -636,7 +658,7 @@ export class RahatClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
+  public sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
     return this.call(RahatCallFactory.sendTokenToVendor(args, params))
   }
 
@@ -707,22 +729,22 @@ export class RahatClient {
         resultMappers.push(undefined)
         return this
       },
-      createAnAsset(args: MethodArgs<'createAnAsset()uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
+      createAnAsset(args: MethodArgs<'createAnAsset(string,string)uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
         promiseChain = promiseChain.then(() => client.createAnAsset(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
         return this
       },
-      sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
+      sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
         promiseChain = promiseChain.then(() => client.sendTokenToBeneficiary(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
         return this
       },
-      unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
+      unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
         promiseChain = promiseChain.then(() => client.unfreezeBeneficiaryAsset(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
         return this
       },
-      sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
+      sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
         promiseChain = promiseChain.then(() => client.sendTokenToVendor(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
         return this
@@ -772,7 +794,7 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
   assignBeneficiary(args: MethodArgs<'assignBeneficiary(address)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'assignBeneficiary(address)void'>]>
 
   /**
-   * Calls the createAnAsset()uint64 ABI method.
+   * Calls the createAnAsset(string,string)uint64 ABI method.
    *
    * A method to create token
    *
@@ -780,10 +802,10 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  createAnAsset(args: MethodArgs<'createAnAsset()uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'createAnAsset()uint64'>]>
+  createAnAsset(args: MethodArgs<'createAnAsset(string,string)uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'createAnAsset(string,string)uint64'>]>
 
   /**
-   * Calls the sendTokenToBeneficiary(address,uint64)void ABI method.
+   * Calls the sendTokenToBeneficiary(address,uint64,uint64)void ABI method.
    *
    * A method to send tokens to beneficiary
    *
@@ -791,10 +813,10 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'sendTokenToBeneficiary(address,uint64)void'>]>
+  sendTokenToBeneficiary(args: MethodArgs<'sendTokenToBeneficiary(address,uint64,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'sendTokenToBeneficiary(address,uint64,uint64)void'>]>
 
   /**
-   * Calls the unfreezeBeneficiaryAsset(address)void ABI method.
+   * Calls the unfreezeBeneficiaryAsset(address,uint64)void ABI method.
    *
    * A method to unfreeze token
    *
@@ -802,10 +824,10 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'unfreezeBeneficiaryAsset(address)void'>]>
+  unfreezeBeneficiaryAsset(args: MethodArgs<'unfreezeBeneficiaryAsset(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'unfreezeBeneficiaryAsset(address,uint64)void'>]>
 
   /**
-   * Calls the sendTokenToVendor(address,uint64)void ABI method.
+   * Calls the sendTokenToVendor(address,uint64,uint64)void ABI method.
    *
    * A method to send tokens to vendors
    *
@@ -813,7 +835,7 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'sendTokenToVendor(address,uint64)void'>]>
+  sendTokenToVendor(args: MethodArgs<'sendTokenToVendor(address,uint64,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'sendTokenToVendor(address,uint64,uint64)void'>]>
 
   /**
    * Makes a clear_state call to an existing instance of the Rahat smart contract.

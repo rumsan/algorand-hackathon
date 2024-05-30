@@ -64,8 +64,6 @@ export default function TransactionPage() {
 
   const { assetInfo, loading: assetLoading, error: assetError } = useAlgorandAssetInfo(671526136);
 
-  console.log(assetInfo);
-
   useLayoutEffect(() => {
     const isIndeterminate = selectedPeople.length > 0 && selectedPeople.length < people.length;
     setChecked(selectedPeople.length === people.length);

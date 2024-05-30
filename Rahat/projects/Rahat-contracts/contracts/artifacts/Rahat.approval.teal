@@ -66,12 +66,20 @@ assignBeneficiary:
 	box_put
 	retsub
 
-// createAnAsset()uint64
+// createAnAsset(string,string)uint64
 *abi_route_createAnAsset:
 	// The ABI return prefix
 	byte 0x151f7c75
 
-	// execute createAnAsset()uint64
+	// asaSymbol: string
+	txna ApplicationArgs 2
+	extract 2 0
+
+	// asaName: string
+	txna ApplicationArgs 1
+	extract 2 0
+
+	// execute createAnAsset(string,string)uint64
 	callsub createAnAsset
 	itob
 	concat
@@ -79,13 +87,14 @@ assignBeneficiary:
 	int 1
 	return
 
-// createAnAsset(): AssetID
+// createAnAsset(asaName: string, asaSymbol: string): AssetID
 //
 // A method to create token
-//
+// @param benAddress Address of beneficiary to send token
+// @param benAddress Address of beneficiary to send token
 // @returns Asset (token)
 createAnAsset:
-	proto 0 1
+	proto 2 1
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
@@ -106,6 +115,8 @@ createAnAsset:
 	// asset = sendAssetCreation({
 	//       configAssetTotal: 1_000_000_000_000_000,
 	//       configAssetFreeze: this.app.address,
+	//       configAssetName: asaName,
+	//       configAssetUnitName: asaSymbol
 	//     })
 	itxn_begin
 	int acfg
@@ -120,6 +131,16 @@ createAnAsset:
 	// configAssetFreeze: this.app.address
 	global CurrentApplicationAddress
 	itxn_field ConfigAssetFreeze
+
+	// contracts\Rahat.algo.ts:32
+	// configAssetName: asaName
+	frame_dig -1 // asaName: string
+	itxn_field ConfigAssetName
+
+	// contracts\Rahat.algo.ts:33
+	// configAssetUnitName: asaSymbol
+	frame_dig -2 // asaSymbol: string
+	itxn_field ConfigAssetUnitName
 
 	// Fee field not set, defaulting to 0
 	int 0
@@ -144,8 +165,12 @@ createAnAsset:
 	frame_bury 0
 	retsub
 
-// sendTokenToBeneficiary(address,uint64)void
+// sendTokenToBeneficiary(address,uint64,uint64)void
 *abi_route_sendTokenToBeneficiary:
+	// assetId: uint64
+	txna ApplicationArgs 3
+	btoi
+
 	// amount: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -157,21 +182,21 @@ createAnAsset:
 	int 32
 	==
 
-	// argument 1 (benAddress) for sendTokenToBeneficiary must be a address
+	// argument 2 (benAddress) for sendTokenToBeneficiary must be a address
 	assert
 
-	// execute sendTokenToBeneficiary(address,uint64)void
+	// execute sendTokenToBeneficiary(address,uint64,uint64)void
 	callsub sendTokenToBeneficiary
 	int 1
 	return
 
-// sendTokenToBeneficiary(benAddress: Address, amount: uint64): void
+// sendTokenToBeneficiary(benAddress: Address, amount: uint64, assetId: AssetID): void
 //
 // A method to send tokens to beneficiary
 // @param benAddress Address of beneficiary to send token
 // @param amount Amount of token to send
 sendTokenToBeneficiary:
-	proto 2 0
+	proto 3 0
 
 	// contracts\Rahat.algo.ts:42
 	// assert(this.beneficiaries(benAddress).exists, 'Beneficiary is not assigned.')
@@ -179,15 +204,16 @@ sendTokenToBeneficiary:
 	box_len
 	swap
 	pop
+	==
 
-	// Beneficiary is not assigned.
+	// transaction verification failed: {"txn":"this.txn","field":"sender","expected":"this.app.creator"}
 	assert
 
 	// contracts\Rahat.algo.ts:44
 	// sendAssetTransfer({
-	//       xferAsset: this.token.value,
+	//       xferAsset: assetId,
 	//       assetReceiver: benAddress,
-	//       assetAmount: amount,
+	//       assetAmount: amount
 	//     })
 	itxn_begin
 	int axfer
@@ -225,7 +251,7 @@ sendTokenToBeneficiary:
 
 	// contracts\Rahat.algo.ts:54
 	// sendAssetFreeze({
-	//       freezeAsset: this.token.value,
+	//       freezeAsset: assetId,
 	//       freezeAssetAccount: benAddress,
 	//       freezeAssetFrozen: true,
 	//     })
@@ -257,8 +283,12 @@ sendTokenToBeneficiary:
 	itxn_submit
 	retsub
 
-// unfreezeBeneficiaryAsset(address)void
+// unfreezeBeneficiaryAsset(address,uint64)void
 *abi_route_unfreezeBeneficiaryAsset:
+	// assetId: uint64
+	txna ApplicationArgs 2
+	btoi
+
 	// benAddress: address
 	txna ApplicationArgs 1
 	dup
@@ -266,24 +296,24 @@ sendTokenToBeneficiary:
 	int 32
 	==
 
-	// argument 0 (benAddress) for unfreezeBeneficiaryAsset must be a address
+	// argument 1 (benAddress) for unfreezeBeneficiaryAsset must be a address
 	assert
 
-	// execute unfreezeBeneficiaryAsset(address)void
+	// execute unfreezeBeneficiaryAsset(address,uint64)void
 	callsub unfreezeBeneficiaryAsset
 	int 1
 	return
 
-// unfreezeBeneficiaryAsset(benAddress: Address): void
+// unfreezeBeneficiaryAsset(benAddress: Address, assetId: AssetID): void
 //
 // A method to unfreeze token
 // @param benAddress Address of beneficiary to unfreeze asset
 unfreezeBeneficiaryAsset:
-	proto 1 0
+	proto 2 0
 
 	// contracts\Rahat.algo.ts:67
 	// sendAssetFreeze({
-	//       freezeAsset: this.token.value,
+	//       freezeAsset: assetId,
 	//       freezeAssetAccount: benAddress,
 	//       freezeAssetFrozen: false,
 	//     })
@@ -315,8 +345,12 @@ unfreezeBeneficiaryAsset:
 	itxn_submit
 	retsub
 
-// sendTokenToVendor(address,uint64)void
+// sendTokenToVendor(address,uint64,uint64)void
 *abi_route_sendTokenToVendor:
+	// assetId: uint64
+	txna ApplicationArgs 3
+	btoi
+
 	// amount: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -328,25 +362,25 @@ unfreezeBeneficiaryAsset:
 	int 32
 	==
 
-	// argument 1 (venderAddress) for sendTokenToVendor must be a address
+	// argument 2 (venderAddress) for sendTokenToVendor must be a address
 	assert
 
-	// execute sendTokenToVendor(address,uint64)void
+	// execute sendTokenToVendor(address,uint64,uint64)void
 	callsub sendTokenToVendor
 	int 1
 	return
 
-// sendTokenToVendor(venderAddress: Address, amount: uint64): void
+// sendTokenToVendor(venderAddress: Address, amount: uint64, assetId: AssetID): void
 //
 // A method to send tokens to vendors
 // @param venderAddress Address of vendor to receive tokens
 // @param amount Amount of token to send to vendor
 sendTokenToVendor:
-	proto 2 0
+	proto 3 0
 
 	// contracts\Rahat.algo.ts:81
 	// sendAssetTransfer({
-	//       xferAsset: this.token.value,
+	//       xferAsset: assetId,
 	//       assetReceiver: venderAddress,
 	//       assetAmount: amount,
 	//     })
@@ -392,10 +426,10 @@ sendTokenToVendor:
 
 *call_NoOp:
 	method "assignBeneficiary(address)void"
-	method "createAnAsset()uint64"
-	method "sendTokenToBeneficiary(address,uint64)void"
-	method "unfreezeBeneficiaryAsset(address)void"
-	method "sendTokenToVendor(address,uint64)void"
+	method "createAnAsset(string,string)uint64"
+	method "sendTokenToBeneficiary(address,uint64,uint64)void"
+	method "unfreezeBeneficiaryAsset(address,uint64)void"
+	method "sendTokenToVendor(address,uint64,uint64)void"
 	txna ApplicationArgs 0
 	match *abi_route_assignBeneficiary *abi_route_createAnAsset *abi_route_sendTokenToBeneficiary *abi_route_unfreezeBeneficiaryAsset *abi_route_sendTokenToVendor
 

@@ -7,9 +7,9 @@
 // import Home from './Home'
 // import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Beneficiaries from "./pages/Beneficiaries";
-import ProjectList from "./pages/ProjectList";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Beneficiaries from './pages/Beneficiaries';
+import ProjectList from './pages/ProjectList';
 
 import Home from './Home';
 import AdminLayout from './layout/AdminLayout';
@@ -17,8 +17,11 @@ import { AdminRoute } from './components/Routes';
 import Dashboard from './pages/Dashboard';
 import NavBar from './layout/Navbar';
 import CreateTokens from './pages/CreateTokens';
-import LoginPage from './pages/Login';
-import AddBeneficiary from './pages/AddBeneficiary';
+import LoginPage from "./pages/Login";
+import AddBeneficiary from "./pages/AddBeneficiary";
+import ConnectWallet from "./components/ConnectWallet";
+import ConnectWalletTemp from "./pages/ConnectWalletTemp";
+import BeneficiaryDetail from "./pages/BeneficiaryDetail";
 import Transaction from "./pages/Transaction";
 
 export default function App() {
@@ -85,6 +88,22 @@ export default function App() {
                 <AdminRoute>
                   <AddBeneficiary />
                 </AdminRoute>
+              }
+            />
+
+          
+            <Route
+              path="/admin/beneficiary/details"
+              element={
+                  <BeneficiaryDetail />
+              }
+            />
+
+          {/* Temporary Path to connect wallet */}
+            <Route
+              path="/admin/connect"
+              element={
+                  <ConnectWalletTemp />
               }
             />
           </Route>

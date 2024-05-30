@@ -7,7 +7,6 @@ const CreateTokens = () => {
     
   return (
     <>
-    <div>CreateTokens</div>
     <RahatCreateAnAsset
     buttonClass="btn m-2"
     buttonLoadingNode={<span className="loading loading-spinner" />}

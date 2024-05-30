@@ -42,11 +42,11 @@ export default function Beneficiaries() {
   const submitTransferToken = () => {
     console.log(selectedBeneficiaries);
   };
+  
   useEffect(() => {
-    if (data) {
-      setBeneficiaries(data.data);
-    }
+    data && setBeneficiaries(data?.data); 
   }, [data, setBeneficiaries]);
+
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">

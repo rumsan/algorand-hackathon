@@ -1,44 +1,37 @@
 /* eslint-disable no-console */
 import { ReactNode, useState } from 'react'
-import { Rahat, RahatClient } from '../contracts/RahatClient'
+import { Rahat, RahatClient } from '../../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
 
 /* Example usage
-<RahatSendTokenToBeneficiary
+<RahatSendAlgoToBeneficiaryForGasFee
   buttonClass="btn m-2"
   buttonLoadingNode={<span className="loading loading-spinner" />}
-  buttonNode="Call sendTokenToBeneficiary"
+  buttonNode="Call sendAlgoToBeneficiaryForGasFee"
   typedClient={typedClient}
   benAddress={benAddress}
-  amount={amount}
-  assetId={assetId}
 />
 */
-type RahatSendTokenToBeneficiaryArgs = Rahat['methods']['sendTokenToBeneficiary(address,uint64,uint64)void']['argsObj']
+type RahatSendAlgoToBeneficiaryForGasFeeArgs = Rahat['methods']['sendAlgoToBeneficiaryForGasFee(address)void']['argsObj']
 
 type Props = {
   buttonClass: string
   buttonLoadingNode?: ReactNode
   buttonNode: ReactNode
   typedClient: RahatClient
-  benAddress: RahatSendTokenToBeneficiaryArgs['benAddress']
-  amount: RahatSendTokenToBeneficiaryArgs['amount']
-  assetId: RahatSendTokenToBeneficiaryArgs['assetId']
+  benAddress: RahatSendAlgoToBeneficiaryForGasFeeArgs['benAddress']
 }
 
-const RahatSendTokenToBeneficiary = (props: Props) => {
+const RahatSendAlgoToBeneficiaryForGasFee = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
   const callMethod = async () => {
     setLoading(true)
-    console.log(`Calling sendTokenToBeneficiary`)
-    await props.typedClient.sendTokenToBeneficiary(
+    await props.typedClient.sendAlgoToBeneficiaryForGasFee(
       {
         benAddress: props.benAddress,
-        amount: props.amount,
-        assetId: props.assetId,
       },
       { sender },
     )
@@ -52,4 +45,4 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
   )
 }
 
-export default RahatSendTokenToBeneficiary
+export default RahatSendAlgoToBeneficiaryForGasFee

@@ -1,10 +1,21 @@
 import { Contract } from '@algorandfoundation/tealscript';
+import { verifyMultisig } from 'algosdk';
 
 export class Rahat extends Contract {
   // Token
   token = GlobalStateKey<AssetID>();
 
   beneficiaries = BoxMap<Address, uint64>();
+
+  multisigParams = {
+    version: 1,
+    threshold: 2,
+    addrs: [
+      "ADDRESS1",
+      "ADDRESS2",
+      "ADDRESS3"
+    ]
+  };
 
   /**
    * A method to assign beneficiary to projects
@@ -20,39 +31,48 @@ export class Rahat extends Contract {
 
   /**
    * A method to create token
-   *
+   *@param benAddress Address of beneficiary to send token
+   @param benAddress Address of beneficiary to send token
    * @returns Asset (token)
    */
-  createAnAsset(): AssetID {
+  createAnAsset(asaName: string, asaSymbol: string): AssetID {
     verifyTxn(this.txn, { sender: this.app.creator });
     const asset = sendAssetCreation({
       configAssetTotal: 1_000_000_000_000_000,
       configAssetFreeze: this.app.address,
+      configAssetName: asaName,
+      configAssetUnitName: asaSymbol
     });
+
     this.token.value = asset;
     return asset;
   }
+
 
   /**
    * A method to send tokens to beneficiary
    * @param benAddress Address of beneficiary to send token
    * @param amount Amount of token to send
    */
-  sendTokenToBeneficiary(benAddress: Address, amount: uint64): void {
-    assert(this.beneficiaries(benAddress).exists, 'Beneficiary is not assigned.');
+  sendTokenToBeneficiary(benAddress: Address, amount: uint64, assetId: AssetID): void {
+    // Uncomment this line when box issue is fixed
+    // assert(this.beneficiaries(benAddress).exists, 'Beneficiary is not assigned.');
+
+    verifyTxn(this.txn, { sender: this.app.creator });
+
     // Send asset to beneficiary
     sendAssetTransfer({
-      xferAsset: this.token.value,
+      xferAsset: assetId,
       assetReceiver: benAddress,
-      assetAmount: amount,
+      assetAmount: amount
     });
 
     // Update mapping
-    this.beneficiaries(benAddress).value = amount;
+    // this.beneficiaries(benAddress).value = amount;
 
     // Freeze their asset
     sendAssetFreeze({
-      freezeAsset: this.token.value,
+      freezeAsset: assetId,
       freezeAssetAccount: benAddress,
       freezeAssetFrozen: true,
     });
@@ -62,10 +82,10 @@ export class Rahat extends Contract {
    * A method to unfreeze token
    * @param benAddress Address of beneficiary to unfreeze asset
    */
-  unfreezeBeneficiaryAsset(benAddress: Address): void {
+  unfreezeBeneficiaryAsset(benAddress: Address, assetId: AssetID): void {
     // This function will be multi-sig
     sendAssetFreeze({
-      freezeAsset: this.token.value,
+      freezeAsset: assetId,
       freezeAssetAccount: benAddress,
       freezeAssetFrozen: false,
     });
@@ -76,10 +96,10 @@ export class Rahat extends Contract {
    * @param venderAddress Address of vendor to receive tokens
    * @param amount Amount of token to send to vendor
    */
-  sendTokenToVendor(venderAddress: Address, amount: uint64): void {
+  sendTokenToVendor(venderAddress: Address, amount: uint64, assetId: AssetID): void {
     // assert(this.beneficiaries(this.txn.sender).value > 0, "Beneficiary not assigned tokens");
     sendAssetTransfer({
-      xferAsset: this.token.value,
+      xferAsset: assetId,
       assetReceiver: venderAddress,
       assetAmount: amount,
     });

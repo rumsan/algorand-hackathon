@@ -1,7 +1,10 @@
 /* eslint-disable no-console */
 import { ReactNode, useState } from 'react'
-import { Rahat, RahatClient } from '../contracts/RahatClient'
+import { Rahat, RahatClient } from '../../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
+import algosdk from 'algosdk'
+import { algodClient } from '../../utils/typedClient'
+import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount'
 
 /* Example usage
 <RahatSendTokenToBeneficiary
@@ -30,24 +33,27 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
-
   const callMethod = async () => {
+    
     setLoading(true)
-    console.log(`Calling sendTokenToBeneficiary`)
     await props.typedClient.sendTokenToBeneficiary(
       {
-        benAddress: props.benAddress,
-        amount: props.amount,
-        assetId: props.assetId,
+        benAddress: props?.benAddress,
+        amount: props?.amount,
+        assetId: Number(import.meta.env.VITE_ASA_ID)
       },
-      { sender },
+      { sender,
+        assets: [Number(import.meta.env.VITE_ASA_ID)],
+        sendParams: {fee: new AlgoAmount({algos: 0.02})}
+      },
     )
     setLoading(false)
   }
 
   return (
     <button className={props.buttonClass} onClick={callMethod}>
-      {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode}
+      {/* {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode} */}
+      Send token to beneficiary
     </button>
   )
 }

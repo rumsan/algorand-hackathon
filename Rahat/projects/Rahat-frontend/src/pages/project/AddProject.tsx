@@ -38,7 +38,7 @@ export default function AddProject() {
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="bg-gray-100 text-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
+            className="bg-gray-50 text-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-3"
           >
             <div className="px-4 py-6 sm:p-8">
               <div className="px-4 sm:px-0">

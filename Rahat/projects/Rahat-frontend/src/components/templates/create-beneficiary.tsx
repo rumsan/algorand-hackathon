@@ -78,7 +78,7 @@ const CreateBeneficiary = () => {
     <>
       <div>
         
-        <SnackbarUtilsConfigurator />
+      <SnackbarUtilsConfigurator />
       </div>
       <form onSubmit={(e) => createBeneficiary(e)}>
         <div className="space-y-6">

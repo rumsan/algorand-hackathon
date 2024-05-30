@@ -4,7 +4,7 @@ export class Rahat extends Contract {
   // Token
   token = GlobalStateKey<AssetID>();
 
-  beneficiaries = BoxMap<Address, uint64>({ prefix: 'beneficiary' });
+  beneficiaries = BoxMap<Address, uint64>();
 
   /**
    * A method to assign beneficiary to projects
@@ -63,6 +63,7 @@ export class Rahat extends Contract {
    * @param benAddress Address of beneficiary to unfreeze asset
    */
   unfreezeBeneficiaryAsset(benAddress: Address): void {
+    // This function will be multi-sig
     sendAssetFreeze({
       freezeAsset: this.token.value,
       freezeAssetAccount: benAddress,

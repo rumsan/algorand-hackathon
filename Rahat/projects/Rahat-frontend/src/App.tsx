@@ -1,14 +1,11 @@
-import Home from './Home';
 import AdminLayout from './layout/AdminLayout';
 import { AdminRoute } from './components/Routes';
 import Dashboard from './pages/Dashboard';
-import NavBar from './layout/Navbar';
 import CreateTokens from './pages/CreateTokens';
 import LoginPage from './pages/Login';
 import AddBeneficiary from './pages/AddBeneficiary';
 import Transaction from './pages/project/Transaction';
 import ProjectDetail from './pages/project/ProjectDetail';
-import ProjectBeneficiart from './pages/project/ProjectBeneficiary';
 import ProjectBeneficiary from './pages/project/ProjectBeneficiary';
 import AddProject from './pages/project/AddProject';
 import BeneficiaryDetail from './pages/project/BeneficiaryDetail';

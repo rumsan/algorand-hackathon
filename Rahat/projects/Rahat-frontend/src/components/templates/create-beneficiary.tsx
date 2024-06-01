@@ -6,7 +6,7 @@ import usePost from '../../hooks/usePost';
 import { URLS } from '../../constants';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import success from '../../components/Toaster';
 import {SnackbarUtilsConfigurator} from '../../components/Toaster'
 import * as snack from '../../components/Toaster';
@@ -18,6 +18,7 @@ interface WalletType {
 }
 
 const CreateBeneficiary = () => {
+  const {id} = useParams();
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
 
@@ -67,8 +68,9 @@ const CreateBeneficiary = () => {
 
   if (shouldNavigate) {
     // toast.success('Beneficiary created successfully');
+    const route = `/admin/project/${id}beneficiary`;
 
-    return <Navigate to="/admin/beneficiary" replace />;
+    return <Navigate to={route} replace />;
   }
 
   return (

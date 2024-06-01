@@ -1,3 +1,4 @@
+import SideBar from '@/components/SideBar';
 import { Link } from 'react-router-dom';
 
 const beneficiary = {
@@ -106,43 +107,13 @@ const transaction = [
   },
 ];
 
-export const navigation = [
-  {
-    name: 'Projects',
-    href: '/admin/project/',
-    current: false,
-  },
-  {
-    name: 'Beneficiaries',
-    href: '/admin/project/beneficiary',
-  },
-  {
-    name: 'Transactions',
-    href: '/admin/transactions',
-    current: false,
-  },
-];
 
 export default function BeneficiaryDetail() {
   return (
     <>
       <div className="flex">
         {/* Sidebar */}
-        <aside className="fixed top-0 left-0 w-64 h-full bg-gray-100 shadow-md p-4">
-          <nav className="mt-20">
-            <h1 className="text-2xl pt-6">Project details</h1>
-            <br />
-            <ul className="space-y-2">
-              {navigation.map((item) => (
-                <li key={item.name}>
-                  <Link to={item.href} className="block p-2 text-gray-700 hover:bg-gray-200 rounded-md">
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </aside>
+        <SideBar />
 
         {/* Main Content */}
         <div className="ml-64 w-full">
@@ -216,7 +187,6 @@ export default function BeneficiaryDetail() {
                 <table className="min-w-full table-fixed divide-y divide-gray-300">
                   <thead>
                     <tr>
-                    
                       <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                         Timestamp
                       </th>
@@ -237,13 +207,10 @@ export default function BeneficiaryDetail() {
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {transaction.map((transac) => (
                       <tr key={transac.beneficiaryId}>
-                        
-
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.timestamp}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.txnHash}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.amount}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.txnFee}</td>
-                        
                       </tr>
                     ))}
                   </tbody>

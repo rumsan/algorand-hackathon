@@ -1,9 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import TruncatedCell from '../../components/TruncatedCell';
 import { useAlgorandAssetInfo } from '../../hooks/useAlgorandInfo';
-import { error } from 'console';
-import { Link } from 'react-router-dom';
-import { navigation } from './ProjectDetail';
+
+import SideBar from '@/components/SideBar';
 
 const people = [
   {
@@ -83,21 +81,7 @@ export default function TransactionPage() {
 
   return (
     <div className="flex h-screen">
-      <aside className="fixed top-0 left-0 w-64 h-full bg-gray-100 shadow-md p-4">
-        <nav className="mt-20">
-          <h1 className="text-2xl pt-6">Project details</h1>
-          <br />
-          <ul className="space-y-2">
-            {navigation.map((item) => (
-              <li key={item.name}>
-                <Link to={item.href} className="block p-2 text-gray-700 hover:bg-gray-200 rounded-md">
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
+      <SideBar />
 
       <div className="flex-1 ml-64 px-4 sm:px-6 lg:px-8 overflow-y-auto">
         <div className="sm:flex sm:items-center">

@@ -1,4 +1,3 @@
-
 import Home from './Home';
 import AdminLayout from './layout/AdminLayout';
 import { AdminRoute } from './components/Routes';
@@ -16,7 +15,6 @@ import BeneficiaryDetail from './pages/project/BeneficiaryDetail';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProjectList from './pages/project/ProjectList';
 import Beneficiaries from './pages/Beneficiaries';
-
 
 export default function App() {
   return (
@@ -43,18 +41,10 @@ export default function App() {
               }
             />
             <Route
-              path="/admin/project/add"
+              path="/admin/project/:id"
               element={
                 <AdminRoute>
-                  <AddProject />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/admin/project/beneficiary"
-              element={
-                <AdminRoute>
-                  <ProjectBeneficiary />
+                  <ProjectDetail />
                 </AdminRoute>
               }
             />
@@ -67,10 +57,26 @@ export default function App() {
               }
             />
             <Route
-              path="/admin/project/beneficiary"
+              path="/admin/project/:id/beneficiary"
               element={
                 <AdminRoute>
                   <ProjectBeneficiary />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/project/:id/add-beneficiary"
+              element={
+                <AdminRoute>
+                  <AddBeneficiary />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/project/:id/transactions"
+              element={
+                <AdminRoute>
+                  <Transaction />
                 </AdminRoute>
               }
             />
@@ -82,30 +88,7 @@ export default function App() {
                 </AdminRoute>
               }
             />
-            <Route
-              path="/admin/project/:id"
-              element={
-                <AdminRoute>
-                  <ProjectDetail />
-                </AdminRoute>
-              }
-            />
-            {/* <Route
-              path="/admin/project/add"
-              element={
-                <AdminRoute>
-                  <AddProject />
-                </AdminRoute>
-              }
-            /> */}
-            <Route
-              path="/admin/transactions"
-              element={
-                <AdminRoute>
-                  <Transaction />
-                </AdminRoute>
-              }
-            />
+
             <Route
               path="/admin/beneficiary"
               element={
@@ -119,14 +102,6 @@ export default function App() {
               element={
                 <AdminRoute>
                   <CreateTokens />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/admin/add-beneficiary"
-              element={
-                <AdminRoute>
-                  <AddBeneficiary />
                 </AdminRoute>
               }
             />

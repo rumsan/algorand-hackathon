@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import useList from '../../hooks/useList';
 import { URLS } from '../../constants';
 import { useEffect, useState } from 'react';
@@ -7,6 +7,7 @@ import { navigation } from './ProjectDetail';
 // @ts-ignore
 import Jdenticon from 'react-jdenticon';
 import TruncatedCell from '@/components/TruncatedCell';
+import SideBar from '@/components/SideBar';
 
 type Beneficiary = {
   email: string;
@@ -157,6 +158,7 @@ const people = [
 ];
 
 export default function ProjectBeneficiary() {
+  const {id} = useParams()
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
   let { isLoading, isError, data } = useList('listBlog', URLS.BENEFICIARY, 1, 5);
 
@@ -195,21 +197,8 @@ export default function ProjectBeneficiary() {
 
   return (
     <div className="flex">
-      <aside className="fixed top-0 left-0 w-64 h-full bg-gray-100 shadow-md p-4">
-        <nav className="mt-20">
-          <h1 className="text-2xl pt-6">Project details</h1>
-          <br />
-          <ul className="space-y-2">
-            {navigation.map((item) => (
-              <li key={item.name}>
-                <Link to={item.href} className="block p-2 text-gray-700 hover:bg-gray-200 rounded-md">
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
+      <SideBar />
+
       <div className="ml-64 mt-8 flow-root w-screen">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto"></div>
@@ -218,7 +207,7 @@ export default function ProjectBeneficiary() {
               type="button"
               className="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              <Link to={'/admin/add-beneficiary'}> Add beneficiaries</Link>
+              <Link to={`/admin/project/${id}/add-beneficiary`}> Add beneficiaries</Link>
             </button>
             <button
               onClick={submitTransferToken}

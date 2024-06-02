@@ -31,8 +31,8 @@ const CreateBeneficiary = () => {
 
   const [loading, setLoading] = useState(false)
 
-  const mnemonicsOfSender = import.meta.env.VITE_SENDER_MNEMONICS
-  const walletOfSender = import.meta.env.VITE_SENDER_WALLET
+  const mnemonicsOfSender = import.meta.env.VITE_FUNDER_MNEMONICS
+  const walletOfSender = import.meta.env.VITE_FUNDER_WALLET
 
   const [beneficiaryWallet, setBeneficiaryWallet] = useState<WalletType>({ mnemonicsQRText: undefined, walletAddress: undefined, secretKey: undefined });
   const createBeneficiaryWallet = () => {
@@ -57,7 +57,7 @@ const CreateBeneficiary = () => {
       mnemonics: encryptedPassword,
     };
 
-    // Send tokens to beneficiary from sender wallet
+    // Send tokens to beneficiary from funder wallet
     const secretOfSenderWallet = algosdk.mnemonicToSecretKey(mnemonicsOfSender)
     const txnSender = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
       from: walletOfSender,
@@ -66,7 +66,7 @@ const CreateBeneficiary = () => {
       suggestedParams: await algodClient.getTransactionParams().do()
     });
     const signedTxnSender = txnSender.signTxn(secretOfSenderWallet.sk);
-    await algodClient.sendRawTransaction(signedTxnSender).do();
+    await algodClient.sendRawTransaction(signedTxnSender).do();        
 
     // Optin to asset using beneficiary wallet
     const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({

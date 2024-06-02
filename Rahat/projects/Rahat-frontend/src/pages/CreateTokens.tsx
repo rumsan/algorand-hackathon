@@ -3,7 +3,7 @@ import RahatCreateAnAsset from '../components/contracts/RahatCreateAnAsset'
 import { typedClient } from '../utils/typedClient'
 import RahatAssignBeneficiary from '@/components/contracts/RahatAssignBeneficiary'
 
-const CreateTokens = () => {
+const CreateTokens = ({props}: any) => {
     
   return (
     <>
@@ -19,7 +19,7 @@ const CreateTokens = () => {
       buttonLoadingNode={<span className="loading loading-spinner" />}
       buttonNode="Call assignBeneficiary"
       typedClient={typedClient}
-      _address={"_address"}
+      _address={"VRTMUXHF6KYD4GWCFIISS5IKSUDMWM4CWTPHNIDMNRE6YJANLQNJ36OKAU"}
     />
     </>
   )

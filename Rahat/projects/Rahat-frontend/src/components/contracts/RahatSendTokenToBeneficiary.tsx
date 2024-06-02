@@ -42,16 +42,18 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
         amount: props?.amount,
         assetId: Number(import.meta.env.VITE_ASA_ID)
       },
-      { sender,
+      { 
+        sender,
         assets: [Number(import.meta.env.VITE_ASA_ID)],
-        sendParams: {fee: new AlgoAmount({algos: 0.02})}
+        accounts: [props?.benAddress],
+        sendParams: {fee: new AlgoAmount({algos: 0.003})}
       },
     )
     setLoading(false)
   }
 
   return (
-    <button className={props.buttonClass} onClick={callMethod}>
+    <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-6" onClick={callMethod}>
       {/* {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode} */}
       Send token to beneficiary
     </button>

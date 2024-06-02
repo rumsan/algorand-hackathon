@@ -21,7 +21,7 @@ const RahatAssignBeneficiary = (props: Props) => {
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
-  const boxKey = new Uint8Array(Buffer.from('key'));
+  const boxKey = new TextEncoder().encode('beneficiaries');
 
   const callMethod = async () => {
     setLoading(true)
@@ -31,9 +31,12 @@ const RahatAssignBeneficiary = (props: Props) => {
         _address: props._address,
       },
       { sender,
-        boxes: [{
-          appIndex: impo,
-          name: boxKey}]
+        boxes: [
+          {
+          appIndex: Number(import.meta.env.VITE_APP_ID),
+          name: boxKey,
+          }
+      ]
        },
     )
     setLoading(false)

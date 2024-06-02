@@ -17,6 +17,7 @@ const usePost = (qkey: string) => {
     isPending,
   } = useMutation({
     mutationFn: async (payload: any) => {
+      // console.log(payload, 'payloadHollllllllllssssssss')
       const { data } = await API.post(payload.urls, { ...payload.data });
       return data;
     },

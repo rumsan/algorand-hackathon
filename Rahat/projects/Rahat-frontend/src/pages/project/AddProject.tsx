@@ -1,14 +1,17 @@
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import projectSchema from '../../validation/projectSchema';
 import { useEffect, useState } from 'react';
+
 import usePost from '../../hooks/usePost';
+import { URLS } from '@/constants';
+import { useWallet } from '@txnlab/use-wallet';
 
 type ProjectType = z.infer<typeof projectSchema>;
 
 export default function AddProject() {
+  const { activeAddress } = useWallet();
   const { postMutation, data, isSuccess, error, success, isPending } = usePost('false');
   const [showError, setShowError] = useState(false);
 
@@ -20,20 +23,31 @@ export default function AddProject() {
     resolver: zodResolver(projectSchema),
     defaultValues: {
       name: '',
-      donation: 0,
-      status: 'Pending',
-      token: 0,
+      // donation: 0,
+      // status: 'Pending',
+      // token: 0,
       imageUrl: '',
     },
   });
 
   const onSubmit = (data: ProjectType) => {
-    console.log(data, 'pahe');
-    // postMutation({ urls: URLS.AUTH + '/register', data });
+    // console.log(activeAddress,'data')
+    // if (activeAddress) {
+    //   data.adminAddress = [activeAddress];
+    // }
+    const adminAddress = [activeAddress];
+    // @ts-ignore
+    data.adminAddress = adminAddress;
+    postMutation({ urls: URLS.PROJECT, data });
+  };
+  console.log(data, 'data', error, 'error', success, 'success', isPending, 'isPending');
+  const hello = () => {
+    console.log('hello');
   };
 
   return (
     <div className="h-screen flex items-center justify-center">
+      <button onSubmit={hello}>hello</button>
       <div className="space-y-10 divide-y divide-gray-900/10 w-full max-w-4xl px-4 pb-80">
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
           <form
@@ -64,7 +78,7 @@ export default function AddProject() {
                   </div>
                 </div>
 
-                <div className="sm:col-span-3">
+                {/* <div className="sm:col-span-3">
                   <label htmlFor="donation" className="block text-sm font-medium leading-6 text-gray-900">
                     Total donation
                   </label>
@@ -109,7 +123,7 @@ export default function AddProject() {
                     />
                     {errors.token && <p className="text-red-500">{errors.token.message}</p>}
                   </div>
-                </div>
+                </div> */}
 
                 <div className="col-span-full">
                   <label htmlFor="imageUrl" className="block text-sm font-medium leading-6 text-gray-900">

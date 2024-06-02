@@ -12,6 +12,7 @@ import BeneficiaryDetail from './pages/project/BeneficiaryDetail';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProjectList from './pages/project/ProjectList';
 import Beneficiaries from './pages/Beneficiaries';
+import AddAdmin from './pages/project/AddAdmin';
 
 export default function App() {
   return (
@@ -46,6 +47,14 @@ export default function App() {
               }
             />
             <Route
+              path="/admin/project/:id/addAdmin"
+              element={
+                <AdminRoute>
+                  <AddAdmin />
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/admin/project/add"
               element={
                 <AdminRoute>
@@ -69,6 +78,7 @@ export default function App() {
                 </AdminRoute>
               }
             />
+
             <Route
               path="/admin/project/:id/transactions"
               element={
@@ -85,7 +95,6 @@ export default function App() {
                 </AdminRoute>
               }
             />
-
             <Route
               path="/admin/beneficiary"
               element={

@@ -7,7 +7,6 @@ import { URLS } from '../../constants';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { Navigate, useParams } from 'react-router-dom';
-import success from '../../components/Toaster';
 import {SnackbarUtilsConfigurator} from '../../components/Toaster'
 import * as snack from '../../components/Toaster';
 

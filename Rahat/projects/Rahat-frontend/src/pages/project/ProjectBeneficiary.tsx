@@ -2,7 +2,6 @@ import { Link, useParams } from 'react-router-dom';
 import useList from '../../hooks/useList';
 import { URLS } from '../../constants';
 import { useEffect, useState } from 'react';
-import { navigation } from './ProjectDetail';
 
 // @ts-ignore
 import Jdenticon from 'react-jdenticon';

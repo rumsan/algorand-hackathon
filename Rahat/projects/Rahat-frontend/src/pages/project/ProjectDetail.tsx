@@ -1,5 +1,6 @@
 import SideBar from '@/components/SideBar';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 const project = {
   uuid: '123e4567-e89b-12d3-a456-426614174000',
@@ -29,6 +30,7 @@ export const navigation = [
 ];
 
 export default function Example() {
+  const { id } = useParams();
   return (
     <>
       <div className="flex">
@@ -69,6 +71,11 @@ export default function Example() {
                     </div>{' '}
                   </h1>
                 </div>
+                <div>
+
+               <Link className='' to={`/admin/project/${id}/addAdmin`}>Enroll new admin</Link>
+                </div>
+                
               </div>
             </div>
           </header>

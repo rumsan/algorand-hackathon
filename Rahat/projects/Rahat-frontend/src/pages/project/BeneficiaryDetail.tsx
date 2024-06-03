@@ -1,58 +1,8 @@
 import SideBar from '@/components/SideBar';
-import { Link } from 'react-router-dom';
-
-const beneficiary = {
-  uuid: 10,
-
-  name: 'Jacob Anderson',
-  age: 25,
-  title: 'Content Writer',
-  department: 'Content',
-  email: 'jacob.anderson@example.com',
-  gender: 'Male',
-
-  project: [
-    {
-      uuid: '123e4567-e89b-12d3-a456-54352',
-      name: 'Community Park Renovation',
-      totalDonation: 50000,
-      status: 'Active',
-      token: 'CPR123456',
-      estimatedBudget: 140000,
-      creationDate: '2023-01-15',
-    },
-    {
-      uuid: '123e4567-e89b-12d3-a456-34535',
-      name: 'Community Park Renovation',
-      totalDonation: 50000,
-      status: 'Active',
-      token: 'CPR123456',
-      estimatedBudget: 140000,
-      creationDate: '2023-01-15',
-    },
-    {
-      uuid: '123e4567-e89b-12d3-a456-4353',
-      name: 'Community Park Renovation',
-      totalDonation: 50000,
-      status: 'Active',
-      token: 'CPR123456',
-      estimatedBudget: 140000,
-      creationDate: '2023-01-15',
-    },
-    {
-      uuid: '123e4567-e89b-12d3-a456-323412',
-      name: 'Community Park Renovation',
-      totalDonation: 50000,
-      status: 'Active',
-      token: 'CPR123456',
-      estimatedBudget: 140000,
-      creationDate: '2023-01-15',
-    },
-  ],
-  walletAddress: '0x0j1k2l3m4n5o6p7q8r9s',
-  image:
-    'https://images.unsplash.com/photo-1502767089025-6572583495c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-};
+import { URLS } from '@/constants';
+import useGet from '@/hooks/useGet';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 const transaction = [
   {
@@ -107,8 +57,25 @@ const transaction = [
   },
 ];
 
-
 export default function BeneficiaryDetail() {
+  const { id } = useParams();
+  const [beneficiaries, setBeneficiaries] = useState<any>(null);
+
+  const { data } = useGet(`getById${id}`, URLS.BENEFICIARY, id as string);
+
+  useEffect(() => {
+    if (data) {
+      console.log(data, 'data');
+      setBeneficiaries(data);
+    }
+  }, [data]);
+
+  console.log(beneficiaries, 'beneficiaries');
+
+  if (!beneficiaries) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div className="flex">
@@ -140,13 +107,13 @@ export default function BeneficiaryDetail() {
                     className="h-16 w-16 flex-none rounded-full ring-1 ring-gray-900/10"
                   />
                   <h1>
-                    <div className=" text-sm leading-6 text-gray-500">
-                      Beneficiary id <span className="text-gray-700">{beneficiary.uuid}</span>
-                    </div>
-                    <div className=" text-2xl mt-1  font-semibold leading-6 text-gray-900">{beneficiary.name}</div>
                     <div className="text-sm leading-6 text-gray-500">
-                      status <span className="text-gray-700">{beneficiary.gender}</span>
-                    </div>{' '}
+                      Beneficiary id <span className="text-gray-700">{beneficiaries.uuid}</span>
+                    </div>
+                    <div className="text-2xl mt-1 font-semibold leading-6 text-gray-900">{beneficiaries.name}</div>
+                    <div className="text-sm leading-6 text-gray-500">
+                      status <span className="text-gray-700">{beneficiaries.gender}</span>
+                    </div>
                   </h1>
                 </div>
               </div>
@@ -166,16 +133,19 @@ export default function BeneficiaryDetail() {
                     </tr>
                   </thead>
                   <tbody>
-                    {beneficiary.project.map((project) => (
-                      <tr key={project.uuid}>
-                        <td className="px-6 py-3 text-left">{project.uuid}</td>
-                        <td className="px-6 py-3 text-left">
-                          <Link to={`/admin/project/${project.uuid}`} className="text-blue-500 hover:underline">
-                            {project.name}
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
+                    {
+                      //@ts-ignore
+                      beneficiaries.projects?.map((project) => (
+                        <tr key={project.uuid}>
+                          <td className="px-6 py-3 text-left">{project.uuid}</td>
+                          <td className="px-6 py-3 text-left">
+                            <Link to={`/admin/project/${project.uuid}`} className="text-blue-500 hover:underline">
+                              {project.name}
+                            </Link>
+                          </td>
+                        </tr>
+                      ))
+                    }
                   </tbody>
                 </table>
               </div>
@@ -206,7 +176,7 @@ export default function BeneficiaryDetail() {
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {transaction.map((transac) => (
-                      <tr key={transac.beneficiaryId}>
+                      <tr key={transac.id}>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.timestamp}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.txnHash}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.amount}</td>

@@ -2,74 +2,99 @@ import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import useList from '@/hooks/useList';
+import { URLS } from '../../constants';
+import Loader from '@/components/Loader';
+import { Loader2, LoaderCircleIcon, LoaderPinwheel } from 'lucide-react';
+import { LOADIPHLPAPI } from 'dns/promises';
 
-const statuses = {
-  Paid: 'text-green-700 bg-green-50 ring-green-600/20',
-  Withdraw: 'text-gray-600 bg-gray-50 ring-gray-500/10',
-  Overdue: 'text-red-700 bg-red-50 ring-red-600/10',
-};
-const projects = [
-  {
-    id: 1,
-    name: 'Monsoon Flood Project',
-    imageUrl:
-      'https://civil-protection-humanitarian-aid.ec.europa.eu/sites/default/files/styles/ewcms_metatag_image/public/2022-03/Monsoon%20floods%20in%20Nepal%20-%20helping%20the%20most%20vulnerable%20through%20disaster%20preparedness%2001.jpg?itok=CQtiXqiT',
-    lastInvoice: {
-      date: 'December 13, 2022',
-      dateTime: '2022-12-13',
-      amount: '2,000.00 USDT',
-      status: 'Not started',
-    },
-  },
-  {
-    id: 2,
-    name: 'Education Donation',
-    imageUrl:
-      'https://www.un.org/sites/un2.un.org/files/styles/large-article-image-style-16-9/public/field/image/2022/08/nepal-_reaching_the_most_disadvantaged_children_with_education.png',
-    lastInvoice: {
-      date: 'January 22, 2023',
-      dateTime: '2023-01-22',
-      amount: '14,000.00 USDT',
-      status: 'Paid',
-    },
-  },
-  {
-    id: 3,
-    name: 'Earthquake Relief',
-    imageUrl:
-      'https://www.icrc.org/sites/default/files/styles/document_main/public/document/image/150504-nepal-earthquake-image-11.jpg?itok=zepl3N3G',
-    lastInvoice: {
-      date: 'January 23, 2023',
-      dateTime: '2023-01-23',
-      amount: '7,600.00 USDT',
-      status: 'Paid',
-    },
-  },
-];
+// const statuses = {
+//   Paid: 'text-green-700 bg-green-50 ring-green-600/20',
+//   Withdraw: 'text-gray-600 bg-gray-50 ring-gray-500/10',
+//   Overdue: 'text-red-700 bg-red-50 ring-red-600/10',
+// };
+// const projects = [
+//   {
+//     id: 1,
+//     name: 'Monsoon Flood Project',
+//     imageUrl:
+//       'https://civil-protection-humanitarian-aid.ec.europa.eu/sites/default/files/styles/ewcms_metatag_image/public/2022-03/Monsoon%20floods%20in%20Nepal%20-%20helping%20the%20most%20vulnerable%20through%20disaster%20preparedness%2001.jpg?itok=CQtiXqiT',
+//     lastInvoice: {
+//       date: 'December 13, 2022',
+//       dateTime: '2022-12-13',
+//       amount: '2,000.00 USDT',
+//       status: 'Not started',
+//     },
+//   },
+//   {
+//     id: 2,
+//     name: 'Education Donation',
+//     imageUrl:
+//       'https://www.un.org/sites/un2.un.org/files/styles/large-article-image-style-16-9/public/field/image/2022/08/nepal-_reaching_the_most_disadvantaged_children_with_education.png',
+//     lastInvoice: {
+//       date: 'January 22, 2023',
+//       dateTime: '2023-01-22',
+//       amount: '14,000.00 USDT',
+//       status: 'Paid',
+//     },
+//   },
+//   {
+//     id: 3,
+//     name: 'Earthquake Relief',
+//     imageUrl:
+//       'https://www.icrc.org/sites/default/files/styles/document_main/public/document/image/150504-nepal-earthquake-image-11.jpg?itok=zepl3N3G',
+//     lastInvoice: {
+//       date: 'January 23, 2023',
+//       dateTime: '2023-01-23',
+//       amount: '7,600.00 USDT',
+//       status: 'Paid',
+//     },
+//   },
+// ];
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 
+type project = {
+  uuid: string;
+  name: string;
+  imageUrl: string;
+  createdAt: string;
+  voucherId: number;
+};
+
 export default function ProjectList() {
+  const [projects, setProjects] = useState<project[]>([]);
+
+  let { isLoading, isError, data } = useList('listProject', URLS.PROJECT, 1, 6);
+  console.log(data, 'data');
+
+  useEffect(() => {
+    if (data) {
+      setProjects(data.data);
+    }
+  }, [data, setProjects]);
+
   return (
     <>
       <div className="sm:flex sm:items-center mb-3">
         <div className="sm:flex-auto"></div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <Link to={`/admin/project/add`}
+          <Link
+            to={`/admin/project/add`}
             type="button"
             className="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Add Project
           </Link>
-         
         </div>
       </div>
       <ul role="list" className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
         {projects.map((project) => (
-          <Link to={`/admin/project/${project.id}`} key={project.id} className=" ">
-            <li key={project.id} className="overflow-hidden rounded-xl border border-gray-200">
+          <Link to={`/admin/project/${project.uuid}`} key={project.uuid} className=" ">
+            <li key={project.uuid} className="overflow-hidden rounded-xl border border-gray-200">
               <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
                 <img
                   src={project.imageUrl}
@@ -109,26 +134,27 @@ export default function ProjectList() {
                     </Menu.Items>
                   </Transition>
                 </Menu>
+                
               </div>
               <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
                 <div className="flex justify-between gap-x-4 py-3">
                   <dt className="text-gray-500">Start Date</dt>
                   <dd className="text-gray-700">
-                    <time dateTime={project.lastInvoice.dateTime}>{project.lastInvoice.date}</time>
+                    <time dateTime={project.createdAt}>{project.createdAt}</time>
                   </dd>
                 </div>
                 <div className="flex justify-between gap-x-4 py-3">
-                  <dt className="text-gray-500">Donation</dt>
+                  <dt className="text-gray-500">VoucherId</dt>
                   <dd className="flex items-start gap-x-2">
-                    <div className="font-medium text-gray-900">{project.lastInvoice.amount}</div>
-                    <div
+                    <div className="font-medium text-gray-900">{project.voucherId}</div>
+                    {/* <div
                       className={classNames(
-                        statuses[project.lastInvoice.status],
+                        statuses[project.name],
                         'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset'
                       )}
                     >
-                      {project.lastInvoice.status}
-                    </div>
+                      {project.name}
+                    </div> */}
                   </dd>
                 </div>
               </dl>

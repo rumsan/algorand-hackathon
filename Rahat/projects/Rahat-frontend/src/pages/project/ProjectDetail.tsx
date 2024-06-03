@@ -1,6 +1,9 @@
 import SideBar from '@/components/SideBar';
 import { Link, useParams } from 'react-router-dom';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useEffect, useState } from 'react';
+import useGet from '@/hooks/useGet';
+import { URLS } from '@/constants';
 
 const project = {
   uuid: '123e4567-e89b-12d3-a456-426614174000',
@@ -31,6 +34,23 @@ export const navigation = [
 
 export default function Example() {
   const { id } = useParams();
+  const [project, setProject] = useState<any>(null);
+
+  const { data } = useGet(`getById${id}`, URLS.PROJECT, id as string);
+
+  useEffect(() => {
+    if (data) {
+      console.log(data, 'data');
+      setProject(data);
+    }
+  }, [data]);
+
+  console.log(project, 'beneficiaries');
+
+  if (!project) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div className="flex">
@@ -57,7 +77,7 @@ export default function Example() {
               <div className="mx-auto flex max-w-2xl items-center justify-between gap-x-8 lg:mx-0 lg:max-w-none">
                 <div className="flex items-center gap-x-6">
                   <img
-                    src="https://tailwindui.com/img/logos/48x48/tuple.svg"
+                    src={project.imageUrl}
                     alt=""
                     className="h-16 w-16 flex-none rounded-full ring-1 ring-gray-900/10"
                   />
@@ -72,10 +92,10 @@ export default function Example() {
                   </h1>
                 </div>
                 <div>
-
-               <Link className='' to={`/admin/project/${id}/addAdmin`}>Enroll new admin</Link>
+                  <Link className="" to={`/admin/project/${id}/addAdmin`}>
+                    Enroll new admin
+                  </Link>
                 </div>
-                
               </div>
             </div>
           </header>
@@ -90,7 +110,7 @@ export default function Example() {
                     <dt className="inline text-gray-500">Issued on</dt>{' '}
                     <dd className="inline text-gray-700">
                       <time className="text-xl" dateTime="2023-23-01">
-                        {project.creationDate}
+                        {project.createdAt}
                       </time>
                     </dd>
                   </div>

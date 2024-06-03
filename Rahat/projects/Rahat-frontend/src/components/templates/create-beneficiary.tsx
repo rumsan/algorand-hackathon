@@ -7,7 +7,7 @@ import { URLS } from '../../constants';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { Navigate, useParams } from 'react-router-dom';
-import {SnackbarUtilsConfigurator} from '../../components/Toaster'
+import { SnackbarUtilsConfigurator } from '../../components/Toaster';
 import * as snack from '../../components/Toaster';
 
 interface WalletType {
@@ -17,11 +17,10 @@ interface WalletType {
 }
 
 const CreateBeneficiary = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
-
-  const { postMutation, data, isSuccess, success, isPending } = usePost('false');
+  const { postMutation, isError, data, isSuccess, success, isPending } = usePost(`listProjectBeneficiary`);
 
   const secretKey = 'your-secret-key'; // Store this securely
 
@@ -34,7 +33,7 @@ const CreateBeneficiary = () => {
     walletAddress: undefined,
     secretKey: undefined,
   });
-  
+
   const createBeneficiaryWallet = () => {
     const { mnemonics, walletAddress, secretKey } = generateRandomBeneficiaryAccount();
     const mnemonicsQRText = `{"version":"1.0", "mnemonic":"${mnemonics}"}`;
@@ -51,23 +50,23 @@ const CreateBeneficiary = () => {
       gender: e.target['gender'].value,
       walletAddress: beneficiaryWallet?.walletAddress,
       mnemonics: encryptedPassword,
+      projectId: id,
     };
 
     await postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
-
-    if (data.email) {
-      snack.default.success('Beneficiary created successfully');
-
-      // toast.success('Beneficiary created successfully');
-      setShouldNavigate(true);
-    } else {
-      snack.default.error('There was a problem with your request');
-    }
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      snack.default.success('Project created successfully');
+      setShouldNavigate(true);
+    } else if (isError) {
+      snack.default.error('There was a problem with your request');
+    }
+  }, [isSuccess, isError]);
+
   if (shouldNavigate) {
-    // toast.success('Beneficiary created successfully');
-    const route = `/admin/project/${id}beneficiary`;
+    const route = `/admin/project/${id}/beneficiary`;
 
     return <Navigate to={route} replace />;
   }
@@ -75,7 +74,6 @@ const CreateBeneficiary = () => {
   return (
     <>
       <div>
-        
         <SnackbarUtilsConfigurator />
       </div>
       <form onSubmit={(e) => createBeneficiary(e)}>

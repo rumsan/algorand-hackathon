@@ -1,23 +1,25 @@
-import SideBar from '@/components/SideBar';
-import { Link, useParams } from 'react-router-dom';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useEffect, useState } from 'react';
-import useGet from '@/hooks/useGet';
-import { URLS } from '@/constants';
+import SideBar from "@/components/SideBar";
+import { Link, useParams } from "react-router-dom";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useEffect, useState } from "react";
+import useGet from "@/hooks/useGet";
+import { URLS } from "@/constants";
+
+
 
 export const navigation = [
   {
-    name: 'Projects',
-    href: '/admin/project/',
+    name: "Projects",
+    href: "/admin/project/",
     current: false,
   },
   {
-    name: 'Beneficiaries',
-    href: '/admin/project/beneficiary',
+    name: "Beneficiaries",
+    href: "/admin/project/beneficiary",
   },
   {
-    name: 'Transactions',
-    href: '/admin/transactions',
+    name: "Transactions",
+    href: "/admin/transactions",
     current: false,
   },
 ];
@@ -30,13 +32,13 @@ export default function Example() {
 
   useEffect(() => {
     if (data) {
-      console.log(data, 'data');
+      console.log(data, "data");
       setProject(data);
       localStorage.setItem('voucherId', JSON.stringify(data.voucherId));
     }
   }, [data]);
 
-  console.log(project, 'beneficiaries');
+  console.log(project, "beneficiaries");
 
   if (!project) {
     return <div>Loading...</div>;
@@ -60,7 +62,7 @@ export default function Example() {
                   className="aspect-[1154/678] w-[72.125rem] bg-gradient-to-br from-[#FF80B5] to-[#9089FC]"
                   style={{
                     clipPath:
-                      'polygon(100% 38.5%, 82.6% 100%, 60.2% 37.7%, 52.4% 32.1%, 47.5% 41.8%, 45.2% 65.6%, 27.5% 23.4%, 0.1% 35.3%, 17.9% 0%, 27.7% 23.4%, 76.2% 2.5%, 74.2% 56%, 100% 38.5%)',
+                      "polygon(100% 38.5%, 82.6% 100%, 60.2% 37.7%, 52.4% 32.1%, 47.5% 41.8%, 45.2% 65.6%, 27.5% 23.4%, 0.1% 35.3%, 17.9% 0%, 27.7% 23.4%, 76.2% 2.5%, 74.2% 56%, 100% 38.5%)",
                   }}
                 />
               </div>
@@ -78,7 +80,7 @@ export default function Example() {
                     <div className=" text-2xl mt-1  font-semibold leading-6 text-gray-900">{project.name}</div>
                     <div className="text-sm leading-6 text-gray-500">
                       status <span className="text-gray-700">{project.status}</span>
-                    </div>{' '}
+                    </div>{" "}
                   </h1>
                 </div>
                 <div>
@@ -97,7 +99,7 @@ export default function Example() {
                 <h2 className="text-2xl font-semibold leading-6 text-gray-900">Project</h2>
                 <dl className="mt-6 grid grid-cols-1 text-sm leading-6 sm:grid-cols-2">
                   <div className="sm:pr-4">
-                    <dt className="inline text-gray-500">Issued on</dt>{' '}
+                    <dt className="inline text-gray-500">Issued on</dt>{" "}
                     <dd className="inline text-gray-700">
                       <time className="text-xl" dateTime="2023-23-01">
                         {project.createdAt}
@@ -105,7 +107,7 @@ export default function Example() {
                     </dd>
                   </div>
                   <div className="mt-2 sm:mt-0 sm:pl-4">
-                    <dt className="inline text-gray-500">Due on</dt>{' '}
+                    <dt className="inline text-gray-500">Due on</dt>{" "}
                     <dd className="inline text-gray-700">
                       <time dateTime="2023-31-01">...</time>
                     </dd>

@@ -93,11 +93,6 @@ const CreateBeneficiary = () => {
       snack.default.error('There was a problem with your request');
     }
   };
-  if (shouldNavigate) {
-    // toast.success('Beneficiary created successfully');
-    const route = `/admin/project/${id}beneficiary`;
-    postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
-  }
 
   useEffect(() => {
     if (isSuccess) {
@@ -110,7 +105,6 @@ const CreateBeneficiary = () => {
 
   if (shouldNavigate) {
     const route = `/admin/project/${id}/beneficiary`;
-
     return <Navigate to={route} replace />;
   }
 

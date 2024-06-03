@@ -132,7 +132,7 @@ export default function BeneficiaryDetail() {
 
   return (
     <>
-      {/* <BeneficiaryDetailClawback /> */}
+      <BeneficiaryDetailClawback />
       <div className="flex">
         {/* Sidebar */}
         <SideBar />

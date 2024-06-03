@@ -1,7 +1,7 @@
 [
   {
     "teal": 1,
-    "source": 3,
+    "source": 4,
     "pc": [
       0,
       1,
@@ -10,66 +10,66 @@
       4,
       5,
       6,
-      7,
+      7
+    ]
+  },
+  {
+    "teal": 13,
+    "source": 4,
+    "pc": [
       8,
-      9,
-      10,
+      9
+    ]
+  },
+  {
+    "teal": 14,
+    "source": 4,
+    "pc": [
+      10
+    ]
+  },
+  {
+    "teal": 15,
+    "source": 4,
+    "pc": [
       11,
-      12,
-      13,
+      12
+    ]
+  },
+  {
+    "teal": 16,
+    "source": 4,
+    "pc": [
+      13
+    ]
+  },
+  {
+    "teal": 17,
+    "source": 4,
+    "pc": [
       14,
       15
     ]
   },
   {
-    "teal": 13,
-    "source": 3,
-    "pc": [
-      16,
-      17
-    ]
-  },
-  {
     "teal": 18,
-    "source": 3,
+    "source": 4,
     "pc": [
-      18
-    ]
-  },
-  {
-    "teal": 15,
-    "source": 3,
-    "pc": [
-      19,
-      20
-    ]
-  },
-  {
-    "teal": 16,
-    "source": 3,
-    "pc": [
-      21
-    ]
-  },
-  {
-    "teal": 17,
-    "source": 3,
-    "pc": [
-      22,
-      23
-    ]
-  },
-  {
-    "teal": 18,
-    "source": 3,
-    "pc": [
-      24
+      16
     ]
   },
   {
     "teal": 19,
-    "source": 3,
+    "source": 4,
     "pc": [
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
       25,
       26,
       27,
@@ -87,28 +87,65 @@
       39,
       40,
       41,
-      42,
-      43,
-      44,
-      45,
-      46,
-      47,
-      48,
-      49,
-      50
+      42
     ]
   },
   {
     "teal": 23,
-    "source": 3,
+    "source": 4,
     "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+    "pc": [
+      43
+    ]
+  },
+  {
+    "teal": 28,
+    "source": 16,
+    "pc": [
+      44,
+      45,
+      46
+    ]
+  },
+  {
+    "teal": 29,
+    "source": 16,
+    "pc": [
+      47
+    ]
+  },
+  {
+    "teal": 30,
+    "source": 16,
+    "pc": [
+      48
+    ]
+  },
+  {
+    "teal": 31,
+    "source": 16,
+    "pc": [
+      49
+    ]
+  },
+  {
+    "teal": 32,
+    "source": 16,
+    "pc": [
+      50
+    ]
+  },
+  {
+    "teal": 35,
+    "source": 16,
+    "errorMessage": "argument 0 (_address) for assignBeneficiary must be a address",
     "pc": [
       51
     ]
   },
   {
-    "teal": 28,
-    "source": 15,
+    "teal": 38,
+    "source": 16,
     "pc": [
       52,
       53,
@@ -116,133 +153,114 @@
     ]
   },
   {
-    "teal": 29,
-    "source": 15,
+    "teal": 39,
+    "source": 16,
     "pc": [
       55
     ]
   },
   {
-    "teal": 30,
-    "source": 15,
+    "teal": 40,
+    "source": 16,
     "pc": [
       56
     ]
   },
   {
-    "teal": 31,
-    "source": 15,
+    "teal": 49,
+    "source": 16,
     "pc": [
-      57
-    ]
-  },
-  {
-    "teal": 32,
-    "source": 15,
-    "pc": [
-      58
-    ]
-  },
-  {
-    "teal": 35,
-    "source": 15,
-    "errorMessage": "argument 0 (_address) for assignBeneficiary must be a address",
-    "pc": [
+      57,
+      58,
       59
     ]
   },
   {
-    "teal": 38,
-    "source": 15,
+    "teal": 53,
+    "source": 17,
     "pc": [
       60,
-      61,
+      61
+    ]
+  },
+  {
+    "teal": 54,
+    "source": 17,
+    "pc": [
       62
     ]
   },
   {
-    "teal": 39,
-    "source": 15,
+    "teal": 55,
+    "source": 17,
     "pc": [
       63
     ]
   },
   {
-    "teal": 40,
-    "source": 15,
+    "teal": 56,
+    "source": 17,
     "pc": [
       64
     ]
   },
   {
-    "teal": 49,
-    "source": 15,
-    "pc": [
-      65,
-      66,
-      67
-    ]
-  },
-  {
-    "teal": 53,
-    "source": 16,
-    "pc": [
-      68,
-      69
-    ]
-  },
-  {
-    "teal": 54,
-    "source": 16,
-    "pc": [
-      70
-    ]
-  },
-  {
-    "teal": 55,
-    "source": 16,
-    "pc": [
-      71
-    ]
-  },
-  {
-    "teal": 56,
-    "source": 16,
-    "pc": [
-      72
-    ]
-  },
-  {
     "teal": 57,
-    "source": 16,
+    "source": 17,
     "pc": [
-      73
+      65
     ]
   },
   {
     "teal": 60,
-    "source": 16,
+    "source": 17,
     "errorMessage": "Beneficiary already assigned to project",
     "pc": [
-      74
+      66
     ]
   },
   {
     "teal": 64,
-    "source": 18,
+    "source": 19,
     "pc": [
-      75,
-      76
+      67,
+      68
     ]
   },
   {
     "teal": 65,
-    "source": 18,
+    "source": 19,
     "pc": [
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
       77,
-      78,
-      79,
-      80,
+      78
+    ]
+  },
+  {
+    "teal": 66,
+    "source": 19,
+    "pc": [
+      79
+    ]
+  },
+  {
+    "teal": 67,
+    "source": 16,
+    "pc": [
+      80
+    ]
+  },
+  {
+    "teal": 72,
+    "source": 28,
+    "pc": [
       81,
       82,
       83,
@@ -252,872 +270,782 @@
     ]
   },
   {
-    "teal": 66,
-    "source": 18,
-    "pc": [
-      87
-    ]
-  },
-  {
-    "teal": 67,
-    "source": 15,
-    "pc": [
-      88
-    ]
-  },
-  {
-    "teal": 72,
-    "source": 26,
-    "pc": [
-      89,
-      90,
-      91,
-      92,
-      93,
-      94
-    ]
-  },
-  {
     "teal": 75,
-    "source": 26,
+    "source": 28,
     "pc": [
-      95,
-      96,
-      97
+      87,
+      88,
+      89
     ]
   },
   {
     "teal": 76,
-    "source": 27,
+    "source": 28,
     "pc": [
-      99,
-      100,
-      101,
-      102,
-      103,
-      104
+      90,
+      91,
+      92
     ]
   },
   {
     "teal": 79,
-    "source": 27,
+    "source": 28,
     "pc": [
-      98
-    ]
-  },
-  {
-    "teal": 77,
-    "source": 26,
-    "pc": [
-      99
-    ]
-  },
-  {
-    "teal": 78,
-    "source": 26,
-    "pc": [
-      100
-    ]
-  },
-  {
-    "teal": 83,
-    "source": 27,
-    "pc": [
-      101
+      93,
+      94,
+      95
     ]
   },
   {
     "teal": 80,
-    "source": 26,
+    "source": 28,
+    "pc": [
+      96,
+      97,
+      98
+    ]
+  },
+  {
+    "teal": 83,
+    "source": 28,
+    "pc": [
+      99,
+      100,
+      101
+    ]
+  },
+  {
+    "teal": 84,
+    "source": 28,
     "pc": [
       102
     ]
   },
   {
-    "teal": 88,
-    "source": 26,
+    "teal": 85,
+    "source": 28,
     "pc": [
-      103,
-      104,
+      103
+    ]
+  },
+  {
+    "teal": 86,
+    "source": 28,
+    "pc": [
+      104
+    ]
+  },
+  {
+    "teal": 87,
+    "source": 28,
+    "pc": [
       105
     ]
   },
   {
-    "teal": 91,
-    "source": 26,
+    "teal": 88,
+    "source": 28,
     "pc": [
-      106,
-      107
+      106
     ]
   },
   {
-    "teal": 96,
-    "source": 27,
+    "teal": 97,
+    "source": 28,
     "pc": [
+      107,
       108,
       109
     ]
   },
   {
-    "teal": 97,
-    "source": 27,
+    "teal": 100,
+    "source": 28,
     "pc": [
       110,
-      111,
-      112
+      111
     ]
   },
   {
-    "teal": 98,
-    "source": 27,
+    "teal": 105,
+    "source": 29,
     "pc": [
-      113,
-      114
+      112,
+      113
     ]
   },
   {
-    "teal": 99,
-    "source": 27,
+    "teal": 106,
+    "source": 29,
     "pc": [
-      115
-    ]
-  },
-  {
-    "teal": 100,
-    "source": 27,
-    "pc": [
+      114,
+      115,
       116
     ]
   },
   {
-    "teal": 103,
-    "source": 27,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.app.creator\"}",
+    "teal": 107,
+    "source": 29,
     "pc": [
-      117
-    ]
-  },
-  {
-    "teal": 110,
-    "source": 28,
-    "pc": [
+      117,
       118
     ]
   },
   {
-    "teal": 111,
-    "source": 28,
+    "teal": 108,
+    "source": 29,
     "pc": [
-      119,
+      119
+    ]
+  },
+  {
+    "teal": 109,
+    "source": 29,
+    "pc": [
       120
     ]
   },
   {
     "teal": 112,
-    "source": 28,
-    "pc": [
-      121,
-      122
-    ]
-  },
-  {
-    "teal": 116,
     "source": 29,
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.app.creator\"}",
     "pc": [
-      123,
-      124,
-      125,
-      126,
-      127,
-      128,
-      129,
-      130,
-      131
-    ]
-  },
-  {
-    "teal": 117,
-    "source": 29,
-    "pc": [
-      132,
-      133
-    ]
-  },
-  {
-    "teal": 121,
-    "source": 30,
-    "pc": [
-      134,
-      135
+      121
     ]
   },
   {
     "teal": 122,
     "source": 30,
     "pc": [
+      122
+    ]
+  },
+  {
+    "teal": 123,
+    "source": 30,
+    "pc": [
+      123,
+      124
+    ]
+  },
+  {
+    "teal": 124,
+    "source": 30,
+    "pc": [
+      125,
+      126
+    ]
+  },
+  {
+    "teal": 128,
+    "source": 31,
+    "pc": [
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135
+    ]
+  },
+  {
+    "teal": 129,
+    "source": 31,
+    "pc": [
       136,
       137
     ]
   },
   {
-    "teal": 125,
-    "source": 28,
+    "teal": 133,
+    "source": 32,
     "pc": [
-      138
+      138,
+      139
     ]
   },
   {
-    "teal": 126,
-    "source": 28,
+    "teal": 134,
+    "source": 32,
     "pc": [
-      139,
-      140
-    ]
-  },
-  {
-    "teal": 132,
-    "source": 30,
-    "pc": [
+      140,
       141
     ]
   },
   {
-    "teal": 130,
-    "source": 28,
+    "teal": 138,
+    "source": 33,
     "pc": [
       142,
       143
     ]
   },
   {
-    "teal": 131,
-    "source": 28,
+    "teal": 139,
+    "source": 33,
     "pc": [
       144,
       145
     ]
   },
   {
-    "teal": 135,
-    "source": 32,
+    "teal": 143,
+    "source": 34,
     "pc": [
-      146
+      146,
+      147
     ]
   },
   {
-    "teal": 136,
-    "source": 32,
+    "teal": 144,
+    "source": 34,
     "pc": [
-      147,
-      148
-    ]
-  },
-  {
-    "teal": 137,
-    "source": 32,
-    "pc": [
+      148,
       149
     ]
   },
   {
-    "teal": 141,
-    "source": 33,
+    "teal": 148,
+    "source": 35,
     "pc": [
       150,
       151
     ]
   },
   {
-    "teal": 144,
-    "source": 26,
+    "teal": 149,
+    "source": 35,
     "pc": [
       152,
       153
     ]
   },
   {
-    "teal": 145,
-    "source": 26,
+    "teal": 152,
+    "source": 30,
     "pc": [
       154
     ]
   },
   {
-    "teal": 150,
-    "source": 41,
+    "teal": 153,
+    "source": 30,
     "pc": [
       155,
-      156,
+      156
+    ]
+  },
+  {
+    "teal": 156,
+    "source": 30,
+    "pc": [
       157
     ]
   },
   {
-    "teal": 151,
-    "source": 41,
+    "teal": 157,
+    "source": 30,
     "pc": [
-      158
+      158,
+      159
     ]
   },
   {
-    "teal": 154,
-    "source": 29,
+    "teal": 158,
+    "source": 30,
     "pc": [
-      171
-    ]
-  },
-  {
-    "teal": 155,
-    "source": 29,
-    "pc": [
-      159,
       160,
       161
     ]
   },
   {
-    "teal": 156,
-    "source": 29,
+    "teal": 162,
+    "source": 38,
     "pc": [
-      162
-    ]
-  },
-  {
-    "teal": 156,
-    "source": 41,
-    "pc": [
-      163
-    ]
-  },
-  {
-    "teal": 157,
-    "source": 41,
-    "pc": [
-      164
-    ]
-  },
-  {
-    "teal": 158,
-    "source": 41,
-    "pc": [
-      165
-    ]
-  },
-  {
-    "teal": 161,
-    "source": 41,
-    "errorMessage": "argument 1 (benAddress) for sendTokenToBeneficiary must be a address",
-    "pc": [
-      166
-    ]
-  },
-  {
-    "teal": 164,
-    "source": 41,
-    "pc": [
+      162,
+      163,
+      164,
+      165,
+      166,
       167,
-      168,
-      169
+      168
     ]
   },
   {
-    "teal": 165,
-    "source": 41,
+    "teal": 163,
+    "source": 38,
     "pc": [
+      169,
       170
     ]
   },
   {
-    "teal": 166,
-    "source": 41,
+    "teal": 164,
+    "source": 38,
     "pc": [
       171
     ]
   },
   {
-    "teal": 174,
-    "source": 41,
+    "teal": 168,
+    "source": 39,
     "pc": [
       172,
-      173,
-      174
+      173
     ]
   },
   {
-    "teal": 178,
-    "source": 42,
+    "teal": 171,
+    "source": 28,
     "pc": [
-      175,
+      174,
+      175
+    ]
+  },
+  {
+    "teal": 172,
+    "source": 28,
+    "pc": [
       176
     ]
   },
   {
-    "teal": 179,
-    "source": 42,
+    "teal": 177,
+    "source": 49,
     "pc": [
-      177
-    ]
-  },
-  {
-    "teal": 180,
-    "source": 42,
-    "pc": [
-      178
-    ]
-  },
-  {
-    "teal": 181,
-    "source": 42,
-    "pc": [
+      177,
+      178,
       179
     ]
   },
   {
-    "teal": 184,
-    "source": 42,
-    "errorMessage": "Beneficiary is not assigned.",
+    "teal": 178,
+    "source": 49,
     "pc": [
       180
     ]
   },
   {
-    "teal": 192,
-    "source": 44,
+    "teal": 181,
+    "source": 49,
     "pc": [
-      181
+      181,
+      182,
+      183
     ]
   },
   {
-    "teal": 193,
-    "source": 44,
+    "teal": 182,
+    "source": 49,
     "pc": [
-      182
-    ]
-  },
-  {
-    "teal": 194,
-    "source": 44,
-    "pc": [
-      183,
       184
     ]
   },
   {
-    "teal": 198,
-    "source": 45,
+    "teal": 185,
+    "source": 49,
     "pc": [
-      185
+      185,
+      186,
+      187
     ]
   },
   {
-    "teal": 199,
-    "source": 45,
+    "teal": 186,
+    "source": 49,
     "pc": [
-      186
-    ]
-  },
-  {
-    "teal": 200,
-    "source": 45,
-    "pc": [
-      187,
       188
     ]
   },
   {
-    "teal": 204,
-    "source": 46,
+    "teal": 187,
+    "source": 49,
     "pc": [
-      189,
+      189
+    ]
+  },
+  {
+    "teal": 188,
+    "source": 49,
+    "pc": [
       190
     ]
   },
   {
-    "teal": 205,
-    "source": 46,
+    "teal": 189,
+    "source": 49,
     "pc": [
-      191,
+      191
+    ]
+  },
+  {
+    "teal": 192,
+    "source": 49,
+    "errorMessage": "argument 2 (benAddress) for sendTokenToBeneficiary must be a address",
+    "pc": [
       192
     ]
   },
   {
-    "teal": 209,
-    "source": 47,
+    "teal": 195,
+    "source": 49,
     "pc": [
       193,
-      194
+      194,
+      195
     ]
   },
   {
-    "teal": 210,
-    "source": 47,
+    "teal": 196,
+    "source": 49,
     "pc": [
-      195,
       196
     ]
   },
   {
-    "teal": 213,
-    "source": 44,
+    "teal": 197,
+    "source": 49,
     "pc": [
-      195,
-      196,
       197
     ]
   },
   {
-    "teal": 214,
-    "source": 44,
+    "teal": 206,
+    "source": 49,
     "pc": [
       198,
-      199
-    ]
-  },
-  {
-    "teal": 217,
-    "source": 44,
-    "pc": [
+      199,
       200
     ]
   },
   {
-    "teal": 221,
-    "source": 51,
+    "teal": 211,
+    "source": 53,
     "pc": [
       201,
       202
     ]
   },
   {
-    "teal": 222,
-    "source": 51,
+    "teal": 212,
+    "source": 53,
     "pc": [
       203,
-      204
-    ]
-  },
-  {
-    "teal": 223,
-    "source": 51,
-    "pc": [
+      204,
       205
     ]
   },
   {
-    "teal": 224,
-    "source": 51,
+    "teal": 213,
+    "source": 53,
     "pc": [
-      206
-    ]
-  },
-  {
-    "teal": 232,
-    "source": 54,
-    "pc": [
+      206,
       207
     ]
   },
   {
-    "teal": 233,
-    "source": 54,
+    "teal": 214,
+    "source": 53,
     "pc": [
-      208,
+      208
+    ]
+  },
+  {
+    "teal": 215,
+    "source": 53,
+    "pc": [
       209
     ]
   },
   {
-    "teal": 234,
-    "source": 54,
+    "teal": 218,
+    "source": 53,
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.app.creator\"}",
     "pc": [
-      210,
+      210
+    ]
+  },
+  {
+    "teal": 226,
+    "source": 56,
+    "pc": [
       211
     ]
   },
   {
-    "teal": 238,
-    "source": 55,
+    "teal": 227,
+    "source": 56,
     "pc": [
       212
     ]
   },
   {
-    "teal": 239,
-    "source": 55,
-    "pc": [
-      213
-    ]
-  },
-  {
-    "teal": 240,
-    "source": 55,
-    "pc": [
-      214,
-      215
-    ]
-  },
-  {
-    "teal": 244,
+    "teal": 228,
     "source": 56,
     "pc": [
-      216,
-      217
+      213,
+      214
     ]
   },
   {
-    "teal": 245,
-    "source": 56,
-    "pc": [
-      218,
-      219
-    ]
-  },
-  {
-    "teal": 249,
+    "teal": 232,
     "source": 57,
     "pc": [
+      215,
+      216
+    ]
+  },
+  {
+    "teal": 233,
+    "source": 57,
+    "pc": [
+      217,
+      218
+    ]
+  },
+  {
+    "teal": 237,
+    "source": 58,
+    "pc": [
+      219,
       220
     ]
   },
   {
-    "teal": 250,
-    "source": 57,
+    "teal": 238,
+    "source": 58,
     "pc": [
       221,
       222
     ]
   },
   {
-    "teal": 253,
-    "source": 54,
+    "teal": 242,
+    "source": 59,
     "pc": [
-      223
+      223,
+      224
     ]
   },
   {
-    "teal": 254,
-    "source": 54,
+    "teal": 243,
+    "source": 59,
     "pc": [
-      224,
-      225
-    ]
-  },
-  {
-    "teal": 257,
-    "source": 54,
-    "pc": [
+      225,
       226
     ]
   },
   {
-    "teal": 258,
-    "source": 41,
+    "teal": 246,
+    "source": 56,
     "pc": [
-      227,
-      228
+      227
     ]
   },
   {
-    "teal": 263,
-    "source": 65,
+    "teal": 247,
+    "source": 56,
     "pc": [
       228,
-      229,
+      229
+    ]
+  },
+  {
+    "teal": 250,
+    "source": 56,
+    "pc": [
       230
     ]
   },
   {
-    "teal": 264,
-    "source": 65,
+    "teal": 258,
+    "source": 66,
     "pc": [
       231
     ]
   },
   {
-    "teal": 265,
-    "source": 65,
+    "teal": 259,
+    "source": 66,
     "pc": [
-      232
+      232,
+      233
     ]
   },
   {
-    "teal": 266,
-    "source": 65,
+    "teal": 260,
+    "source": 66,
     "pc": [
-      233,
-      234
-    ]
-  },
-  {
-    "teal": 267,
-    "source": 65,
-    "pc": [
-      234
-    ]
-  },
-  {
-    "teal": 270,
-    "source": 65,
-    "errorMessage": "argument 0 (benAddress) for unfreezeBeneficiaryAsset must be a address",
-    "pc": [
+      234,
       235
     ]
   },
   {
-    "teal": 273,
-    "source": 65,
+    "teal": 264,
+    "source": 67,
     "pc": [
       236,
-      237,
-      238
+      237
     ]
   },
   {
-    "teal": 274,
-    "source": 65,
+    "teal": 265,
+    "source": 67,
     "pc": [
+      238,
       239
     ]
   },
   {
-    "teal": 266,
-    "source": 65,
+    "teal": 269,
+    "source": 68,
     "pc": [
-      240
+      240,
+      241
     ]
   },
   {
-    "teal": 282,
-    "source": 65,
+    "teal": 270,
+    "source": 68,
     "pc": [
-      241,
       242,
       243
     ]
   },
   {
-    "teal": 290,
-    "source": 67,
+    "teal": 274,
+    "source": 69,
     "pc": [
       244
     ]
   },
   {
-    "teal": 291,
-    "source": 67,
+    "teal": 275,
+    "source": 69,
     "pc": [
       245,
       246
     ]
   },
   {
-    "teal": 292,
-    "source": 67,
+    "teal": 278,
+    "source": 66,
     "pc": [
-      247,
-      248
+      247
     ]
   },
   {
-    "teal": 296,
-    "source": 68,
+    "teal": 279,
+    "source": 66,
     "pc": [
+      248,
       249
     ]
   },
   {
-    "teal": 297,
-    "source": 68,
+    "teal": 282,
+    "source": 66,
     "pc": [
       250
     ]
   },
   {
-    "teal": 298,
-    "source": 68,
+    "teal": 283,
+    "source": 49,
     "pc": [
-      251,
-      252
+      251
     ]
   },
   {
-    "teal": 302,
-    "source": 69,
+    "teal": 288,
+    "source": 77,
     "pc": [
+      252,
       253,
       254
     ]
   },
   {
-    "teal": 303,
-    "source": 69,
+    "teal": 289,
+    "source": 77,
     "pc": [
-      255,
-      256
+      255
     ]
   },
   {
-    "teal": 307,
-    "source": 70,
+    "teal": 292,
+    "source": 77,
     "pc": [
-      257
+      256,
+      257,
+      258
     ]
   },
   {
-    "teal": 308,
-    "source": 70,
+    "teal": 293,
+    "source": 77,
     "pc": [
-      258,
       259
     ]
   },
   {
-    "teal": 311,
-    "source": 67,
+    "teal": 294,
+    "source": 77,
     "pc": [
-      259,
       260
     ]
   },
   {
-    "teal": 312,
-    "source": 67,
+    "teal": 295,
+    "source": 77,
     "pc": [
-      261,
+      261
+    ]
+  },
+  {
+    "teal": 296,
+    "source": 77,
+    "pc": [
       262
     ]
   },
   {
-    "teal": 315,
-    "source": 67,
+    "teal": 299,
+    "source": 77,
+    "errorMessage": "argument 1 (benAddress) for freezeBeneficiaryAsset must be a address",
     "pc": [
       263
     ]
   },
   {
-    "teal": 316,
-    "source": 65,
+    "teal": 302,
+    "source": 77,
     "pc": [
-      264
+      264,
+      265,
+      266
     ]
   },
   {
-    "teal": 321,
-    "source": 79,
+    "teal": 303,
+    "source": 77,
     "pc": [
-      265,
-      266,
       267
     ]
   },
   {
-    "teal": 322,
-    "source": 79,
+    "teal": 304,
+    "source": 77,
     "pc": [
       268
     ]
   },
   {
-    "teal": 325,
-    "source": 79,
+    "teal": 311,
+    "source": 77,
     "pc": [
       269,
       270,
@@ -1125,321 +1053,902 @@
     ]
   },
   {
-    "teal": 326,
-    "source": 79,
+    "teal": 319,
+    "source": 78,
     "pc": [
       272
     ]
   },
   {
-    "teal": 327,
-    "source": 79,
+    "teal": 320,
+    "source": 78,
     "pc": [
-      273
-    ]
-  },
-  {
-    "teal": 328,
-    "source": 79,
-    "pc": [
+      273,
       274
     ]
   },
   {
-    "teal": 329,
-    "source": 79,
+    "teal": 321,
+    "source": 78,
     "pc": [
-      275
-    ]
-  },
-  {
-    "teal": 332,
-    "source": 79,
-    "errorMessage": "argument 1 (venderAddress) for sendTokenToVendor must be a address",
-    "pc": [
+      275,
       276
     ]
   },
   {
-    "teal": 335,
+    "teal": 325,
     "source": 79,
     "pc": [
       277,
-      278,
-      279
+      278
     ]
   },
   {
-    "teal": 336,
+    "teal": 326,
     "source": 79,
     "pc": [
+      279,
       280
     ]
   },
   {
-    "teal": 337,
-    "source": 79,
+    "teal": 330,
+    "source": 80,
     "pc": [
-      281
+      281,
+      282
     ]
   },
   {
-    "teal": 345,
-    "source": 79,
+    "teal": 331,
+    "source": 80,
     "pc": [
-      282,
       283,
       284
     ]
   },
   {
-    "teal": 353,
+    "teal": 335,
     "source": 81,
     "pc": [
       285
     ]
   },
   {
-    "teal": 354,
+    "teal": 336,
     "source": 81,
     "pc": [
-      286
+      286,
+      287
     ]
   },
   {
-    "teal": 355,
-    "source": 81,
+    "teal": 339,
+    "source": 78,
     "pc": [
-      287,
       288
     ]
   },
   {
-    "teal": 359,
-    "source": 82,
+    "teal": 340,
+    "source": 78,
     "pc": [
-      289
-    ]
-  },
-  {
-    "teal": 360,
-    "source": 82,
-    "pc": [
+      289,
       290
     ]
   },
   {
-    "teal": 361,
-    "source": 82,
+    "teal": 343,
+    "source": 78,
     "pc": [
-      291,
+      291
+    ]
+  },
+  {
+    "teal": 344,
+    "source": 77,
+    "pc": [
       292
     ]
   },
   {
-    "teal": 365,
-    "source": 83,
+    "teal": 349,
+    "source": 89,
     "pc": [
       293,
-      294
+      294,
+      295
     ]
   },
   {
-    "teal": 366,
-    "source": 83,
+    "teal": 350,
+    "source": 89,
     "pc": [
-      295,
       296
     ]
   },
   {
-    "teal": 370,
-    "source": 84,
+    "teal": 353,
+    "source": 89,
     "pc": [
       297,
-      298
+      298,
+      299
     ]
   },
   {
-    "teal": 371,
-    "source": 84,
+    "teal": 354,
+    "source": 89,
     "pc": [
-      299,
       300
     ]
   },
   {
-    "teal": 374,
-    "source": 81,
+    "teal": 355,
+    "source": 89,
     "pc": [
       301
     ]
   },
   {
-    "teal": 375,
-    "source": 81,
+    "teal": 356,
+    "source": 89,
     "pc": [
-      302,
+      302
+    ]
+  },
+  {
+    "teal": 357,
+    "source": 89,
+    "pc": [
       303
     ]
   },
   {
-    "teal": 378,
-    "source": 81,
+    "teal": 360,
+    "source": 89,
+    "errorMessage": "argument 1 (benAddress) for unfreezeBeneficiaryAsset must be a address",
     "pc": [
       304
     ]
   },
   {
-    "teal": 379,
-    "source": 79,
+    "teal": 363,
+    "source": 89,
     "pc": [
-      305
-    ]
-  },
-  {
-    "teal": 382,
-    "source": 3,
-    "pc": [
-      306
-    ]
-  },
-  {
-    "teal": 383,
-    "source": 3,
-    "pc": [
+      305,
+      306,
       307
     ]
   },
   {
-    "teal": 386,
-    "source": 3,
+    "teal": 364,
+    "source": 89,
     "pc": [
-      308,
-      309,
+      308
+    ]
+  },
+  {
+    "teal": 365,
+    "source": 89,
+    "pc": [
+      309
+    ]
+  },
+  {
+    "teal": 372,
+    "source": 89,
+    "pc": [
       310,
       311,
-      312,
+      312
+    ]
+  },
+  {
+    "teal": 380,
+    "source": 91,
+    "pc": [
       313
     ]
   },
   {
-    "teal": 387,
-    "source": 3,
+    "teal": 381,
+    "source": 91,
     "pc": [
       314,
-      315,
+      315
+    ]
+  },
+  {
+    "teal": 382,
+    "source": 91,
+    "pc": [
       316,
       317
     ]
   },
   {
-    "teal": 388,
-    "source": 3,
+    "teal": 386,
+    "source": 92,
     "pc": [
-      317,
       318,
-      319,
-      320
+      319
     ]
   },
   {
-    "teal": 391,
-    "source": 3,
-    "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+    "teal": 387,
+    "source": 92,
     "pc": [
+      320,
       321
     ]
   },
   {
-    "teal": 394,
-    "source": 3,
+    "teal": 391,
+    "source": 93,
     "pc": [
       322,
-      323,
-      324,
-      325,
-      326,
-      327
+      323
     ]
   },
   {
-    "teal": 395,
-    "source": 3,
+    "teal": 392,
+    "source": 93,
     "pc": [
-      328,
-      329,
-      330
+      324,
+      325
     ]
   },
   {
     "teal": 396,
-    "source": 3,
+    "source": 94,
     "pc": [
-      335,
-      336,
-      337,
-      338,
-      339
+      326
     ]
   },
   {
     "teal": 397,
-    "source": 3,
+    "source": 94,
     "pc": [
-      340,
-      341,
-      342,
-      343,
-      344,
-      345
-    ]
-  },
-  {
-    "teal": 398,
-    "source": 3,
-    "pc": [
-      346,
-      347,
-      348,
-      349,
-      350,
-      351
-    ]
-  },
-  {
-    "teal": 399,
-    "source": 3,
-    "pc": [
-      352,
-      353,
-      354
+      327,
+      328
     ]
   },
   {
     "teal": 400,
-    "source": 3,
+    "source": 91,
     "pc": [
-      355,
-      356,
-      357,
-      358,
-      359,
-      360,
-      361,
-      362,
-      363,
-      364,
-      365,
-      366
+      329
     ]
   },
   {
-    "teal": 403,
-    "source": 3,
+    "teal": 401,
+    "source": 91,
+    "pc": [
+      330,
+      331
+    ]
+  },
+  {
+    "teal": 404,
+    "source": 91,
+    "pc": [
+      332
+    ]
+  },
+  {
+    "teal": 405,
+    "source": 89,
+    "pc": [
+      333
+    ]
+  },
+  {
+    "teal": 410,
+    "source": 103,
+    "pc": [
+      334,
+      335,
+      336
+    ]
+  },
+  {
+    "teal": 411,
+    "source": 103,
+    "pc": [
+      337
+    ]
+  },
+  {
+    "teal": 414,
+    "source": 103,
+    "pc": [
+      338,
+      339,
+      340
+    ]
+  },
+  {
+    "teal": 415,
+    "source": 103,
+    "pc": [
+      341
+    ]
+  },
+  {
+    "teal": 418,
+    "source": 103,
+    "pc": [
+      342,
+      343,
+      344
+    ]
+  },
+  {
+    "teal": 419,
+    "source": 103,
+    "pc": [
+      345
+    ]
+  },
+  {
+    "teal": 420,
+    "source": 103,
+    "pc": [
+      346
+    ]
+  },
+  {
+    "teal": 421,
+    "source": 103,
+    "pc": [
+      347
+    ]
+  },
+  {
+    "teal": 422,
+    "source": 103,
+    "pc": [
+      348
+    ]
+  },
+  {
+    "teal": 425,
+    "source": 103,
+    "errorMessage": "argument 2 (venderAddress) for sendTokenToVendor must be a address",
+    "pc": [
+      349
+    ]
+  },
+  {
+    "teal": 428,
+    "source": 103,
+    "pc": [
+      350,
+      351,
+      352
+    ]
+  },
+  {
+    "teal": 429,
+    "source": 103,
+    "pc": [
+      353
+    ]
+  },
+  {
+    "teal": 430,
+    "source": 103,
+    "pc": [
+      354
+    ]
+  },
+  {
+    "teal": 438,
+    "source": 103,
+    "pc": [
+      355,
+      356,
+      357
+    ]
+  },
+  {
+    "teal": 446,
+    "source": 105,
+    "pc": [
+      358
+    ]
+  },
+  {
+    "teal": 447,
+    "source": 105,
+    "pc": [
+      359
+    ]
+  },
+  {
+    "teal": 448,
+    "source": 105,
+    "pc": [
+      360,
+      361
+    ]
+  },
+  {
+    "teal": 452,
+    "source": 106,
+    "pc": [
+      362,
+      363
+    ]
+  },
+  {
+    "teal": 453,
+    "source": 106,
+    "pc": [
+      364,
+      365
+    ]
+  },
+  {
+    "teal": 457,
+    "source": 107,
+    "pc": [
+      366,
+      367
+    ]
+  },
+  {
+    "teal": 458,
+    "source": 107,
+    "pc": [
+      368,
+      369
+    ]
+  },
+  {
+    "teal": 462,
+    "source": 108,
+    "pc": [
+      370,
+      371
+    ]
+  },
+  {
+    "teal": 463,
+    "source": 108,
+    "pc": [
+      372,
+      373
+    ]
+  },
+  {
+    "teal": 466,
+    "source": 105,
+    "pc": [
+      374
+    ]
+  },
+  {
+    "teal": 467,
+    "source": 105,
+    "pc": [
+      375,
+      376
+    ]
+  },
+  {
+    "teal": 470,
+    "source": 105,
+    "pc": [
+      377
+    ]
+  },
+  {
+    "teal": 471,
+    "source": 103,
+    "pc": [
+      378
+    ]
+  },
+  {
+    "teal": 476,
+    "source": 118,
+    "pc": [
+      379,
+      380,
+      381
+    ]
+  },
+  {
+    "teal": 477,
+    "source": 118,
+    "pc": [
+      382
+    ]
+  },
+  {
+    "teal": 480,
+    "source": 118,
+    "pc": [
+      383,
+      384,
+      385
+    ]
+  },
+  {
+    "teal": 481,
+    "source": 118,
+    "pc": [
+      386
+    ]
+  },
+  {
+    "teal": 484,
+    "source": 118,
+    "pc": [
+      387,
+      388,
+      389
+    ]
+  },
+  {
+    "teal": 485,
+    "source": 118,
+    "pc": [
+      390
+    ]
+  },
+  {
+    "teal": 486,
+    "source": 118,
+    "pc": [
+      391
+    ]
+  },
+  {
+    "teal": 487,
+    "source": 118,
+    "pc": [
+      392
+    ]
+  },
+  {
+    "teal": 488,
+    "source": 118,
+    "pc": [
+      393
+    ]
+  },
+  {
+    "teal": 491,
+    "source": 118,
+    "errorMessage": "argument 2 (benAddress) for clawbackBeneficiaryAsset must be a address",
+    "pc": [
+      394
+    ]
+  },
+  {
+    "teal": 494,
+    "source": 118,
+    "pc": [
+      395,
+      396,
+      397
+    ]
+  },
+  {
+    "teal": 495,
+    "source": 118,
+    "pc": [
+      398
+    ]
+  },
+  {
+    "teal": 496,
+    "source": 118,
+    "pc": [
+      399
+    ]
+  },
+  {
+    "teal": 505,
+    "source": 118,
+    "pc": [
+      400,
+      401,
+      402
+    ]
+  },
+  {
+    "teal": 514,
+    "source": 123,
+    "pc": [
+      403
+    ]
+  },
+  {
+    "teal": 515,
+    "source": 123,
+    "pc": [
+      404
+    ]
+  },
+  {
+    "teal": 516,
+    "source": 123,
+    "pc": [
+      405,
+      406
+    ]
+  },
+  {
+    "teal": 520,
+    "source": 124,
+    "pc": [
+      407,
+      408
+    ]
+  },
+  {
+    "teal": 521,
+    "source": 124,
+    "pc": [
+      409,
+      410
+    ]
+  },
+  {
+    "teal": 525,
+    "source": 125,
+    "pc": [
+      411,
+      412
+    ]
+  },
+  {
+    "teal": 526,
+    "source": 125,
+    "pc": [
+      413,
+      414
+    ]
+  },
+  {
+    "teal": 530,
+    "source": 126,
+    "pc": [
+      415,
+      416
+    ]
+  },
+  {
+    "teal": 531,
+    "source": 126,
+    "pc": [
+      417,
+      418
+    ]
+  },
+  {
+    "teal": 535,
+    "source": 127,
+    "pc": [
+      419,
+      420
+    ]
+  },
+  {
+    "teal": 536,
+    "source": 127,
+    "pc": [
+      421,
+      422
+    ]
+  },
+  {
+    "teal": 539,
+    "source": 123,
+    "pc": [
+      423
+    ]
+  },
+  {
+    "teal": 540,
+    "source": 123,
+    "pc": [
+      424,
+      425
+    ]
+  },
+  {
+    "teal": 543,
+    "source": 123,
+    "pc": [
+      426
+    ]
+  },
+  {
+    "teal": 544,
+    "source": 118,
+    "pc": [
+      427
+    ]
+  },
+  {
+    "teal": 547,
+    "source": 4,
+    "pc": [
+      428
+    ]
+  },
+  {
+    "teal": 548,
+    "source": 4,
+    "pc": [
+      429
+    ]
+  },
+  {
+    "teal": 551,
+    "source": 4,
+    "pc": [
+      430,
+      431,
+      432,
+      433,
+      434,
+      435
+    ]
+  },
+  {
+    "teal": 552,
+    "source": 4,
+    "pc": [
+      436,
+      437,
+      438
+    ]
+  },
+  {
+    "teal": 553,
+    "source": 4,
+    "pc": [
+      439,
+      440,
+      441,
+      442
+    ]
+  },
+  {
+    "teal": 556,
+    "source": 4,
+    "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+    "pc": [
+      443
+    ]
+  },
+  {
+    "teal": 559,
+    "source": 4,
+    "pc": [
+      444,
+      445,
+      446,
+      447,
+      448,
+      449
+    ]
+  },
+  {
+    "teal": 560,
+    "source": 4,
+    "pc": [
+      450,
+      451,
+      452,
+      453,
+      454,
+      455
+    ]
+  },
+  {
+    "teal": 561,
+    "source": 4,
+    "pc": [
+      456,
+      457,
+      458,
+      459,
+      460,
+      461
+    ]
+  },
+  {
+    "teal": 562,
+    "source": 4,
+    "pc": [
+      462,
+      463,
+      464,
+      465,
+      466,
+      467
+    ]
+  },
+  {
+    "teal": 563,
+    "source": 4,
+    "pc": [
+      468,
+      469,
+      470,
+      471,
+      472,
+      473
+    ]
+  },
+  {
+    "teal": 564,
+    "source": 4,
+    "pc": [
+      474,
+      475,
+      476,
+      477,
+      478,
+      479
+    ]
+  },
+  {
+    "teal": 565,
+    "source": 4,
+    "pc": [
+      480,
+      481,
+      482,
+      483,
+      484,
+      485
+    ]
+  },
+  {
+    "teal": 566,
+    "source": 4,
+    "pc": [
+      486,
+      487,
+      488
+    ]
+  },
+  {
+    "teal": 567,
+    "source": 4,
+    "pc": [
+      489,
+      490,
+      491,
+      492,
+      493,
+      494,
+      495,
+      496,
+      497,
+      498,
+      499,
+      500,
+      501,
+      502,
+      503,
+      504
+    ]
+  },
+  {
+    "teal": 570,
+    "source": 4,
     "errorMessage": "this contract does not implement the given ABI method for call NoOp",
     "pc": [
-      367
+      505
     ]
   }
 ]

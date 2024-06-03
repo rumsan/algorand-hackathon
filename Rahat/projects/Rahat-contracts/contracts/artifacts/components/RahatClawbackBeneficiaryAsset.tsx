@@ -4,38 +4,41 @@ import { Rahat, RahatClient } from '../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
 
 /* Example usage
-<RahatCreateAnAsset
+<RahatClawbackBeneficiaryAsset
   buttonClass="btn m-2"
   buttonLoadingNode={<span className="loading loading-spinner" />}
-  buttonNode="Call createAnAsset"
+  buttonNode="Call clawbackBeneficiaryAsset"
   typedClient={typedClient}
-  asaName={asaName}
-  asaSymbol={asaSymbol}
+  benAddress={benAddress}
+  assetId={assetId}
+  amount={amount}
 />
 */
-type RahatCreateAnAssetArgs = Rahat['methods']['createAnAsset(string,string)uint64']['argsObj']
+type RahatClawbackBeneficiaryAssetArgs = Rahat['methods']['clawbackBeneficiaryAsset(address,uint64,uint64)void']['argsObj']
 
 type Props = {
   buttonClass: string
   buttonLoadingNode?: ReactNode
   buttonNode: ReactNode
   typedClient: RahatClient
-  asaName: RahatCreateAnAssetArgs['asaName']
-  asaSymbol: RahatCreateAnAssetArgs['asaSymbol']
+  benAddress: RahatClawbackBeneficiaryAssetArgs['benAddress']
+  assetId: RahatClawbackBeneficiaryAssetArgs['assetId']
+  amount: RahatClawbackBeneficiaryAssetArgs['amount']
 }
 
-const RahatCreateAnAsset = (props: Props) => {
+const RahatClawbackBeneficiaryAsset = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
   const callMethod = async () => {
     setLoading(true)
-    console.log(`Calling createAnAsset`)
-    await props.typedClient.createAnAsset(
+    console.log(`Calling clawbackBeneficiaryAsset`)
+    await props.typedClient.clawbackBeneficiaryAsset(
       {
-        asaName: props.asaName,
-        asaSymbol: props.asaSymbol,
+        benAddress: props.benAddress,
+        assetId: props.assetId,
+        amount: props.amount,
       },
       { sender },
     )
@@ -49,4 +52,4 @@ const RahatCreateAnAsset = (props: Props) => {
   )
 }
 
-export default RahatCreateAnAsset
+export default RahatClawbackBeneficiaryAsset

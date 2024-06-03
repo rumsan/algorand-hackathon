@@ -4,6 +4,7 @@ import { URLS } from '../constants';
 import { useEffect, useState } from 'react';
 // @ts-ignore
 import Jdenticon from 'react-jdenticon';
+import TruncatedCell from '@/components/TruncatedCell';
 
 type Beneficiary = {
   email: string;
@@ -38,15 +39,15 @@ export default function Beneficiaries() {
   };
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
   let { isLoading, isError, data } = useList('listBlog', URLS.BENEFICIARY, 1, 5);
-  console.log(data,'data')
+  
   const submitTransferToken = () => {
     console.log(selectedBeneficiaries);
   };
-  
   useEffect(() => {
-    data && setBeneficiaries(data?.data); 
+    if (data) {
+      setBeneficiaries(data.data);
+    }
   }, [data, setBeneficiaries]);
-
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
@@ -83,17 +84,15 @@ export default function Beneficiaries() {
                     Email
                   </th>
                   <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Age
+                    WalletAddress
+                  </th>
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    status
                   </th>
                   <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                     Gender
                   </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    WalletAddress
-                  </th>
-                  <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                    <span className="sr-only">Edit</span>
-                  </th>
+                  
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
@@ -113,14 +112,15 @@ export default function Beneficiaries() {
                         </div>
                         <div className="ml-4">
                           <div className="font-medium text-gray-900">{beneficiary.name}</div>
-                          <div className="mt-1 text-gray-500">{beneficiary.email}</div>
                         </div>
                       </div>
                     </td>
                     {/* <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{beneficiary.age}</td> */}
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      <div className="text-gray-900">{beneficiary.gender}</div>
-                      <div className="mt-1 text-gray-500">{beneficiary.walletAddress}</div>
+                      <div className="text-gray-900">{beneficiary.email}</div>
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                      <div className="mt-1 text-gray-500">{<TruncatedCell text={beneficiary.walletAddress} />}</div>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                       <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
@@ -128,11 +128,7 @@ export default function Beneficiaries() {
                       </span>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{beneficiary.gender}</td>
-                    <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                      <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                        Edit<span className="sr-only">, {beneficiary.name}</span>
-                      </a>
-                    </td>
+                   
                   </tr>
                 ))}
               </tbody>

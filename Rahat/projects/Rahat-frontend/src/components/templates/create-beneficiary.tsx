@@ -7,9 +7,9 @@ import { algodClient, typedClient } from '../../utils/typedClient';
 import { URLS } from '../../constants';
 import usePost from '../../hooks/usePost';
 import { useWallet } from '@txnlab/use-wallet';
-
 import 'react-toastify/dist/ReactToastify.css';
-import { SnackbarUtilsConfigurator } from '../../components/Toaster'
+import { Navigate, useParams } from 'react-router-dom';
+import { SnackbarUtilsConfigurator } from '../../components/Toaster';
 import * as snack from '../../components/Toaster';
 
 interface WalletType {
@@ -19,9 +19,11 @@ interface WalletType {
 }
 
 const CreateBeneficiary = () => {
+  const { id } = useParams();
+  const [shouldNavigate, setShouldNavigate] = useState(false);
 
-
-  const { postMutation, data, isSuccess, success, isPending } = usePost('false');
+  const [loading, setLoading] = useState(false);
+  const { postMutation, isError, data, isSuccess, success, isPending } = usePost(`listProjectBeneficiary`);
 
   const secretKey = import.meta.env.VITE_SECRET_KEY;
 
@@ -29,24 +31,26 @@ const CreateBeneficiary = () => {
     return CryptoJS.AES.encrypt(data, secretKey).toString();
   };
 
-  const [loading, setLoading] = useState(false)
+  const [beneficiaryWallet, setBeneficiaryWallet] = useState<WalletType>({
+    mnemonicsQRText: undefined,
+    walletAddress: undefined,
+    secretKey: undefined,
+  });
 
-  const mnemonicsOfSender = import.meta.env.VITE_SENDER_MNEMONICS
-  const walletOfSender = import.meta.env.VITE_SENDER_WALLET
-
-  const [beneficiaryWallet, setBeneficiaryWallet] = useState<WalletType>({ mnemonicsQRText: undefined, walletAddress: undefined, secretKey: undefined });
   const createBeneficiaryWallet = () => {
     const { mnemonics, walletAddress, secretKey } = generateRandomBeneficiaryAccount();
     const mnemonicsQRText = `{"version":"1.0", "mnemonic":"${mnemonics}"}`;
     setBeneficiaryWallet({ mnemonicsQRText, walletAddress, secretKey });
   };
 
-  const { activeAddress, signer } = useWallet()
-  const sender = { signer, addr: activeAddress! }
+  const { activeAddress, signer } = useWallet();
+  const sender = { signer, addr: activeAddress! };
+
+  const mnemonicsOfSender = import.meta.env.VITE_FUNDER_MNEMONICS;
+  const walletOfSender = import.meta.env.VITE_FUNDER_WALLET;
 
   const createBeneficiary = async (e: any) => {
     e.preventDefault();
-    setLoading(true)
     const encryptedPassword = encryptData(beneficiaryWallet?.mnemonicsQRText as string);
     const data = {
       email: e.target['email'].value,
@@ -55,15 +59,16 @@ const CreateBeneficiary = () => {
       gender: e.target['gender'].value,
       walletAddress: beneficiaryWallet?.walletAddress,
       mnemonics: encryptedPassword,
+      projectId: id,
     };
 
-    // Send tokens to beneficiary from sender wallet
-    const secretOfSenderWallet = algosdk.mnemonicToSecretKey(mnemonicsOfSender)
+    // Send tokens to beneficiary from funder wallet
+    const secretOfSenderWallet = algosdk.mnemonicToSecretKey(mnemonicsOfSender);
     const txnSender = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
       from: walletOfSender,
       to: data.walletAddress as string,
       amount: 500000,
-      suggestedParams: await algodClient.getTransactionParams().do()
+      suggestedParams: await algodClient.getTransactionParams().do(),
     });
     const signedTxnSender = txnSender.signTxn(secretOfSenderWallet.sk);
     await algodClient.sendRawTransaction(signedTxnSender).do();
@@ -74,27 +79,39 @@ const CreateBeneficiary = () => {
       to: data.walletAddress as string,
       amount: 0,
       suggestedParams: await algodClient.getTransactionParams().do(),
-      assetIndex: Number(import.meta.env.VITE_ASA_ID)
+      assetIndex: Number(import.meta.env.VITE_ASA_ID),
     });
     const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
     const { txId } = await algodClient.sendRawTransaction(signedTxn).do();
 
     postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
-
     if (data.email) {
-      // Toast logic here
-      snack.default.success("Beneficiary created successfully")
-      setLoading(false)
+      snack.default.success('Beneficiary created successfully');
+      // toast.success('Beneficiary created successfully');
+      setShouldNavigate(true);
     } else {
-      await postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
-    };
+      snack.default.error('There was a problem with your request');
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      snack.default.success('Project created successfully');
+      setShouldNavigate(true);
+    } else if (isError) {
+      snack.default.error('There was a problem with your request');
+    }
+  }, [isSuccess, isError]);
+
+  if (shouldNavigate) {
+    const route = `/admin/project/${id}/beneficiary`;
+    return <Navigate to={route} replace />;
   }
 
   return (
     <>
       <div>
-        
-      <SnackbarUtilsConfigurator />
+        <SnackbarUtilsConfigurator />
       </div>
       <form onSubmit={(e) => createBeneficiary(e)}>
         <div className="space-y-6">
@@ -213,16 +230,14 @@ const CreateBeneficiary = () => {
                 type="submit"
                 className="rounded-md bg-blue-600 px-12 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 w-[40%] focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                {loading ? "Creating asset..." : "Create"}
+                {loading ? 'Creating asset...' : 'Create'}
               </button>
             </div>
           </div>
         </div>
       </form>
-      { }
     </>
   );
 };
 
-
-export default CreateBeneficiary
+export default CreateBeneficiary;

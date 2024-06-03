@@ -22,8 +22,6 @@ const RahatCreateAnAsset = (props: Props) => {
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
-  const peraWallet = new PeraWalletConnect();
-
   const createVoucher = async (e: any) => {
     e.preventDefault();
     setLoading(true)
@@ -36,7 +34,10 @@ const RahatCreateAnAsset = (props: Props) => {
 
     if(!res?.data?.uuid){
       const algoResponse = await props.typedClient.createAnAsset(
-        {},
+        {
+        asaName: e.target['asaName'].value,
+        asaSymbol: e.target['asaSymbol'].value,
+        },
         { sender, 
           sendParams: {fee: new AlgoAmount({algos: 0.02})}
         },
@@ -57,14 +58,14 @@ const RahatCreateAnAsset = (props: Props) => {
         <div className="sm:col-span-3">
           <label className="block text-sm font-medium leading-6 text-gray-900">ASA name</label>
           <div className="mt-2">
-            <input type="text" name="voucherName" id="voucherName" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2" />
+            <input type="text" name="asaName" id="voucherName" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2" />
           </div>
         </div>
 
         <div className="sm:col-span-3">
           <label className="block text-sm font-medium leading-6 text-gray-900">ASA Symbol</label>
           <div className="mt-2">
-            <input type="text" name="voucherSymbol" id="voucherSymbol"  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2" />
+            <input type="text" name="asaSymbol" id="voucherSymbol"  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2" />
           </div>
         </div>
     </div>

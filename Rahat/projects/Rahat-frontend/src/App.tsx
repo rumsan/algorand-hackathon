@@ -1,18 +1,19 @@
-import AdminLayout from './layout/AdminLayout';
-import { AdminRoute } from './components/Routes';
-import Dashboard from './pages/Dashboard';
-import CreateTokens from './pages/CreateTokens';
-import LoginPage from './pages/Login';
-import AddBeneficiary from './pages/AddBeneficiary';
-import Transaction from './pages/project/Transaction';
-import ProjectDetail from './pages/project/ProjectDetail';
-import ProjectBeneficiary from './pages/project/ProjectBeneficiary';
-import AddProject from './pages/project/AddProject';
-import BeneficiaryDetail from './pages/project/BeneficiaryDetail';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ProjectList from './pages/project/ProjectList';
-import Beneficiaries from './pages/Beneficiaries';
-import AddAdmin from './pages/project/AddAdmin';
+import AdminLayout from "./layout/AdminLayout";
+import { AdminRoute } from "./components/Routes";
+import Dashboard from "./pages/Dashboard";
+import CreateTokens from "./pages/CreateTokens";
+import LoginPage from "./pages/Login";
+import AddBeneficiary from "./pages/AddBeneficiary";
+import Transaction from "./pages/project/Transaction";
+import ProjectDetail from "./pages/project/ProjectDetail";
+import ProjectBeneficiary from "./pages/project/ProjectBeneficiary";
+import AddProject from "./pages/project/AddProject";
+import BeneficiaryDetail from "./pages/project/BeneficiaryDetail";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ProjectList from "./pages/project/ProjectList";
+import Beneficiaries from "./pages/Beneficiaries";
+import AddAdmin from "./pages/project/AddAdmin";
+import InviteTeamMembers from "./components/AddTeamMembers";
 
 export default function App() {
   return (
@@ -27,6 +28,14 @@ export default function App() {
               element={
                 <AdminRoute>
                   <Dashboard />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/invite-member"
+              element={
+                <AdminRoute>
+                  <InviteTeamMembers />
                 </AdminRoute>
               }
             />

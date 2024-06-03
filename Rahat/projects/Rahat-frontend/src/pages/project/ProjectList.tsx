@@ -1,13 +1,15 @@
-import { Fragment } from 'react';
-import { Menu, Transition } from '@headlessui/react';
-import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import useList from '@/hooks/useList';
-import { URLS } from '../../constants';
-import Loader from '@/components/Loader';
-import { Loader2, LoaderCircleIcon, LoaderPinwheel } from 'lucide-react';
-import { LOADIPHLPAPI } from 'dns/promises';
+import { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useList from "@/hooks/useList";
+import { URLS } from "../../constants";
+import Loader from "@/components/Loader";
+import { Loader2, LoaderCircleIcon, LoaderPinwheel } from "lucide-react";
+import { LOADIPHLPAPI } from "dns/promises";
+import NoProjects from "@/components/NoProjects";
+import { PlusIcon } from "@heroicons/react/20/solid";
 
 // const statuses = {
 //   Paid: 'text-green-700 bg-green-50 ring-green-600/20',
@@ -54,7 +56,7 @@ import { LOADIPHLPAPI } from 'dns/promises';
 // ];
 
 function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
 
 type project = {
@@ -68,8 +70,7 @@ type project = {
 export default function ProjectList() {
   const [projects, setProjects] = useState<project[]>([]);
 
-  let { isLoading, isError, data } = useList('listProject', URLS.PROJECT, 1, 6);
-  console.log(data, 'data');
+  let { isLoading, isError, data } = useList("listProject", URLS.PROJECT, 1, 6);
 
   useEffect(() => {
     if (data) {
@@ -79,15 +80,17 @@ export default function ProjectList() {
 
   return (
     <>
+      <NoProjects />
       <div className="sm:flex sm:items-center mb-3">
         <div className="sm:flex-auto"></div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
           <Link
             to={`/admin/project/add`}
             type="button"
-            className="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
           >
-            Add Project
+            <PlusIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+            New Project
           </Link>
         </div>
       </div>
@@ -119,22 +122,31 @@ export default function ProjectList() {
                     <Menu.Items className="absolute right-0 z-10 mt-0.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
-                          <a href="#" className={classNames(active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900')}>
+                          <a href="#" className={classNames(active ? "bg-gray-50" : "", "block px-3 py-1 text-sm leading-6 text-gray-900")}>
                             View<span className="sr-only">, {project.name}</span>
                           </a>
                         )}
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <a href="#" className={classNames(active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900')}>
+                          <a href="#" className={classNames(active ? "bg-gray-50" : "", "block px-3 py-1 text-sm leading-6 text-gray-900")}>
                             Edit<span className="sr-only">, {project.name}</span>
                           </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/admin/invite-member"
+                            className={classNames(active ? "bg-gray-50" : "", "block px-3 py-1 text-sm leading-6 text-gray-900")}
+                          >
+                            Invite<span className="sr-only">, {project.name}</span>
+                          </Link>
                         )}
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
                 </Menu>
-                
               </div>
               <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
                 <div className="flex justify-between gap-x-4 py-3">
@@ -144,7 +156,7 @@ export default function ProjectList() {
                   </dd>
                 </div>
                 <div className="flex justify-between gap-x-4 py-3">
-                  <dt className="text-gray-500">VoucherId</dt>
+                  <dt className="text-gray-500">Voucher ID</dt>
                   <dd className="flex items-start gap-x-2">
                     <div className="font-medium text-gray-900">{project.voucherId}</div>
                     {/* <div

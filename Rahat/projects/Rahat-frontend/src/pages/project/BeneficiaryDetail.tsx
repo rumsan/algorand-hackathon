@@ -124,8 +124,6 @@ export default function BeneficiaryDetail() {
     }
   }, [data]);
 
-  console.log(beneficiaries, 'beneficiaries');
-
   if (!beneficiaries) {
     return <div>Loading...</div>;
   }

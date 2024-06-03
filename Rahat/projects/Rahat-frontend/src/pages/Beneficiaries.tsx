@@ -39,7 +39,7 @@ export default function Beneficiaries() {
   };
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
   let { isLoading, isError, data } = useList('listBlog', URLS.BENEFICIARY, 1, 5);
-  console.log(data,'data')
+  
   const submitTransferToken = () => {
     console.log(selectedBeneficiaries);
   };

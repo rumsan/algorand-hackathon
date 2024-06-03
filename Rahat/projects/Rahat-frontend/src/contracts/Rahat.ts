@@ -35,7 +35,7 @@ export const APP_SPEC: AppSpec = {
         "no_op": "CALL"
       }
     },
-    "createAnAsset()uint64": {
+    "createAnAsset(string,string)uint64": {
       "call_config": {
         "no_op": "CALL"
       }
@@ -119,10 +119,18 @@ export const APP_SPEC: AppSpec = {
       {
         "name": "createAnAsset",
         "desc": "A method to create token",
-        "args": [],
+        "args": [
+          {
+            "name": "asaName",
+            "type": "string"
+          },
+          {
+            "name": "asaSymbol",
+            "type": "string"
+          }
+        ],
         "returns": {
-          "type": "uint64",
-          "desc": "Asset (token)"
+          "type": "uint64"
         }
       },
       {
@@ -283,13 +291,12 @@ export type Rahat = {
        */
       returns: void
     }>
-    & Record<'createAnAsset()uint64' | 'createAnAsset', {
+    & Record<'createAnAsset(string,string)uint64' | 'createAnAsset', {
       argsObj: {
+        asaName: string
+        asaSymbol: string
       }
-      argsTuple: []
-      /**
-       * Asset (token)
-       */
+      argsTuple: [asaName: string, asaSymbol: string]
       returns: bigint
     }>
     & Record<'sendTokenToBeneficiary(address,uint64,uint64)void' | 'sendTokenToBeneficiary', {
@@ -436,7 +443,7 @@ export abstract class RahatCallFactory {
     }
   }
   /**
-   * Constructs a no op call for the createAnAsset()uint64 ABI method
+   * Constructs a no op call for the createAnAsset(string,string)uint64 ABI method
    *
    * A method to create token
    *
@@ -444,10 +451,10 @@ export abstract class RahatCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static createAnAsset(args: MethodArgs<'createAnAsset()uint64'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static createAnAsset(args: MethodArgs<'createAnAsset(string,string)uint64'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
     return {
-      method: 'createAnAsset()uint64' as const,
-      methodArgs: Array.isArray(args) ? args : [],
+      method: 'createAnAsset(string,string)uint64' as const,
+      methodArgs: Array.isArray(args) ? args : [args.asaName, args.asaSymbol],
       ...params,
     }
   }
@@ -612,15 +619,15 @@ export class RahatClient {
   }
 
   /**
-   * Calls the createAnAsset()uint64 ABI method.
+   * Calls the createAnAsset(string,string)uint64 ABI method.
    *
    * A method to create token
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
-   * @returns The result of the call: Asset (token)
+   * @returns The result of the call
    */
-  public createAnAsset(args: MethodArgs<'createAnAsset()uint64'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
+  public createAnAsset(args: MethodArgs<'createAnAsset(string,string)uint64'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
     return this.call(RahatCallFactory.createAnAsset(args, params))
   }
 
@@ -730,7 +737,7 @@ export class RahatClient {
         resultMappers.push(undefined)
         return this
       },
-      createAnAsset(args: MethodArgs<'createAnAsset()uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
+      createAnAsset(args: MethodArgs<'createAnAsset(string,string)uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
         promiseChain = promiseChain.then(() => client.createAnAsset(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
         return this
@@ -795,7 +802,7 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
   assignBeneficiary(args: MethodArgs<'assignBeneficiary(address)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'assignBeneficiary(address)void'>]>
 
   /**
-   * Calls the createAnAsset()uint64 ABI method.
+   * Calls the createAnAsset(string,string)uint64 ABI method.
    *
    * A method to create token
    *
@@ -803,7 +810,7 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  createAnAsset(args: MethodArgs<'createAnAsset()uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'createAnAsset()uint64'>]>
+  createAnAsset(args: MethodArgs<'createAnAsset(string,string)uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'createAnAsset(string,string)uint64'>]>
 
   /**
    * Calls the sendTokenToBeneficiary(address,uint64,uint64)void ABI method.

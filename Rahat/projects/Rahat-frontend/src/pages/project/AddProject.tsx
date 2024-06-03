@@ -3,6 +3,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import projectSchema from '../../validation/projectSchema';
 import { useEffect, useState } from 'react';
+import { SnackbarUtilsConfigurator } from '../../components/Toaster';
+import * as snack from '../../components/Toaster';
+import { Navigate, useParams } from 'react-router-dom';
 
 import usePost from '../../hooks/usePost';
 import { URLS } from '@/constants';
@@ -11,8 +14,12 @@ import { useWallet } from '@txnlab/use-wallet';
 type ProjectType = z.infer<typeof projectSchema>;
 
 export default function AddProject() {
+  const { id } = useParams();
+
   const { activeAddress } = useWallet();
-  const { postMutation, data, isSuccess, error, success, isPending } = usePost('false');
+  const [shouldNavigate, setShouldNavigate] = useState(false);
+
+  const { postMutation, data, isSuccess, error, success, isError, isPending } = usePost('listProject');
   const [showError, setShowError] = useState(false);
 
   const {
@@ -30,24 +37,31 @@ export default function AddProject() {
     },
   });
 
-  const onSubmit = (data: ProjectType) => {
-    // console.log(activeAddress,'data')
-    // if (activeAddress) {
-    //   data.adminAddress = [activeAddress];
-    // }
+  const onSubmit = async (data: ProjectType) => {
     const adminAddress = [activeAddress];
     // @ts-ignore
     data.adminAddress = adminAddress;
-    postMutation({ urls: URLS.PROJECT, data });
+    await postMutation({ urls: URLS.PROJECT, data });
   };
-  console.log(data, 'data', error, 'error', success, 'success', isPending, 'isPending');
-  const hello = () => {
-    console.log('hello');
-  };
+
+
+  useEffect(() => {
+    if (isSuccess) {
+      snack.default.success('Project created successfully');
+      setShouldNavigate(true);
+    } else if (isError) {
+      snack.default.error('There was a problem with your request');
+    }
+  }, [isSuccess, isError]);
+
+  if (shouldNavigate) {
+    return <Navigate to="/admin/project" replace />;
+  }
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <button onSubmit={hello}>hello</button>
+      <SnackbarUtilsConfigurator />
+
       <div className="space-y-10 divide-y divide-gray-900/10 w-full max-w-4xl px-4 pb-80">
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
           <form

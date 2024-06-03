@@ -1,6 +1,9 @@
 import SideBar from '@/components/SideBar';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import BeneficiaryDetailClawback from '../BeneficiaryDetail';
+import { useEffect, useState } from 'react';
+import useGet from '@/hooks/useGet';
+import { URLS } from '@/constants';
 
 const beneficiary = {
   uuid: 10,
@@ -108,11 +111,28 @@ const transaction = [
   },
 ];
 
-
 export default function BeneficiaryDetail() {
+  const { id } = useParams();
+  const [beneficiaries, setBeneficiaries] = useState<any>(null);
+
+  const { data } = useGet(`getById${id}`, URLS.BENEFICIARY, id as string);
+
+  useEffect(() => {
+    if (data) {
+      console.log(data, 'data');
+      setBeneficiaries(data);
+    }
+  }, [data]);
+
+  console.log(beneficiaries, 'beneficiaries');
+
+  if (!beneficiaries) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
-    {/* <BeneficiaryDetailClawback /> */}
+      {/* <BeneficiaryDetailClawback /> */}
       <div className="flex">
         {/* Sidebar */}
         <SideBar />
@@ -142,13 +162,13 @@ export default function BeneficiaryDetail() {
                     className="h-16 w-16 flex-none rounded-full ring-1 ring-gray-900/10"
                   />
                   <h1>
-                    <div className=" text-sm leading-6 text-gray-500">
-                      Beneficiary id <span className="text-gray-700">{beneficiary.uuid}</span>
-                    </div>
-                    <div className=" text-2xl mt-1  font-semibold leading-6 text-gray-900">{beneficiary.name}</div>
                     <div className="text-sm leading-6 text-gray-500">
-                      status <span className="text-gray-700">{beneficiary.gender}</span>
-                    </div>{' '}
+                      Beneficiary id <span className="text-gray-700">{beneficiaries.uuid}</span>
+                    </div>
+                    <div className="text-2xl mt-1 font-semibold leading-6 text-gray-900">{beneficiaries.name}</div>
+                    <div className="text-sm leading-6 text-gray-500">
+                      status <span className="text-gray-700">{beneficiaries.gender}</span>
+                    </div>
                   </h1>
                 </div>
               </div>
@@ -168,16 +188,19 @@ export default function BeneficiaryDetail() {
                     </tr>
                   </thead>
                   <tbody>
-                    {beneficiary.project.map((project) => (
-                      <tr key={project.uuid}>
-                        <td className="px-6 py-3 text-left">{project.uuid}</td>
-                        <td className="px-6 py-3 text-left">
-                          <Link to={`/admin/project/${project.uuid}`} className="text-blue-500 hover:underline">
-                            {project.name}
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
+                    {
+                      //@ts-ignore
+                      beneficiaries.projects?.map((project) => (
+                        <tr key={project.uuid}>
+                          <td className="px-6 py-3 text-left">{project.uuid}</td>
+                          <td className="px-6 py-3 text-left">
+                            <Link to={`/admin/project/${project.uuid}`} className="text-blue-500 hover:underline">
+                              {project.name}
+                            </Link>
+                          </td>
+                        </tr>
+                      ))
+                    }
                   </tbody>
                 </table>
               </div>
@@ -208,7 +231,7 @@ export default function BeneficiaryDetail() {
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {transaction.map((transac) => (
-                      <tr key={transac.beneficiaryId}>
+                      <tr key={transac.id}>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.timestamp}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.txnHash}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.amount}</td>

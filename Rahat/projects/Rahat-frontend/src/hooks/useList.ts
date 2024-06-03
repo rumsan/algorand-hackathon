@@ -1,17 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import API from '../utils/API';
 
-const useList = (qkey: string, urls: string, page: number, limit: number, email?: string, walletAddress?: string) => {
+const useList = (qkey: string, urls: string, page: number, limit: number, email?: string, id?: string) => {
   const str = JSON.stringify({ page, limit });
 
-  const { isError, isLoading, data } = useQuery({
+  const { isError, isLoading, data, refetch } = useQuery({
     queryKey: [qkey, str],
     queryFn: async () => {
       const params = {
         page: page,
         limit: limit,
         email: email,
-        walletAddress: walletAddress,
+        id: id,
       };
       const { data } = await API.get(urls, { params });
       console.log(data, 'hooks');
@@ -19,7 +19,7 @@ const useList = (qkey: string, urls: string, page: number, limit: number, email?
     },
   });
 
-  return { isError, isLoading, data };
+  return { isError, isLoading, data, refetch };
 };
 
 export default useList;

@@ -10,7 +10,6 @@ import { SnackbarProvider } from 'notistack';
 import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs';
 import ErrorBoundary from './components/ErrorBoundary';
 import { AuthProvider } from './context/AuthContext';
-import { ToastContainer } from 'react-toastify';
 
 import './index.css';
 import TanstackProvider from './providers/TanstackProvider';
@@ -67,7 +66,6 @@ const ProvidersWrapper: React.FC = () => {
 // Render the React application
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ToastContainer />
     <SnackbarUtilsConfigurator />
     <TanstackProvider>
       <AuthProvider>

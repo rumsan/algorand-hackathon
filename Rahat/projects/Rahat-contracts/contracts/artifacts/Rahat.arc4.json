@@ -50,6 +50,25 @@
         },
         {
           "name": "assetId",
+          "type": "uint64",
+          "desc": ": AssetID of token to be sent"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "freezeBeneficiaryAsset",
+      "desc": "A method to unfreeze token",
+      "args": [
+        {
+          "name": "benAddress",
+          "type": "address",
+          "desc": "Address of beneficiary to unfreeze asset"
+        },
+        {
+          "name": "assetId",
           "type": "uint64"
         }
       ],
@@ -92,6 +111,30 @@
         {
           "name": "assetId",
           "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "clawbackBeneficiaryAsset",
+      "desc": "A method to clawback asset",
+      "args": [
+        {
+          "name": "benAddress",
+          "type": "address",
+          "desc": "Address of beneficiary to be clawbacked"
+        },
+        {
+          "name": "assetId",
+          "type": "uint64",
+          "desc": "Asset id of asset"
+        },
+        {
+          "name": "amount",
+          "type": "uint64",
+          "desc": "Amount, will be replace when box-issue is fixed"
         }
       ],
       "returns": {

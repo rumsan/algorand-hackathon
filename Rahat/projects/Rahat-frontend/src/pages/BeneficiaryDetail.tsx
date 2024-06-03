@@ -6,14 +6,12 @@ import RahatUnfreezeBeneficiaryAsset from '@/components/contracts/RahatUnfreezeB
 import RahatFreezeBeneficiaryAsset from '@/components/contracts/RahatFreezeBeneficiaryAsset'
 import RahatClawbackBeneficiaryAsset from '@/components/contracts/RahatClawbackBeneficiaryAsset'
 
-const BeneficiaryDetail = () => {
+const BeneficiaryDetailClawback = () => {
 
   const [assetStatus, setassetStatus] = useState({ isFrozen: false, isCreated: true, amount: 0 })
 
   const beneficiaryWallet = "BQ63F7VH6FYQNFUK6YN6FGHI55FPE74FJT7EQ4NMBKHPT3QFSWJGXPPISA";
   const amount = 1;
-
-  const tryasdf = "IG5TBV2UZTNKCBH2X43QCMIXY7YI374D3BHLQTGUVVB5D2XFRPAYIW5SUA";
 
   const checkAssetFrozenStatus = async () => {
     const accountInfo = await algodClient.accountInformation(beneficiaryWallet).do();
@@ -99,4 +97,4 @@ const BeneficiaryDetail = () => {
   )
 }
 
-export default BeneficiaryDetail
+export default BeneficiaryDetailClawback

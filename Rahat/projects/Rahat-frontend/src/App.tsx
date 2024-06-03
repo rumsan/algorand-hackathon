@@ -1,37 +1,27 @@
-// import { DeflyWalletConnect } from '@blockshake/defly-connect'
-// import { DaffiWalletConnect } from '@daffiwallet/connect'
-// import { PeraWalletConnect } from '@perawallet/connect'
-// import { PROVIDER_ID, ProvidersArray, WalletProvider, useInitializeProviders } from '@txnlab/use-wallet'
-// import algosdk from 'algosdk'
-// import { SnackbarProvider } from 'notistack'
-// import Home from './Home'
-// import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
-
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Beneficiaries from './pages/Beneficiaries';
-import ProjectList from './pages/ProjectList';
-
-import Home from './Home';
 import AdminLayout from './layout/AdminLayout';
 import { AdminRoute } from './components/Routes';
 import Dashboard from './pages/Dashboard';
-import NavBar from './layout/Navbar';
 import CreateTokens from './pages/CreateTokens';
-import LoginPage from "./pages/Login";
-import AddBeneficiary from "./pages/AddBeneficiary";
-import ConnectWallet from "./components/ConnectWallet";
-import ConnectWalletTemp from "./pages/ConnectWalletTemp";
-import BeneficiaryDetail from "./pages/BeneficiaryDetail";
-import Transaction from "./pages/Transaction";
+import LoginPage from './pages/Login';
+import AddBeneficiary from './pages/AddBeneficiary';
+import Transaction from './pages/project/Transaction';
+import ProjectDetail from './pages/project/ProjectDetail';
+import ProjectBeneficiary from './pages/project/ProjectBeneficiary';
+import AddProject from './pages/project/AddProject';
+import BeneficiaryDetail from './pages/project/BeneficiaryDetail';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ProjectList from './pages/project/ProjectList';
+import Beneficiaries from './pages/Beneficiaries';
+import AddAdmin from './pages/project/AddAdmin';
 
 export default function App() {
   return (
-    <div>
+    <div className="">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
 
-          <Route path="/admin" element={<NavBar />}>
+          <Route path="/admin" element={<AdminLayout />}>
             <Route
               path="/admin/dashboard"
               element={
@@ -48,20 +38,60 @@ export default function App() {
                 </AdminRoute>
               }
             />
-            {/* <Route
+            <Route
+              path="/admin/project/:id"
+              element={
+                <AdminRoute>
+                  <ProjectDetail />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/project/:id/addAdmin"
+              element={
+                <AdminRoute>
+                  <AddAdmin />
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/admin/project/add"
               element={
                 <AdminRoute>
                   <AddProject />
                 </AdminRoute>
               }
-            /> */}
+            />
+            <Route
+              path="/admin/project/:id/beneficiary"
+              element={
+                <AdminRoute>
+                  <ProjectBeneficiary />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/project/:id/add-beneficiary"
+              element={
+                <AdminRoute>
+                  <AddBeneficiary />
+                </AdminRoute>
+              }
+            />
 
             <Route
-              path="/admin/transactions"
+              path="/admin/project/:id/transactions"
               element={
                 <AdminRoute>
                   <Transaction />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/beneficiary/:id"
+              element={
+                <AdminRoute>
+                  <BeneficiaryDetail />
                 </AdminRoute>
               }
             />
@@ -79,31 +109,6 @@ export default function App() {
                 <AdminRoute>
                   <CreateTokens />
                 </AdminRoute>
-              }
-            />
-
-            <Route
-              path="/admin/add-beneficiary"
-              element={
-                <AdminRoute>
-                  <AddBeneficiary />
-                </AdminRoute>
-              }
-            />
-
-          
-            <Route
-              path="/admin/beneficiary/details"
-              element={
-                  <BeneficiaryDetail />
-              }
-            />
-
-          {/* Temporary Path to connect wallet */}
-            <Route
-              path="/admin/connect"
-              element={
-                  <ConnectWalletTemp />
               }
             />
           </Route>

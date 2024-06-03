@@ -1,21 +1,11 @@
 import { Contract } from '@algorandfoundation/tealscript';
-import { verifyMultisig } from 'algosdk';
+import * as algosdk from 'algosdk';
 
 export class Rahat extends Contract {
   // Token
   token = GlobalStateKey<AssetID>();
 
-  beneficiaries = BoxMap<Address, uint64>();
-
-  multisigParams = {
-    version: 1,
-    threshold: 2,
-    addrs: [
-      "ADDRESS1",
-      "ADDRESS2",
-      "ADDRESS3"
-    ]
-  };
+  beneficiaries = BoxMap<Address, uint64>({});
 
   /**
    * A method to assign beneficiary to projects
@@ -41,7 +31,8 @@ export class Rahat extends Contract {
       configAssetTotal: 1_000_000_000_000_000,
       configAssetFreeze: this.app.address,
       configAssetName: asaName,
-      configAssetUnitName: asaSymbol
+      configAssetUnitName: asaSymbol,
+      configAssetClawback: this.app.address
     });
 
     this.token.value = asset;
@@ -53,6 +44,7 @@ export class Rahat extends Contract {
    * A method to send tokens to beneficiary
    * @param benAddress Address of beneficiary to send token
    * @param amount Amount of token to send
+   * @param assetId: AssetID of token to be sent
    */
   sendTokenToBeneficiary(benAddress: Address, amount: uint64, assetId: AssetID): void {
     // Uncomment this line when box issue is fixed
@@ -82,8 +74,23 @@ export class Rahat extends Contract {
    * A method to unfreeze token
    * @param benAddress Address of beneficiary to unfreeze asset
    */
+  freezeBeneficiaryAsset(benAddress: Address, assetId: AssetID): void {
+    sendAssetFreeze({
+      freezeAsset: assetId,
+      freezeAssetAccount: benAddress,
+      freezeAssetFrozen: true,
+    });
+  }
+
+  /**
+   * A method to unfreeze token
+   * @param benAddress Address of beneficiary to unfreeze asset
+   */
   unfreezeBeneficiaryAsset(benAddress: Address, assetId: AssetID): void {
-    // This function will be multi-sig
+
+    // Check if transaction is signed by multisig address
+    assert(this.txn.sender === addr('2WH45FYP7OGC5ZB5WKSEKLELLUKJ5FWLRXBUCZBYSGQYFSPHLD6D6USKPY'), "Not multisig address");
+
     sendAssetFreeze({
       freezeAsset: assetId,
       freezeAssetAccount: benAddress,
@@ -104,4 +111,29 @@ export class Rahat extends Contract {
       assetAmount: amount,
     });
   }
+
+  /**
+   * A method to clawback asset
+   * @param benAddress Address of beneficiary to be clawbacked
+   * @param assetId Asset id of asset
+   * @param amount Amount, will be replace when box-issue is fixed
+   */
+  clawbackBeneficiaryAsset(benAddress: Address, assetId: AssetID, amount: uint64): void {
+
+    // Use amount = total amount held by beneficiary when box-issue is fixed
+    // const amount = this.beneficiaries(benAddress).value;
+
+    // Unfreeze asset for beneficiary, incase needed to transfer later
+    this.unfreezeBeneficiaryAsset(benAddress, assetId)
+
+    // Send clawback transaction
+    sendAssetTransfer({
+      xferAsset: assetId,
+      assetSender: benAddress,
+      assetReceiver: this.app.address,
+      assetAmount: amount,
+  });
+  }
+
+
 }

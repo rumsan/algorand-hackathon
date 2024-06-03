@@ -1,20 +1,16 @@
 import NavBar from './Navbar';
 import { Outlet } from 'react-router-dom';
+
 export default function AdminLayout() {
   return (
     <>
-    {/* // <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-row"> */}
-        <NavBar />
-     
-
-      {/* // <main className="flex-shrink-0 d-flex flex-column min-vh-100 "> */}
-        {/* // <div className="container mt-2 mb-5 w-dvw"> */}
+      <NavBar />
+      <main className="pt-20 lg:pt-32">
+        {' '}
+        <div className="px-4 sm:px-6 lg:px-8">
           <Outlet />
-        {/* // </div> */}
-        {/* <Footer /> */}
-      {/* // </main> */}
-
-    {/* // </div> */}
+        </div>
+      </main>
     </>
   );
 }

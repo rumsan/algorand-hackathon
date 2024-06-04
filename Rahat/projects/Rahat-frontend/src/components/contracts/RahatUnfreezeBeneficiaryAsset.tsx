@@ -24,7 +24,7 @@ const RahatUnfreezeBeneficiaryAsset = (props: Props) => {
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
-  const peraWallet = new PeraWalletConnect({chainId: 416002});
+  // const peraWallet = new PeraWalletConnect({chainId: 416002});
 
   const multisigParams = {
     version: 1,
@@ -51,7 +51,7 @@ const createAppCallTxn = async (): Promise<SignerTransaction[]> => {
     from: 'GXJCRWIOC2QHB2VHWZ3ABAKOZBISP32QBUY2FNHMZBQIU3GO3IU7NR2YY4',
     appIndex: Number(import.meta.env.VITE_APP_ID),
     appArgs: [
-      new TextEncoder().encode("createAnAsset"),
+      new TextEncoder().encode("add(uint64,uint64)uint128"),
         new Uint8Array(Buffer.from('asdf')),
         new Uint8Array(Buffer.from('asdf')),
     ],
@@ -63,11 +63,11 @@ const createAppCallTxn = async (): Promise<SignerTransaction[]> => {
 
 
   const callMethod = async () => {
-    const formattedTxn = await createAppCallTxn();
+    // const formattedTxn = await createAppCallTxn();
 
-    const signedTxn = formattedTxn[0].txn.signTxn(algosdk.mnemonicToSecretKey(import.meta.env.VITE_FUNDER_MNEMONICS).sk)
+    // const signedTxn = formattedTxn[0].txn.signTxn(algosdk.mnemonicToSecretKey(import.meta.env.VITE_FUNDER_MNEMONICS).sk)
 
-    const sendTxn = await algodClient.sendRawTransaction(signedTxn).do();
+    // const sendTxn = await algodClient.sendRawTransaction(signedTxn).do();
 
     // await peraWallet.disconnect()
     // await peraWallet.connect()
@@ -93,25 +93,23 @@ const createAppCallTxn = async (): Promise<SignerTransaction[]> => {
     // })
     // .catch((err) => {
     //   console.log(err)
-    // })
-
-    console.log(peraWallet)
-
-    
+    // })   
 
     
     
-    // await props.typedClient.unfreezeBeneficiaryAsset(
-    //   {
-    //     benAddress: props.benAddress,
-    //     assetId: props.assetId,
-    //   },
-    //   { sender,
-    //     assets: [Number(import.meta.env.VITE_ASA_ID)],
-    //     sendParams: {fee: new AlgoAmount({algos: 0.003})},
-    //     accounts: [props.benAddress]
-    //    },
-    // )
+    const res = await props.typedClient.unfreezeBeneficiaryAsset(
+      {
+        benAddress: props.benAddress,
+        assetId: props.assetId,
+      },
+      { sender,
+        assets: [Number(import.meta.env.VITE_ASA_ID)],
+        sendParams: {fee: new AlgoAmount({algos: 0.003})},
+        accounts: [props.benAddress]
+       },
+    )
+
+    console.log(res)
     setLoading(false)
   }
 

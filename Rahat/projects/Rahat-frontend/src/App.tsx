@@ -13,6 +13,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProjectList from './pages/project/ProjectList';
 import Beneficiaries from './pages/Beneficiaries';
 import AddAdmin from './pages/project/AddAdmin';
+import Clawback from './pages/project/Clawback';
+import BeneficiaryDetailClawback from './pages/BeneficiaryDetail';
+import BeneficiaryDetails from './pages/beneficiary/details';
 
 export default function App() {
   return (
@@ -111,7 +114,33 @@ export default function App() {
                 </AdminRoute>
               }
             />
+
+          <Route
+              path="/admin/beneficiary/details"
+              element={
+                <AdminRoute>
+                  <BeneficiaryDetailClawback />
+                </AdminRoute>
+              }
+            />
+
+            <Route
+              path="/admin/project/:projectId/beneficiary/clawback"
+              element={
+                <AdminRoute>
+                  <Clawback />
+                </AdminRoute>
+              }
+            />
           </Route>
+          <Route
+              path="/beneficiary/details"
+              element={
+                <AdminRoute>
+                  <BeneficiaryDetails />
+                </AdminRoute>
+              }
+            />
         </Routes>
       </BrowserRouter>
     </div>

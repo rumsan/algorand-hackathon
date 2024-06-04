@@ -30,7 +30,7 @@ const RahatCreateAnAsset = (props: Props) => {
       voucherSymbol: e.target['voucherSymbol'].value
     }
 
-    const res = await axios.get(`http://localhost:5500/vouchers/${payload.voucherSymbol}`)
+    const res = await axios.get(`http://localhost:5500/api/v1/vouchers/${payload.voucherSymbol}`)
 
     if(!res?.data?.uuid){
       const algoResponse = await props.typedClient.createAnAsset(
@@ -44,7 +44,7 @@ const RahatCreateAnAsset = (props: Props) => {
       )
       const assetId = Number(algoResponse?.return).toString()
       if(assetId){
-      await axios.post('http://localhost:5500/vouchers', {...payload, assetId})
+      await axios.post('http://localhost:5500/api/v1/vouchers', {...payload, assetId})
       }
     }
   }

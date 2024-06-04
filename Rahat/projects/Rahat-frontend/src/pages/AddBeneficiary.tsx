@@ -7,10 +7,6 @@ import CreateBeneficiary from '../components/templates/create-beneficiary';
 
 const AddBeneficiary = () => {
 
-
-
-
-
   return (
     <>
     <CreateBeneficiary />

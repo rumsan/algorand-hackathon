@@ -52,6 +52,15 @@ const BeneficiaryDetailClawback = () => {
         </>
       }
 
+<RahatUnfreezeBeneficiaryAsset
+            buttonClass="btn m-2"
+            buttonLoadingNode={<span className="loading loading-spinner" />}
+            buttonNode="Call unfreezeBeneficiaryAsset"
+            typedClient={typedClient}
+            benAddress={beneficiaryWallet}
+            assetId={Number(import.meta.env.VITE_ASA_ID)}
+          />
+
       {
         assetStatus.isFrozen && 
         <>

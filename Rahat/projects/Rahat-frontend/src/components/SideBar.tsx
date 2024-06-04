@@ -7,13 +7,16 @@ function SideBar() {
   const { id } = useParams();
 
   const [project, setProject] = useState<any>(null);
-
+  const [showTokenDetail, setShowTokenDetail] = useState(false);
   const { data } = useGet(`getById${id}`, URLS.PROJECT, id as string);
 
   useEffect(() => {
     if (data) {
       console.log(data, 'data');
       setProject(data);
+      if(data.voucherId !== null) {
+      setShowTokenDetail(true);
+      }
     }
   }, [data]);
 
@@ -23,6 +26,12 @@ function SideBar() {
     return <div>Loading...</div>;
   }
   const navigation = [
+    {
+      name: 'Project Asset',
+      // href: showTokenDetail ? `/admin/project/${id}/voucherDetails` : `/admin/project/${id}`,
+
+      href: showTokenDetail ? `/admin/project/${id}/token-detail` : `/admin/project/${id}/create-asa`,
+    },
     {
       name: 'Projects Details',
       href: `/admin/project/${id}`,

@@ -1,62 +1,11 @@
 import SideBar from '@/components/SideBar';
 import { Link, useParams } from 'react-router-dom';
-import BeneficiaryDetailClawback from '../BeneficiaryDetail';
+import BeneficiaryDetailClawback from '../BeneficiaryDetailClawback';
 import { useEffect, useState } from 'react';
 import useGet from '@/hooks/useGet';
 import { URLS } from '@/constants';
 
-const beneficiary = {
-  uuid: 10,
 
-  name: 'Jacob Anderson',
-  age: 25,
-  title: 'Content Writer',
-  department: 'Content',
-  email: 'jacob.anderson@example.com',
-  gender: 'Male',
-
-  project: [
-    {
-      uuid: '123e4567-e89b-12d3-a456-54352',
-      name: 'Community Park Renovation',
-      totalDonation: 50000,
-      status: 'Active',
-      token: 'CPR123456',
-      estimatedBudget: 140000,
-      creationDate: '2023-01-15',
-    },
-    {
-      uuid: '123e4567-e89b-12d3-a456-34535',
-      name: 'Community Park Renovation',
-      totalDonation: 50000,
-      status: 'Active',
-      token: 'CPR123456',
-      estimatedBudget: 140000,
-      creationDate: '2023-01-15',
-    },
-    {
-      uuid: '123e4567-e89b-12d3-a456-4353',
-      name: 'Community Park Renovation',
-      totalDonation: 50000,
-      status: 'Active',
-      token: 'CPR123456',
-      estimatedBudget: 140000,
-      creationDate: '2023-01-15',
-    },
-    {
-      uuid: '123e4567-e89b-12d3-a456-323412',
-      name: 'Community Park Renovation',
-      totalDonation: 50000,
-      status: 'Active',
-      token: 'CPR123456',
-      estimatedBudget: 140000,
-      creationDate: '2023-01-15',
-    },
-  ],
-  walletAddress: '0x0j1k2l3m4n5o6p7q8r9s',
-  image:
-    'https://images.unsplash.com/photo-1502767089025-6572583495c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-};
 
 const transaction = [
   {
@@ -130,7 +79,6 @@ export default function BeneficiaryDetail() {
 
   return (
     <>
-      <BeneficiaryDetailClawback />
       <div className="flex">
         {/* Sidebar */}
         <SideBar />
@@ -144,7 +92,7 @@ export default function BeneficiaryDetail() {
                   className="aspect-[1154/678] w-[72.125rem] bg-gradient-to-br from-[#FF80B5] to-[#9089FC]"
                   style={{
                     clipPath:
-                      'polygon(100% 38.5%, 82.6% 100%, 60.2% 37.7%, 52.4% 32.1%, 47.5% 41.8%, 45.2% 65.6%, 27.5% 23.4%, 0.1% 35.3%, 17.9% 0%, 27.7% 23.4%, 76.2% 2.5%, 74.2% 56%, 100% 38.5%)',
+                    'polygon(100% 38.5%, 82.6% 100%, 60.2% 37.7%, 52.4% 32.1%, 47.5% 41.8%, 45.2% 65.6%, 27.5% 23.4%, 0.1% 35.3%, 17.9% 0%, 27.7% 23.4%, 76.2% 2.5%, 74.2% 56%, 100% 38.5%)',
                   }}
                 />
               </div>
@@ -171,6 +119,7 @@ export default function BeneficiaryDetail() {
                 </div>
               </div>
             </div>
+                  <BeneficiaryDetailClawback />
           </header>
 
           <main className="px-4 py-16 sm:px-6 lg:px-8">

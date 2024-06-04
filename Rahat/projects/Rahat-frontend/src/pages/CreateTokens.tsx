@@ -1,28 +1,28 @@
-import React from 'react'
-import RahatCreateAnAsset from '../components/contracts/RahatCreateAnAsset'
-import { typedClient } from '../utils/typedClient'
-import RahatAssignBeneficiary from '@/components/contracts/RahatAssignBeneficiary'
+import React from 'react';
+import RahatCreateAnAsset from '../components/contracts/RahatCreateAnAsset';
+import { typedClient } from '../utils/typedClient';
+import RahatAssignBeneficiary from '@/components/contracts/RahatAssignBeneficiary';
+import SideBar from '@/components/SideBar';
 
-const CreateTokens = ({props}: any) => {
-    
+const CreateTokens = ({ props }: any) => {
   return (
     <>
-    <RahatCreateAnAsset
-    buttonClass="btn m-2"
-    buttonLoadingNode={<span className="loading loading-spinner" />}
-    buttonNode="Call createAnAsset"
-    typedClient={typedClient}
-    />
+      <div className="flex">
+        {/* Sidebar */}
+        <SideBar />
+        <div className="ml-64 w-full">
+          <RahatCreateAnAsset
+            buttonClass="btn m-2"
+            buttonLoadingNode={<span className="loading loading-spinner" />}
+            buttonNode="Call createAnAsset"
+            typedClient={typedClient}
+          />
 
-    <RahatAssignBeneficiary
-      buttonClass="btn m-2"
-      buttonLoadingNode={<span className="loading loading-spinner" />}
-      buttonNode="Call assignBeneficiary"
-      typedClient={typedClient}
-      _address={"VRTMUXHF6KYD4GWCFIISS5IKSUDMWM4CWTPHNIDMNRE6YJANLQNJ36OKAU"}
-    />
+          
+        </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default CreateTokens
+export default CreateTokens;

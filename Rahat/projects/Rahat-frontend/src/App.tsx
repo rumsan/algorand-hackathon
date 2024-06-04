@@ -13,6 +13,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProjectList from './pages/project/ProjectList';
 import Beneficiaries from './pages/Beneficiaries';
 import AddAdmin from './pages/project/AddAdmin';
+import TokenDetail from './pages/project/TokenDetail';
 
 export default function App() {
   return (
@@ -96,6 +97,14 @@ export default function App() {
               }
             />
             <Route
+              path="/admin/project/:id/create-asa"
+              element={
+                <AdminRoute>
+                  <CreateTokens />
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/admin/beneficiary"
               element={
                 <AdminRoute>
@@ -108,6 +117,14 @@ export default function App() {
               element={
                 <AdminRoute>
                   <CreateTokens />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/token-detail"
+              element={
+                <AdminRoute>
+                  <TokenDetail />
                 </AdminRoute>
               }
             />

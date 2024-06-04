@@ -5,16 +5,6 @@ import { useEffect, useState } from 'react';
 import useGet from '@/hooks/useGet';
 import { URLS } from '@/constants';
 
-const project = {
-  uuid: '123e4567-e89b-12d3-a456-426614174000',
-  name: 'Community Park Renovation',
-  totalDonation: 50000,
-  status: 'Active',
-  token: 'CPR123456',
-  estimatedBudget: 140000,
-  creationDate: '2023-01-15',
-};
-
 export const navigation = [
   {
     name: 'Projects',
@@ -42,6 +32,7 @@ export default function Example() {
     if (data) {
       console.log(data, 'data');
       setProject(data);
+      localStorage.setItem('voucherId', JSON.stringify(data.voucherId));
     }
   }, [data]);
 
@@ -49,6 +40,9 @@ export default function Example() {
 
   if (!project) {
     return <div>Loading...</div>;
+  }
+  if (project) {
+    console.log(project.voucherId);
   }
 
   return (
@@ -76,11 +70,7 @@ export default function Example() {
             <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
               <div className="mx-auto flex max-w-2xl items-center justify-between gap-x-8 lg:mx-0 lg:max-w-none">
                 <div className="flex items-center gap-x-6">
-                  <img
-                    src={project.imageUrl}
-                    alt=""
-                    className="h-16 w-16 flex-none rounded-full ring-1 ring-gray-900/10"
-                  />
+                  <img src={project.imageUrl} alt="" className="h-16 w-16 flex-none rounded-full ring-1 ring-gray-900/10" />
                   <h1>
                     <div className=" text-sm leading-6 text-gray-500">
                       Project id <span className="text-gray-700">{project.uuid}</span>

@@ -26,7 +26,7 @@ export class Rahat extends Contract {
    * @returns Asset (token)
    */
   createAnAsset(asaName: string, asaSymbol: string): AssetID {
-    verifyTxn(this.txn, { sender: this.app.creator });
+    // verifyTxn(this.txn, { sender: this.app.creator });
     const asset = sendAssetCreation({
       configAssetTotal: 1_000_000_000_000_000,
       configAssetFreeze: this.app.address,
@@ -125,6 +125,10 @@ export class Rahat extends Contract {
 
     // Unfreeze asset for beneficiary, incase needed to transfer later
     this.unfreezeBeneficiaryAsset(benAddress, assetId)
+
+    if(true){
+
+    }
 
     // Send clawback transaction
     sendAssetTransfer({

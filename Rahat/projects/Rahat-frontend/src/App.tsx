@@ -15,7 +15,7 @@ import ProjectList from './pages/project/ProjectList';
 import Beneficiaries from './pages/Beneficiaries';
 import AddAdmin from './pages/project/AddAdmin';
 import Clawback from './pages/project/Clawback';
-import BeneficiaryDetailClawback from './pages/BeneficiaryDetail';
+import BeneficiaryDetailClawback from './pages/BeneficiaryDetailClawback';
 import BeneficiaryDetails from './pages/beneficiary/details';
 import InviteTeamMembers from './components/AddTeamMembers';
 import CreateVendor from './pages/project/CreateVendor';

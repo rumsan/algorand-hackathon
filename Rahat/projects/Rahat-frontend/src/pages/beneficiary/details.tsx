@@ -15,8 +15,8 @@ const peraWallet = new PeraWalletConnect({chainId: 416002});
 
   return (
     <div>
-        Projects you are enrolled in 
-
+      Projects you are enrolled in 
+      
         
     </div>
   )

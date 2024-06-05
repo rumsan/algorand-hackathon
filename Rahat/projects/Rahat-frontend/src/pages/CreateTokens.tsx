@@ -1,7 +1,7 @@
 import React from 'react'
 import RahatCreateAnAsset from '../components/contracts/RahatCreateAnAsset'
 import { typedClient } from '../utils/typedClient'
-import RahatAssignBeneficiary from '@/components/contracts/RahatAssignBeneficiary'
+import RahatAssignAdmin from '@/components/contracts/RahatAssignAdmin'
 
 const CreateTokens = ({props}: any) => {
     
@@ -14,13 +14,13 @@ const CreateTokens = ({props}: any) => {
     typedClient={typedClient}
     />
 
-    <RahatAssignBeneficiary
-      buttonClass="btn m-2"
-      buttonLoadingNode={<span className="loading loading-spinner" />}
-      buttonNode="Call assignBeneficiary"
-      typedClient={typedClient}
-      _address={"VRTMUXHF6KYD4GWCFIISS5IKSUDMWM4CWTPHNIDMNRE6YJANLQNJ36OKAU"}
-    />
+  <RahatAssignAdmin
+    buttonClass="btn m-2"
+    buttonLoadingNode={<span className="loading loading-spinner" />}
+    buttonNode="Call assignAdmin"
+    typedClient={typedClient}
+    _address={"_address"}
+  />
     </>
   )
 }

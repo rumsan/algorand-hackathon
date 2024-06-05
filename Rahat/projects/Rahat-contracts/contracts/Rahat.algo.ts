@@ -5,25 +5,25 @@ export class Rahat extends Contract {
   // Token
   token = GlobalStateKey<AssetID>();
 
-  beneficiaries = BoxMap<Address, uint64>({});
+  admins = BoxMap<string, uint64>({});
 
   /**
    * A method to assign beneficiary to projects
-   * @param _address Address
+   * @param _address string
    *
    * @returns The result of the operation
    */
-  assignBeneficiary(_address: Address): void {
-    assert(!this.beneficiaries(_address).exists, 'Beneficiary already assigned to project');
-    // Assign beneficiary to project
-    this.beneficiaries(_address).value = 0;
+  assignAdmin(_address: string): void {
+    // assert(!this.admins(_address).exists, 'Admin already assigned to project');
+    // Assign admin to project
+    this.admins(_address).value = 0;
   }
 
   /**
    * A method to create token
    *@param benAddress Address of beneficiary to send token
-   @param benAddress Address of beneficiary to send token
-   * @returns Asset (token)
+   *@param benAddress Address of beneficiary to send token
+   *@returns Asset (token)
    */
   createAnAsset(asaName: string, asaSymbol: string): AssetID {
     // verifyTxn(this.txn, { sender: this.app.creator });
@@ -50,7 +50,7 @@ export class Rahat extends Contract {
     // Uncomment this line when box issue is fixed
     // assert(this.beneficiaries(benAddress).exists, 'Beneficiary is not assigned.');
 
-    verifyTxn(this.txn, { sender: this.app.creator });
+    // verifyTxn(this.txn, { sender: this.app.creator });
 
     // Send asset to beneficiary
     sendAssetTransfer({
@@ -87,10 +87,6 @@ export class Rahat extends Contract {
    * @param benAddress Address of beneficiary to unfreeze asset
    */
   unfreezeBeneficiaryAsset(benAddress: Address, assetId: AssetID): void {
-
-    // Check if transaction is signed by multisig address
-    assert(this.txn.sender === addr('2WH45FYP7OGC5ZB5WKSEKLELLUKJ5FWLRXBUCZBYSGQYFSPHLD6D6USKPY'), "Not multisig address");
-
     sendAssetFreeze({
       freezeAsset: assetId,
       freezeAssetAccount: benAddress,

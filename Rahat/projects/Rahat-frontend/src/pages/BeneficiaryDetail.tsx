@@ -52,7 +52,7 @@ const BeneficiaryDetailClawback = () => {
         </>
       }
 
-<RahatUnfreezeBeneficiaryAsset
+      <RahatUnfreezeBeneficiaryAsset
             buttonClass="btn m-2"
             buttonLoadingNode={<span className="loading loading-spinner" />}
             buttonNode="Call unfreezeBeneficiaryAsset"

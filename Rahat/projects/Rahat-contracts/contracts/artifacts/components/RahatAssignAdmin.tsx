@@ -1,9 +1,17 @@
 /* eslint-disable no-console */
 import { ReactNode, useState } from 'react'
-import { Rahat, RahatClient } from '../../contracts/RahatClient'
+import { Rahat, RahatClient } from '../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
-import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount'
 
+/* Example usage
+<RahatAssignAdmin
+  buttonClass="btn m-2"
+  buttonLoadingNode={<span className="loading loading-spinner" />}
+  buttonNode="Call assignAdmin"
+  typedClient={typedClient}
+  _address={_address}
+/>
+*/
 type RahatAssignAdminArgs = Rahat['methods']['assignAdmin(string)void']['argsObj']
 
 type Props = {
@@ -26,16 +34,14 @@ const RahatAssignAdmin = (props: Props) => {
       {
         _address: props._address,
       },
-      { sender,
-        sendParams: {fee: new AlgoAmount({algos: 0.003})}
-       },
+      { sender },
     )
     setLoading(false)
   }
 
   return (
     <button className={props.buttonClass} onClick={callMethod}>
-      Assign admin
+      {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode}
     </button>
   )
 }

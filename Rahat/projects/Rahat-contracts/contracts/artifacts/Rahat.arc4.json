@@ -3,13 +3,13 @@
   "desc": "",
   "methods": [
     {
-      "name": "assignBeneficiary",
+      "name": "assignAdmin",
       "desc": "A method to assign beneficiary to projects",
       "args": [
         {
           "name": "_address",
-          "type": "address",
-          "desc": "Address"
+          "type": "string",
+          "desc": "string"
         }
       ],
       "returns": {

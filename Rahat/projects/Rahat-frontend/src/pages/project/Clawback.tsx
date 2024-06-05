@@ -88,18 +88,18 @@ const Clawback = () => {
 
         console.log(signedTxn)
 
-        const sendTxn = await algodClient.sendRawTransaction(signedTxn).do();
+        // const sendTxn = await algodClient.sendRawTransaction(signedTxn).do();
 
 
         // 
         
-        // const payload = {
-        //     signature: signedTxn.toString(),
-        //     walletAddress: connectedWallet as string,
-        //     projectId : projectId
-        // }
+        const payload = {
+            signature: signedTxn.toString(),
+            walletAddress: connectedWallet as string,
+            projectId : projectId
+        }
 
-        // await axios.post('http://localhost:5500/api/v1/multisig', payload)
+        await axios.post('http://localhost:5500/api/v1/multisig', payload)
     }
     
     const finalizeTxnCall = async () => {

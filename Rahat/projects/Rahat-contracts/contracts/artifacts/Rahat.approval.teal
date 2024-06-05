@@ -22,46 +22,35 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
-// assignBeneficiary(address)void
-*abi_route_assignBeneficiary:
-	// _address: address
+// assignAdmin(string)void
+*abi_route_assignAdmin:
+	// _address: string
 	txna ApplicationArgs 1
-	dup
-	len
-	int 32
-	==
+	extract 2 0
 
-	// argument 0 (_address) for assignBeneficiary must be a address
-	assert
-
-	// execute assignBeneficiary(address)void
-	callsub assignBeneficiary
+	// execute assignAdmin(string)void
+	callsub assignAdmin
 	int 1
 	return
 
-// assignBeneficiary(_address: Address): void
+// assignAdmin(_address: string): void
 //
 // A method to assign beneficiary to projects
-// @param _address Address
+// @param _address string
 //
 // @returns The result of the operation
-assignBeneficiary:
+assignAdmin:
 	proto 1 0
 
-	// contracts\Rahat.algo.ts:17
-	// assert(!this.beneficiaries(_address).exists, 'Beneficiary already assigned to project')
-	frame_dig -1 // _address: Address
-	box_len
-	swap
-	pop
-	!
-
-	// Beneficiary already assigned to project
-	assert
-
 	// contracts\Rahat.algo.ts:19
-	// this.beneficiaries(_address).value = 0
-	frame_dig -1 // _address: Address
+	// this.admins(_address).value = 0
+	frame_dig -1 // _address: string
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	byte 0x0000000000000000
 	box_put
 	retsub
@@ -192,18 +181,6 @@ createAnAsset:
 // @param assetId: AssetID of token to be sent
 sendTokenToBeneficiary:
 	proto 3 0
-
-	// contracts\Rahat.algo.ts:53
-	// verifyTxn(this.txn, { sender: this.app.creator })
-	// verify sender
-	txn Sender
-	txna Applications 0
-	app_params_get AppCreator
-	pop
-	==
-
-	// transaction verification failed: {"txn":"this.txn","field":"sender","expected":"this.app.creator"}
-	assert
 
 	// contracts\Rahat.algo.ts:56
 	// sendAssetTransfer({
@@ -359,16 +336,7 @@ freezeBeneficiaryAsset:
 unfreezeBeneficiaryAsset:
 	proto 2 0
 
-	// contracts\Rahat.algo.ts:92
-	// assert(this.txn.sender === addr('2WH45FYP7OGC5ZB5WKSEKLELLUKJ5FWLRXBUCZBYSGQYFSPHLD6D6USKPY'), "Not multisig address")
-	txn Sender
-	addr 2WH45FYP7OGC5ZB5WKSEKLELLUKJ5FWLRXBUCZBYSGQYFSPHLD6D6USKPY
-	==
-
-	// Not multisig address
-	assert
-
-	// contracts\Rahat.algo.ts:94
+	// contracts\Rahat.algo.ts:90
 	// sendAssetFreeze({
 	//       freezeAsset: assetId,
 	//       freezeAssetAccount: benAddress,
@@ -378,17 +346,17 @@ unfreezeBeneficiaryAsset:
 	int afrz
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:95
+	// contracts\Rahat.algo.ts:91
 	// freezeAsset: assetId
 	frame_dig -2 // assetId: AssetID
 	itxn_field FreezeAsset
 
-	// contracts\Rahat.algo.ts:96
+	// contracts\Rahat.algo.ts:92
 	// freezeAssetAccount: benAddress
 	frame_dig -1 // benAddress: Address
 	itxn_field FreezeAssetAccount
 
-	// contracts\Rahat.algo.ts:97
+	// contracts\Rahat.algo.ts:93
 	// freezeAssetFrozen: false
 	int 0
 	itxn_field FreezeAssetFrozen
@@ -434,7 +402,7 @@ unfreezeBeneficiaryAsset:
 sendTokenToVendor:
 	proto 3 0
 
-	// contracts\Rahat.algo.ts:108
+	// contracts\Rahat.algo.ts:104
 	// sendAssetTransfer({
 	//       xferAsset: assetId,
 	//       assetReceiver: venderAddress,
@@ -444,17 +412,17 @@ sendTokenToVendor:
 	int axfer
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:109
+	// contracts\Rahat.algo.ts:105
 	// xferAsset: assetId
 	frame_dig -3 // assetId: AssetID
 	itxn_field XferAsset
 
-	// contracts\Rahat.algo.ts:110
+	// contracts\Rahat.algo.ts:106
 	// assetReceiver: venderAddress
 	frame_dig -1 // venderAddress: Address
 	itxn_field AssetReceiver
 
-	// contracts\Rahat.algo.ts:111
+	// contracts\Rahat.algo.ts:107
 	// assetAmount: amount
 	frame_dig -2 // amount: uint64
 	itxn_field AssetAmount
@@ -501,21 +469,21 @@ sendTokenToVendor:
 clawbackBeneficiaryAsset:
 	proto 3 0
 
-	// contracts\Rahat.algo.ts:127
+	// contracts\Rahat.algo.ts:123
 	// this.unfreezeBeneficiaryAsset(benAddress, assetId)
 	frame_dig -2 // assetId: AssetID
 	frame_dig -1 // benAddress: Address
 	callsub unfreezeBeneficiaryAsset
 
 	// *if0_condition
-	// contracts\Rahat.algo.ts:129
+	// contracts\Rahat.algo.ts:125
 	// true
 	int 1
 	bz *if0_end
 
 // *if0_consequent
 *if0_end:
-	// contracts\Rahat.algo.ts:134
+	// contracts\Rahat.algo.ts:130
 	// sendAssetTransfer({
 	//       xferAsset: assetId,
 	//       assetSender: benAddress,
@@ -526,22 +494,22 @@ clawbackBeneficiaryAsset:
 	int axfer
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:135
+	// contracts\Rahat.algo.ts:131
 	// xferAsset: assetId
 	frame_dig -2 // assetId: AssetID
 	itxn_field XferAsset
 
-	// contracts\Rahat.algo.ts:136
+	// contracts\Rahat.algo.ts:132
 	// assetSender: benAddress
 	frame_dig -1 // benAddress: Address
 	itxn_field AssetSender
 
-	// contracts\Rahat.algo.ts:137
+	// contracts\Rahat.algo.ts:133
 	// assetReceiver: this.app.address
 	global CurrentApplicationAddress
 	itxn_field AssetReceiver
 
-	// contracts\Rahat.algo.ts:138
+	// contracts\Rahat.algo.ts:134
 	// assetAmount: amount
 	frame_dig -3 // amount: uint64
 	itxn_field AssetAmount
@@ -567,7 +535,7 @@ clawbackBeneficiaryAsset:
 	err
 
 *call_NoOp:
-	method "assignBeneficiary(address)void"
+	method "assignAdmin(string)void"
 	method "createAnAsset(string,string)uint64"
 	method "sendTokenToBeneficiary(address,uint64,uint64)void"
 	method "freezeBeneficiaryAsset(address,uint64)void"
@@ -575,7 +543,7 @@ clawbackBeneficiaryAsset:
 	method "sendTokenToVendor(address,uint64,uint64)void"
 	method "clawbackBeneficiaryAsset(address,uint64,uint64)void"
 	txna ApplicationArgs 0
-	match *abi_route_assignBeneficiary *abi_route_createAnAsset *abi_route_sendTokenToBeneficiary *abi_route_freezeBeneficiaryAsset *abi_route_unfreezeBeneficiaryAsset *abi_route_sendTokenToVendor *abi_route_clawbackBeneficiaryAsset
+	match *abi_route_assignAdmin *abi_route_createAnAsset *abi_route_sendTokenToBeneficiary *abi_route_freezeBeneficiaryAsset *abi_route_unfreezeBeneficiaryAsset *abi_route_sendTokenToVendor *abi_route_clawbackBeneficiaryAsset
 
 	// this contract does not implement the given ABI method for call NoOp
 	err

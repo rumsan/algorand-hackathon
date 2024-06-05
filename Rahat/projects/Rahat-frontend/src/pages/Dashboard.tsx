@@ -1,5 +1,5 @@
-import { Fragment, useState } from "react";
-import { Dialog, Menu, Transition } from "@headlessui/react";
+import { Fragment, useState } from 'react';
+import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
   ArrowDownCircleIcon,
   ArrowPathIcon,
@@ -7,83 +7,71 @@ import {
   Bars3Icon,
   EllipsisHorizontalIcon,
   PlusSmallIcon,
-} from "@heroicons/react/20/solid";
-import { BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+} from '@heroicons/react/20/solid';
+import { BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import useList from '@/hooks/useList';
+import { URLS } from '@/constants';
+import React, { useEffect, useRef } from 'react';
+import Chart from 'chart.js/auto';
+import { Bar, Doughnut, Pie, Line } from 'react-chartjs-2';
 
-const navigation = [
-  { name: "Home", href: "#" },
-  { name: "Invoices", href: "#" },
-  { name: "Clients", href: "#" },
-  { name: "Expenses", href: "#" },
-];
-const secondaryNavigation = [
-  { name: "Last 7 days", href: "#", current: true },
-  { name: "Last 30 days", href: "#", current: false },
-  { name: "All-time", href: "#", current: false },
-];
-const stats = [
-  { name: "Projects", value: "2", change: "active", changeType: "positive" },
-  { name: "Beneficiaries", value: "200", change: "+54.02%", changeType: "positive" },
-  { name: "Outstanding invoices", value: "$245,988.00", change: "-1.39%", changeType: "positive" },
-  { name: "Expenses", value: "$30,156.00", change: "+10.18%", changeType: "negative" },
-];
 const statuses = {
-  Paid: "text-green-700 bg-green-50 ring-green-600/20",
-  Withdraw: "text-gray-600 bg-gray-50 ring-gray-500/10",
-  Overdue: "text-red-700 bg-red-50 ring-red-600/10",
+  Paid: 'text-green-700 bg-green-50 ring-green-600/20',
+  Withdraw: 'text-gray-600 bg-gray-50 ring-gray-500/10',
+  Overdue: 'text-red-700 bg-red-50 ring-red-600/10',
 };
 const days = [
   {
-    date: "Today",
-    dateTime: "2023-03-22",
+    date: 'Today',
+    dateTime: '2023-03-22',
     transactions: [
       {
         id: 1,
-        invoiceNumber: "00012",
-        href: "#",
-        amount: "$7,600.00 USD",
-        tax: "$500.00",
-        status: "Paid",
-        client: "Reform",
-        description: "Website redesign",
+        invoiceNumber: '00012',
+        href: '#',
+        amount: '$7,600.00 USD',
+        tax: '$500.00',
+        status: 'Paid',
+        client: 'Reform',
+        description: 'Website redesign',
         icon: ArrowUpCircleIcon,
       },
       {
         id: 2,
-        invoiceNumber: "00011",
-        href: "#",
-        amount: "$10,000.00 USD",
-        status: "Withdraw",
-        client: "Tom Cook",
-        description: "Salary",
+        invoiceNumber: '00011',
+        href: '#',
+        amount: '$10,000.00 USD',
+        status: 'Withdraw',
+        client: 'Tom Cook',
+        description: 'Salary',
         icon: ArrowDownCircleIcon,
       },
       {
         id: 3,
-        invoiceNumber: "00009",
-        href: "#",
-        amount: "$2,000.00 USD",
-        tax: "$130.00",
-        status: "Overdue",
-        client: "Tuple",
-        description: "Logo design",
+        invoiceNumber: '00009',
+        href: '#',
+        amount: '$2,000.00 USD',
+        tax: '$130.00',
+        status: 'Overdue',
+        client: 'Tuple',
+        description: 'Logo design',
         icon: ArrowPathIcon,
       },
     ],
   },
   {
-    date: "Yesterday",
-    dateTime: "2023-03-21",
+    date: 'Yesterday',
+    dateTime: '2023-03-21',
     transactions: [
       {
         id: 4,
-        invoiceNumber: "00010",
-        href: "#",
-        amount: "$14,000.00 USD",
-        tax: "$900.00",
-        status: "Paid",
-        client: "SavvyCal",
-        description: "Website redesign",
+        invoiceNumber: '00010',
+        href: '#',
+        amount: '$14,000.00 USD',
+        tax: '$900.00',
+        status: 'Paid',
+        client: 'SavvyCal',
+        description: 'Website redesign',
         icon: ArrowUpCircleIcon,
       },
     ],
@@ -92,33 +80,46 @@ const days = [
 const clients = [
   {
     id: 1,
-    name: "Tuple",
-    imageUrl: "https://tailwindui.com/img/logos/48x48/tuple.svg",
-    lastInvoice: { date: "December 13, 2022", dateTime: "2022-12-13", amount: "$2,000.00", status: "Overdue" },
+    name: 'Tuple',
+    imageUrl: 'https://tailwindui.com/img/logos/48x48/tuple.svg',
+    lastInvoice: { date: 'December 13, 2022', dateTime: '2022-12-13', amount: '$2,000.00', status: 'Overdue' },
   },
   {
     id: 2,
-    name: "SavvyCal",
-    imageUrl: "https://tailwindui.com/img/logos/48x48/savvycal.svg",
-    lastInvoice: { date: "January 22, 2023", dateTime: "2023-01-22", amount: "$14,000.00", status: "Paid" },
+    name: 'SavvyCal',
+    imageUrl: 'https://tailwindui.com/img/logos/48x48/savvycal.svg',
+    lastInvoice: { date: 'January 22, 2023', dateTime: '2023-01-22', amount: '$14,000.00', status: 'Paid' },
   },
   {
     id: 3,
-    name: "Reform",
-    imageUrl: "https://tailwindui.com/img/logos/48x48/reform.svg",
-    lastInvoice: { date: "January 23, 2023", dateTime: "2023-01-23", amount: "$7,600.00", status: "Paid" },
+    name: 'Reform',
+    imageUrl: 'https://tailwindui.com/img/logos/48x48/reform.svg',
+    lastInvoice: { date: 'January 23, 2023', dateTime: '2023-01-23', amount: '$7,600.00', status: 'Paid' },
   },
 ];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 export default function DashBoard() {
+   let { isLoading, isError, data } = useList('listCount', `${URLS.BENEFICIARY}/get-count`, 1, 6);
+   console.log(data, 'dataaaaaaa');
+  const stats = [
+    { name: 'Projects', value: data?.totalProject, change: 'active', changeType: 'positive' },
+    { name: 'Beneficiaries', value: data?.totalBeneficiary, change: '+54.02%', changeType: 'positive' },
+    { name: 'Outstanding invoices', value: '$245,988.00', change: '-1.39%', changeType: 'positive' },
+    { name: 'Expenses', value: '$30,156.00', change: '+10.18%', changeType: 'negative' },
+
+  ];
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
 
   return (
     <>
+    
+
       <main>
         <div className="relative isolate overflow-hidden">
           <div className="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5">
@@ -156,7 +157,6 @@ export default function DashBoard() {
         </div>
 
         <div className="space-y-16 py-16 xl:space-y-20">
-          {/* Recent activity table */}
           <div>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <h2 className="mx-auto max-w-2xl text-base font-semibold leading-6 text-gray-900 lg:mx-0 lg:max-w-none">
@@ -240,7 +240,6 @@ export default function DashBoard() {
             </div>
           </div>
 
-          {/* Recent client list*/}
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
               <div className="flex items-center justify-between">

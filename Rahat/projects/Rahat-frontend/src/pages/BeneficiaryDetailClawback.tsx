@@ -6,14 +6,13 @@ import RahatUnfreezeBeneficiaryAsset from '@/components/contracts/RahatUnfreezeB
 import RahatFreezeBeneficiaryAsset from '@/components/contracts/RahatFreezeBeneficiaryAsset';
 import RahatClawbackBeneficiaryAsset from '@/components/contracts/RahatClawbackBeneficiaryAsset';
 
-const BeneficiaryDetailClawback = () => {
+const BeneficiaryDetailClawback = ({ walletAddress }: { walletAddress: string }) => {
   const [assetStatus, setassetStatus] = useState({ isFrozen: false, isCreated: true, amount: 0 });
 
-  const beneficiaryWallet = 'BQ63F7VH6FYQNFUK6YN6FGHI55FPE74FJT7EQ4NMBKHPT3QFSWJGXPPISA';
   const amount = 1;
 
   const checkAssetFrozenStatus = async () => {
-    const accountInfo = await algodClient.accountInformation(beneficiaryWallet).do();
+    const accountInfo = await algodClient.accountInformation(walletAddress).do();
     console.log(accountInfo);
     //@ts-ignore
     const assetHolding = accountInfo['assets'].find((asset) => asset['asset-id'] === Number(import.meta.env.VITE_ASA_ID));
@@ -30,29 +29,29 @@ const BeneficiaryDetailClawback = () => {
 
   return (
     <>
-      <div className="flex justify-end mt-4 space-x-2">
-        {assetStatus.isCreated && (
-          <RahatSendTokenToBeneficiary
-            buttonClass="btn"
-            buttonLoadingNode={<span className="loading loading-spinner" />}
-            buttonNode="Call sendTokenToBeneficiary"
-            typedClient={typedClient}
-            benAddress={beneficiaryWallet}
-            amount={amount}
-            assetId={Number(import.meta.env.VITE_ASA_ID)}
-          />
-        )}
+      <div className="  block justify-end  bg-gray-200 align-middle mt-4 space-x-2 ">
+        {/* {assetStatus.isCreated && ( */}
+        <RahatSendTokenToBeneficiary
+          buttonClass="btn"
+          buttonLoadingNode={<span className="loading loading-spinner" />}
+          buttonNode="Send Token"
+          typedClient={typedClient}
+          benAddress={walletAddress}
+          amount={amount}
+          assetId={Number(import.meta.env.VITE_ASA_ID)}
+        />
+        {/* )} */}
 
-        {assetStatus.isFrozen && (
-          <RahatUnfreezeBeneficiaryAsset
-            buttonClass="btn"
-            buttonLoadingNode={<span className="loading loading-spinner" />}
-            buttonNode="Unfreeze Asset"
-            typedClient={typedClient}
-            benAddress={beneficiaryWallet}
-            assetId={Number(import.meta.env.VITE_ASA_ID)}
-          />
-        )}
+        {/* {assetStatus.isFrozen && ( */}
+        <RahatUnfreezeBeneficiaryAsset
+          buttonClass="btn"
+          buttonLoadingNode={<span className="loading loading-spinner" />}
+          buttonNode="Unfreeze Asset"
+          typedClient={typedClient}
+          benAddress={walletAddress}
+          assetId={Number(localStorage.getItem('voucherId'))}
+        />
+        {/* )} */}
 
         {!assetStatus.isFrozen && (
           <RahatFreezeBeneficiaryAsset
@@ -60,8 +59,8 @@ const BeneficiaryDetailClawback = () => {
             buttonLoadingNode={<span className="loading loading-spinner" />}
             buttonNode=" freeze Asset"
             typedClient={typedClient}
-            benAddress={beneficiaryWallet}
-            assetId={Number(import.meta.env.VITE_ASA_ID)}
+            benAddress={walletAddress}
+            assetId={Number(localStorage.getItem('voucherId'))}
           />
         )}
 
@@ -70,8 +69,8 @@ const BeneficiaryDetailClawback = () => {
           buttonLoadingNode={<span className="loading loading-spinner" />}
           buttonNode="Clawback"
           typedClient={typedClient}
-          benAddress={beneficiaryWallet}
-          assetId={Number(import.meta.env.VITE_ASA_ID)}
+          benAddress={walletAddress}
+          assetId={Number(localStorage.getItem('voucherId'))}
           amount={1}
         />
       </div>

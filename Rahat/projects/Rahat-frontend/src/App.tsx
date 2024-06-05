@@ -1,21 +1,23 @@
-
 import TokenDetail from './pages/project/TokenDetail';
-import AdminLayout from "./layout/AdminLayout";
-import { AdminRoute } from "./components/Routes";
-import Dashboard from "./pages/Dashboard";
-import CreateTokens from "./pages/CreateTokens";
-import LoginPage from "./pages/Login";
-import AddBeneficiary from "./pages/AddBeneficiary";
-import Transaction from "./pages/project/Transaction";
-import ProjectDetail from "./pages/project/ProjectDetail";
-import ProjectBeneficiary from "./pages/project/ProjectBeneficiary";
-import AddProject from "./pages/project/AddProject";
-import BeneficiaryDetail from "./pages/project/BeneficiaryDetail";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ProjectList from "./pages/project/ProjectList";
-import Beneficiaries from "./pages/Beneficiaries";
-import AddAdmin from "./pages/project/AddAdmin";
-import InviteTeamMembers from "./components/AddTeamMembers";
+import AdminLayout from './layout/AdminLayout';
+import { AdminRoute } from './components/Routes';
+import Dashboard from './pages/Dashboard';
+import CreateTokens from './pages/CreateTokens';
+import LoginPage from './pages/Login';
+import AddBeneficiary from './pages/AddBeneficiary';
+import Transaction from './pages/project/Transaction';
+import ProjectDetail from './pages/project/ProjectDetail';
+import ProjectBeneficiary from './pages/project/ProjectBeneficiary';
+import AddProject from './pages/project/AddProject';
+import BeneficiaryDetail from './pages/project/BeneficiaryDetail';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ProjectList from './pages/project/ProjectList';
+import Beneficiaries from './pages/Beneficiaries';
+import AddAdmin from './pages/project/AddAdmin';
+import InviteTeamMembers from './components/AddTeamMembers';
+import CreateVendor from './pages/project/CreateVendor';
+import VendorDetail from './pages/project/VendorDetail';
+// import AcquisitionsChart from './pages/Playground';
 
 export default function App() {
   return (
@@ -99,7 +101,7 @@ export default function App() {
               }
             />
             <Route
-              path="/admin/beneficiary/:id"
+              path="/admin/project/:id/beneficiary/:id"
               element={
                 <AdminRoute>
                   <BeneficiaryDetail />
@@ -114,14 +116,14 @@ export default function App() {
                 </AdminRoute>
               }
             />
-            <Route
+            {/* <Route
               path="/admin/beneficiary"
               element={
                 <AdminRoute>
                   <Beneficiaries />
                 </AdminRoute>
               }
-            />
+            /> */}
             <Route
               path="/admin/createToken"
               element={
@@ -135,6 +137,22 @@ export default function App() {
               element={
                 <AdminRoute>
                   <TokenDetail />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/project/:id/create-vendor"
+              element={
+                <AdminRoute>
+                  <CreateVendor />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/project/:id/vendor"
+              element={
+                <AdminRoute>
+                  <VendorDetail />
                 </AdminRoute>
               }
             />

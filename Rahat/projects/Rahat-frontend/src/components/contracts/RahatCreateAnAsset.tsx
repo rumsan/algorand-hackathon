@@ -9,6 +9,7 @@ import axios from 'axios';
 import { algodClient } from '@/utils/typedClient';
 import { PeraWalletConnect } from '@perawallet/connect';
 import { SignerTransaction } from '@perawallet/connect/dist/util/model/peraWalletModels';
+import { useParams } from 'react-router-dom';
 
 type Props = {
   buttonClass: string;
@@ -18,6 +19,8 @@ type Props = {
 };
 
 const RahatCreateAnAsset = (props: Props) => {
+  const { id } = useParams();
+  console.log(id);
   const [loading, setLoading] = useState<boolean>(false);
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! };
@@ -26,11 +29,12 @@ const RahatCreateAnAsset = (props: Props) => {
     e.preventDefault();
     setLoading(true);
     const payload = {
+      projectId: id,
       voucherName: e.target['voucherName'].value,
       voucherSymbol: e.target['voucherSymbol'].value,
     };
 
-    const res = await axios.get(`http://localhost:5500/api/v1/vouchers/${payload.voucherSymbol}`);
+    const res = await axios.get(`http://localhost:5500/api/v1/vouchers/get-voucher-symbol/${payload.voucherSymbol}`);
 
     if (!res?.data?.uuid) {
       const algoResponse = await props.typedClient.createAnAsset(
@@ -42,7 +46,7 @@ const RahatCreateAnAsset = (props: Props) => {
       );
       const assetId = Number(algoResponse?.return).toString();
       if (assetId) {
-        await axios.post('http://localhost:5500/vouchers', { ...payload, assetId });
+        await axios.post('http://localhost:5500/api/v1/vouchers', { ...payload, assetId });
       }
     }
   };

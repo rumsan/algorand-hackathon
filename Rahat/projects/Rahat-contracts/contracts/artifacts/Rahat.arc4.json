@@ -8,12 +8,32 @@
       "args": [
         {
           "name": "_address",
+          "type": "address",
+          "desc": "Address of admin to be assigned"
+        },
+        {
+          "name": "project",
           "type": "string",
           "desc": "string"
         }
       ],
       "returns": {
         "type": "void",
+        "desc": "The result of the operation"
+      }
+    },
+    {
+      "name": "getAdmin",
+      "desc": "A method to get admin",
+      "args": [
+        {
+          "name": "_address",
+          "type": "address",
+          "desc": "Address of admin to be assigned"
+        }
+      ],
+      "returns": {
+        "type": "string",
         "desc": "The result of the operation"
       }
     },

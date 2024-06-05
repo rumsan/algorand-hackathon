@@ -5,18 +5,27 @@ export class Rahat extends Contract {
   // Token
   token = GlobalStateKey<AssetID>();
 
-  admins = BoxMap<string, uint64>({});
+  admins = BoxMap<Address, string>({});
 
   /**
    * A method to assign beneficiary to projects
-   * @param _address string
-   *
+   * @param _address Address of admin to be assigned
+   * @param project string
    * @returns The result of the operation
    */
-  assignAdmin(_address: string): void {
-    // assert(!this.admins(_address).exists, 'Admin already assigned to project');
+  assignAdmin(_address: Address, project: string): void {
+    // assert(!this.admins(_address).exists, 'Admin already assigned to project')
     // Assign admin to project
-    this.admins(_address).value = 0;
+    this.admins(_address).value = project;
+  }
+
+  /**
+   * A method to get admin
+   * @param _address Address of admin to be assigned
+   * @returns The result of the operation
+   */
+  getAdmin(_address: Address): string {
+    return this.admins(_address).value;
   }
 
   /**
@@ -26,7 +35,7 @@ export class Rahat extends Contract {
    *@returns Asset (token)
    */
   createAnAsset(asaName: string, asaSymbol: string): AssetID {
-    // verifyTxn(this.txn, { sender: this.app.creator });
+    assert(!this.admins(this.txn.sender).exists, "Caller is not admin")
     const asset = sendAssetCreation({
       configAssetTotal: 1_000_000_000_000_000,
       configAssetFreeze: this.app.address,

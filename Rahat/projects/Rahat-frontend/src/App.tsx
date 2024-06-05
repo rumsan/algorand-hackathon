@@ -1,3 +1,4 @@
+import TokenDetail from './pages/project/TokenDetail';
 import AdminLayout from './layout/AdminLayout';
 import { AdminRoute } from './components/Routes';
 import Dashboard from './pages/Dashboard';
@@ -16,6 +17,10 @@ import AddAdmin from './pages/project/AddAdmin';
 import Clawback from './pages/project/Clawback';
 import BeneficiaryDetailClawback from './pages/BeneficiaryDetail';
 import BeneficiaryDetails from './pages/beneficiary/details';
+import InviteTeamMembers from './components/AddTeamMembers';
+import CreateVendor from './pages/project/CreateVendor';
+import VendorDetail from './pages/project/VendorDetail';
+// import AcquisitionsChart from './pages/Playground';
 
 export default function App() {
   return (
@@ -30,6 +35,14 @@ export default function App() {
               element={
                 <AdminRoute>
                   <Dashboard />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/invite-member"
+              element={
+                <AdminRoute>
+                  <InviteTeamMembers />
                 </AdminRoute>
               }
             />
@@ -91,7 +104,7 @@ export default function App() {
               }
             />
             <Route
-              path="/admin/beneficiary/:id"
+              path="/admin/project/:id/beneficiary/:id"
               element={
                 <AdminRoute>
                   <BeneficiaryDetail />
@@ -99,13 +112,21 @@ export default function App() {
               }
             />
             <Route
+              path="/admin/project/:id/create-asa"
+              element={
+                <AdminRoute>
+                  <CreateTokens />
+                </AdminRoute>
+              }
+            />
+            {/* <Route
               path="/admin/beneficiary"
               element={
                 <AdminRoute>
                   <Beneficiaries />
                 </AdminRoute>
               }
-            />
+            /> */}
             <Route
               path="/admin/createToken"
               element={
@@ -129,6 +150,30 @@ export default function App() {
               element={
                 <AdminRoute>
                   <Clawback />
+                  </AdminRoute>
+                  }
+                  />
+            <Route
+              path="/admin/token-detail"
+              element={
+                <AdminRoute>
+                  <TokenDetail />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/project/:id/create-vendor"
+              element={
+                <AdminRoute>
+                  <CreateVendor />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/project/:id/vendor"
+              element={
+                <AdminRoute>
+                  <VendorDetail />
                 </AdminRoute>
               }
             />

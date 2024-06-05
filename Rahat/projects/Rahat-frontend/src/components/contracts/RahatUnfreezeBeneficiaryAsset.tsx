@@ -1,23 +1,23 @@
 /* eslint-disable no-console */
-import { ReactNode, useState } from 'react'
-import { Rahat, RahatClient } from '../../contracts/RahatClient'
-import { useWallet } from '@txnlab/use-wallet'
-import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount'
+import { ReactNode, useState } from 'react';
+import { Rahat, RahatClient } from '../../contracts/RahatClient';
+import { useWallet } from '@txnlab/use-wallet';
+import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount';
 import { PeraWalletConnect } from '@perawallet/connect';
 import algosdk from 'algosdk';
 import { algodClient } from '@/utils/typedClient';
 import { SignerTransaction } from '@perawallet/connect/dist/util/model/peraWalletModels';
 
-type RahatUnfreezeBeneficiaryAssetArgs = Rahat['methods']['unfreezeBeneficiaryAsset(address,uint64)void']['argsObj']
+type RahatUnfreezeBeneficiaryAssetArgs = Rahat['methods']['unfreezeBeneficiaryAsset(address,uint64)void']['argsObj'];
 
 type Props = {
-  buttonClass: string
-  buttonLoadingNode?: ReactNode
-  buttonNode: ReactNode
-  typedClient: RahatClient
-  benAddress: RahatUnfreezeBeneficiaryAssetArgs['benAddress']
-  assetId: RahatUnfreezeBeneficiaryAssetArgs['assetId']
-}
+  buttonClass: string;
+  buttonLoadingNode?: ReactNode;
+  buttonNode: ReactNode;
+  typedClient: RahatClient;
+  benAddress: RahatUnfreezeBeneficiaryAssetArgs['benAddress'];
+  assetId: RahatUnfreezeBeneficiaryAssetArgs['assetId'];
+};
 
 const RahatUnfreezeBeneficiaryAsset = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -114,10 +114,10 @@ const createAppCallTxn = async (): Promise<SignerTransaction[]> => {
   }
 
   return (
-    <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-6" onClick={callMethod}>
+    <button type="submit" className="fblock px-3 py-1 text-sm leading-6 text-green-900" onClick={callMethod}>
       {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode}
     </button>
-  )
-}
+  );
+};
 
-export default RahatUnfreezeBeneficiaryAsset
+export default RahatUnfreezeBeneficiaryAsset;

@@ -87,9 +87,9 @@ export default function BeneficiaryDetail() {
     }
   }, [data]);
 
-  if (!beneficiaries) {
-    return <div>Loading...</div>;
-  }
+  // if (!beneficiaries) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <>
@@ -123,14 +123,14 @@ export default function BeneficiaryDetail() {
                   />
                   <h1>
                     <div className="text-sm leading-6 text-gray-500 py-1">
-                      Beneficiary id <span className="text-gray-700">{beneficiaries.uuid}</span>
+                      Beneficiary id <span className="text-gray-700">{beneficiaries?.uuid}</span>
                     </div>
-                    <div className="py-1 text-2xl mt-1 font-semibold leading-6 text-gray-900">{beneficiaries.name}</div>
+                    <div className="py-1 text-2xl mt-1 font-semibold leading-6 text-gray-900">{beneficiaries?.name}</div>
                     <div className="py-1 text-sm leading-6 text-gray-500">
-                      <span className="text-gray-700">{beneficiaries.walletAddress}</span>
+                      <span className="text-gray-700">{beneficiaries?.walletAddress}</span>
                     </div>
                     <div className="py-1 text-sm leading-6 text-gray-500">
-                      <span className="text-gray-700">{beneficiaries.email}</span>
+                      <span className="text-gray-700">{beneficiaries?.email}</span>
                     </div>
                   </h1>
                 </div>

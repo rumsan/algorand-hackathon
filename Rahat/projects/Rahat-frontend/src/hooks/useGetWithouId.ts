@@ -1,16 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import API from '@/utils/API';
 
-const useGet = (qkey: string, urls: string, id?: string) => {
+const useGetWithoutId = (qkey: string, urls: string) => {
   const { isError, isLoading, data } = useQuery({
-    queryKey: [qkey, id],
+    queryKey: [qkey],
     queryFn: async () => {
-      const { data } = id ? await API.get(`${urls}/${id}`) : await API.get(`${urls}`);
-
+      const { data } = await API.get(`${urls}`);
+console.log(data,'hooookss')
       return data;
     },
   });
   return { isError, isLoading, data };
 };
 
-export default useGet;
+export default useGetWithoutId;

@@ -40,6 +40,8 @@ export default function Example() {
   console.log(voucher, 'voucher');
   voucher ? localStorage.setItem('voucher', JSON.stringify(voucher)) : null;
 
+  
+
   useEffect(() => {
     if (data) {
       console.log(data, 'data');

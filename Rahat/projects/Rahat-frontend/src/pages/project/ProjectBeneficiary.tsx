@@ -20,7 +20,7 @@ type Beneficiary = {
 export default function ProjectBeneficiary() {
   const { id } = useParams();
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
-  const { data } = useList(`listProjectBeneficiary`, `${URLS.PROJECT}/${id}/beneficiaries`, 1, 5);
+  const { data } = useList('listProjectBeneficiary', `${URLS.PROJECT}/${id}/beneficiaries`, 1, 5);
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState<string[]>([]);
 
   const handleCheckboxChange = (walletAddress: string) => {

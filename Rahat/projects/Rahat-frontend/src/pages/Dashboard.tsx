@@ -14,6 +14,7 @@ import { URLS } from '@/constants';
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import { Bar, Doughnut, Pie, Line } from 'react-chartjs-2';
+import AcquisitionsChart from './Playground';
 
 const statuses = {
   Paid: 'text-green-700 bg-green-50 ring-green-600/20',
@@ -106,10 +107,9 @@ export default function DashBoard() {
    let { isLoading, isError, data } = useList('listCount', `${URLS.BENEFICIARY}/get-count`, 1, 6);
    console.log(data, 'dataaaaaaa');
   const stats = [
-    { name: 'Projects', value: data?.totalProject, change: 'active', changeType: 'positive' },
-    { name: 'Beneficiaries', value: data?.totalBeneficiary, change: '+54.02%', changeType: 'positive' },
-    { name: 'Outstanding invoices', value: '$245,988.00', change: '-1.39%', changeType: 'positive' },
-    { name: 'Expenses', value: '$30,156.00', change: '+10.18%', changeType: 'negative' },
+    { name: ' Projects', value: data?.totalProject, change: 'active', changeType: 'positive' },
+    { name: ' Beneficiaries', value: data?.totalBeneficiary, change: '+54.02%', changeType: 'positive' },
+    
 
   ];
 
@@ -118,28 +118,40 @@ export default function DashBoard() {
 
   return (
     <>
-    
-
       <main>
         <div className="relative isolate overflow-hidden">
-          <div className="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5">
-            <dl className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-2 xl:px-0">
-              {stats.map((stat, statIdx) => (
-                <div
-                  key={stat.name}
-                  className={classNames(
-                    statIdx % 2 === 1 ? "sm:border-l" : statIdx === 2 ? "lg:border-l" : "",
-                    "flex items-baseline flex-wrap justify-between gap-y-2 gap-x-4 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8"
-                  )}
-                >
-                  <dt className="text-sm font-medium leading-6 text-gray-500">{stat.name}</dt>
-                  <dd className={classNames(stat.changeType === "negative" ? "text-rose-600" : "text-gray-700", "text-xs font-medium")}>
-                    {stat.change}
-                  </dd>
-                  <dd className="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">{stat.value}</dd>
-                </div>
-              ))}
-            </dl>
+          <div className="flex justify-between p-3">
+            <div className="flex-none ml-96">
+              <div className="border-b pt-10 border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5 lg:w-1/2">
+                {/* <dl className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-2 xl:px-0"> */}
+                {stats.map((stat, statIdx) => (
+                  <div
+                    key={stat.name}
+                    className={classNames(
+                      // statIdx % 2 === 1 ? 'sm:border-l' : statIdx === 2 ? 'lg:border-l' : '',
+                      'flex items-baseline flex-wrap justify-between gap-y-2 gap-x-4  border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8'
+                    )}
+                  >
+                    <div>
+
+                    <dt className="text-xl font-medium leading-6 text-blue-900">{stat.name}</dt>
+                  </div>
+                    <dd className={classNames(stat.changeType === 'negative' ? 'text-rose-600' : 'text-gray-700', 'text-xs font-medium')}>
+                      {stat.change}
+                    </dd>
+                    <dd className="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">{stat.value}</dd>
+                  </div>
+                ))}
+                {/* </dl> */}
+              </div>
+            </div>
+
+            <div className="flex-none mr-96">
+              <div className="text-blue-900 font-medium pl-20  text-xl">Gender Graph</div>
+              <div className="flex pt-10  justify-end items-center">
+                <AcquisitionsChart />
+              </div>
+            </div>
           </div>
 
           <div
@@ -150,12 +162,11 @@ export default function DashBoard() {
               className="aspect-[1154/678] w-[72.125rem] bg-gradient-to-br from-[#FF80B5] to-[#9089FC]"
               style={{
                 clipPath:
-                  "polygon(100% 38.5%, 82.6% 100%, 60.2% 37.7%, 52.4% 32.1%, 47.5% 41.8%, 45.2% 65.6%, 27.5% 23.4%, 0.1% 35.3%, 17.9% 0%, 27.7% 23.4%, 76.2% 2.5%, 74.2% 56%, 100% 38.5%)",
+                  'polygon(100% 38.5%, 82.6% 100%, 60.2% 37.7%, 52.4% 32.1%, 47.5% 41.8%, 45.2% 65.6%, 27.5% 23.4%, 0.1% 35.3%, 17.9% 0%, 27.7% 23.4%, 76.2% 2.5%, 74.2% 56%, 100% 38.5%)',
               }}
             />
           </div>
         </div>
-
         <div className="space-y-16 py-16 xl:space-y-20">
           <div>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -195,7 +206,7 @@ export default function DashBoard() {
                                       <div
                                         className={classNames(
                                           statuses[transaction.status],
-                                          "rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset"
+                                          'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset'
                                         )}
                                       >
                                         {transaction.status}
@@ -277,7 +288,7 @@ export default function DashBoard() {
                               {({ active }) => (
                                 <a
                                   href="#"
-                                  className={classNames(active ? "bg-gray-50" : "", "block px-3 py-1 text-sm leading-6 text-gray-900")}
+                                  className={classNames(active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900')}
                                 >
                                   View<span className="sr-only">, {client.name}</span>
                                 </a>
@@ -287,7 +298,7 @@ export default function DashBoard() {
                               {({ active }) => (
                                 <a
                                   href="#"
-                                  className={classNames(active ? "bg-gray-50" : "", "block px-3 py-1 text-sm leading-6 text-gray-900")}
+                                  className={classNames(active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900')}
                                 >
                                   Edit<span className="sr-only">, {client.name}</span>
                                 </a>
@@ -311,7 +322,7 @@ export default function DashBoard() {
                           <div
                             className={classNames(
                               statuses[client.lastInvoice.status],
-                              "rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset"
+                              'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset'
                             )}
                           >
                             {client.lastInvoice.status}

@@ -53,40 +53,42 @@ const RahatCreateAnAsset = (props: Props) => {
 
   return (
     <>
-      <form onSubmit={(e) => createVoucher(e)}>
-        <h2 className="text-base font-semibold leading-7 text-gray-900">Create an ASA for a project</h2>
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <label className="block text-sm font-medium leading-6 text-gray-900">ASA name</label>
-            <div className="mt-2">
-              <input
-                type="text"
-                name="asaName"
-                id="voucherName"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-              />
+      <form className="bg-gray-100 p-20 " onSubmit={(e) => createVoucher(e)}>
+        <h2 className="text-base font-semibold leading-7 text-blue-900 mb-8">Create an ASA for a project</h2>
+        <div className="flex justify-center">
+          <div className="w-80">
+            <div className="grid grid-cols-1 gap-y-8">
+              <div>
+                <label className="block text-sm font-medium leading-6 text-gray-900 pl-1">ASA name</label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="asaName"
+                    id="voucherName"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium leading-6 text-gray-900 pl-1">ASA Symbol</label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="asaSymbol"
+                    id="voucherSymbol"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-
-          <div className="sm:col-span-3">
-            <label className="block text-sm font-medium leading-6 text-gray-900">ASA Symbol</label>
-            <div className="mt-2">
-              <input
-                type="text"
-                name="asaSymbol"
-                id="voucherSymbol"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-              />
-            </div>
+            <button
+              type="submit"
+              className="w-full mt-6 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Create
+            </button>
           </div>
         </div>
-        <button
-          type="submit"
-          className="flex w-56 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-6"
-        >
-          {/* {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode} */}
-          Create
-        </button>
       </form>
     </>
   );

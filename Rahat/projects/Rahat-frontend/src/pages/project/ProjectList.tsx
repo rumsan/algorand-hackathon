@@ -5,12 +5,8 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useList from '@/hooks/useList';
 import { URLS } from '../../constants';
-import Loader from '@/components/Loader';
-import { Loader2, LoaderCircleIcon, LoaderPinwheel } from 'lucide-react';
-import { LOADIPHLPAPI } from 'dns/promises';
 import NoProjects from '@/components/NoProjects';
 import { PlusIcon } from '@heroicons/react/20/solid';
-import useGet from '@/hooks/useGet';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');

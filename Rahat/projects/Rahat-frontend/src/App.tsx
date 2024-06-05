@@ -20,6 +20,7 @@ import BeneficiaryDetails from './pages/beneficiary/details';
 import InviteTeamMembers from './components/AddTeamMembers';
 import CreateVendor from './pages/project/CreateVendor';
 import VendorDetail from './pages/project/VendorDetail';
+import AcquisitionsChart from './pages/Playground';
 // import AcquisitionsChart from './pages/Playground';
 
 export default function App() {
@@ -136,7 +137,7 @@ export default function App() {
               }
             />
 
-          <Route
+            <Route
               path="/admin/beneficiary/details"
               element={
                 <AdminRoute>
@@ -150,9 +151,9 @@ export default function App() {
               element={
                 <AdminRoute>
                   <Clawback />
-                  </AdminRoute>
-                  }
-                  />
+                </AdminRoute>
+              }
+            />
             <Route
               path="/admin/token-detail"
               element={
@@ -179,13 +180,13 @@ export default function App() {
             />
           </Route>
           <Route
-              path="/beneficiary/details"
-              element={
-                <AdminRoute>
-                  <BeneficiaryDetails />
-                </AdminRoute>
-              }
-            />
+            path="/beneficiary/details"
+            element={
+              <AdminRoute>
+                <BeneficiaryDetails />
+              </AdminRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

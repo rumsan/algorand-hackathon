@@ -23,7 +23,7 @@ const CreateBeneficiary = () => {
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const { postMutation, isError, data, isSuccess, success, isPending } = usePost(`listProjectBeneficiary`);
+  const { postMutation, isError, data, isSuccess, success, isPending } = usePost('listProjectBeneficiary');
 
   const secretKey = import.meta.env.VITE_SECRET_KEY;
 
@@ -113,16 +113,17 @@ const CreateBeneficiary = () => {
       <div>
         <SnackbarUtilsConfigurator />
       </div>
-      <form onSubmit={(e) => createBeneficiary(e)}>
+      <form className='bg-gray-100 p-10 rounded-sm' onSubmit={(e) => createBeneficiary(e)}>
         <div className="space-y-6">
           <div className="pb-12">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Create A New Beneficiary</h2>
+            <h2 className="text-base font-semibold leading-7 text-blue-900">Create A New Beneficiary</h2>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label className="block text-sm font-medium leading-6 text-gray-900">First name</label>
                 <div className="mt-2">
                   <input
+                  required
                     type="text"
                     name="firstName"
                     id="first-name"
@@ -135,6 +136,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Last name</label>
                 <div className="mt-2">
                   <input
+                  required
                     type="text"
                     name="last-name"
                     id="last-name"
@@ -149,6 +151,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Phone number</label>
                 <div className="mt-2">
                   <input
+                  required
                     type="text"
                     name="first-name"
                     id="first-name"
@@ -161,6 +164,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Wallet Address</label>
                 <div className="mt-2 flex w-full gap-[2%]">
                   <input
+                  required
                     type="text"
                     name="first-name"
                     id="first-name"
@@ -183,6 +187,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Email</label>
                 <div className="mt-2">
                   <input
+                  required
                     type="text"
                     name="email"
                     id="first-name"
@@ -195,6 +200,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Age</label>
                 <div className="mt-2">
                   <input
+                  required
                     type="text"
                     name="age"
                     id="first-name"

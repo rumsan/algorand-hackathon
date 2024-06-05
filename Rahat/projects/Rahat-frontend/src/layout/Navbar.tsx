@@ -185,12 +185,7 @@ export default function NavBar() {
                   >
                     Projects
                   </Link>
-                  <Link
-                    to="/admin/beneficiary"
-                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Beneficiaries
-                  </Link>
+                  
                 </div>
               </div>
               <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">

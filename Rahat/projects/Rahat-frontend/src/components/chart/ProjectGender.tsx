@@ -1,18 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
-import useGet from '../hooks/useGet'; // Adjust the import path to your useGet hook
+import useGet from '../../hooks/useGet'; // Adjust the import path to your useGet hook
 import { URLS } from '@/constants';
 import 'chart.js/auto';
+import { useParams } from 'react-router-dom';
 
-const AcquisitionsChart = () => {
-  const { data: chatData } = useGet('acquisitions', `${URLS.BENEFICIARY}/count-gender`);
+const ProjectGender = () => {
+  const { id } = useParams();
+  const { data: chatData } = useGet('projectGender', `${URLS.PROJECT}/chart-gender/${id}`);
   const [labels, setLabels] = useState([]);
   const [dataset, setDataset] = useState([]);
 
   useEffect(() => {
     if (chatData) {
-      const labelsArray = chatData.map((item: any) => item.gender);
-      const dataArray = chatData.map((item: any) => item._count);
+    const labelsArray = Object.keys(chatData);
+    const dataArray = Object.values(chatData);
 
       setLabels(labelsArray);
       setDataset(dataArray);
@@ -23,7 +25,7 @@ const AcquisitionsChart = () => {
     labels,
     datasets: [
       {
-        label: '# of Votes',
+        label: '# of',
         data: dataset,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
@@ -49,9 +51,9 @@ const AcquisitionsChart = () => {
   return (
     <div style={{ width: '400px' }}>
       {/* Use a key prop based on data to force re-render */}
-      <Pie  data={data} key={JSON.stringify(data)} />
+      <Pie data={data} key={JSON.stringify(data)} />
     </div>
   );
 };
 
-export default AcquisitionsChart;
+export default ProjectGender;

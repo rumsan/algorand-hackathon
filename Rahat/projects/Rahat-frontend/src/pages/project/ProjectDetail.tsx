@@ -8,6 +8,10 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
 import { EllipsisVerticalIcon } from 'lucide-react';
+import DashboardGender from '@/components/chart/DashboardGender';
+import DashboardAge from '@/components/chart/DashboardAge';
+import ProjectAge from '@/components/chart/ProjectAge';
+import ProjectGender from '@/components/chart/ProjectGender';
 
 export const navigation = [
   {
@@ -232,6 +236,17 @@ export default function Example() {
                     <col />
                   </colgroup>
                 </table>
+              </div>
+            </div>
+            <div className="flex items-center justify-center space-x-40 pt-20">
+              <div>
+                <h1 className="text-blue-900 font-bold pl-32 pb-5">Gender Grap</h1>
+                <ProjectGender />
+              </div>
+              <div>
+                <h1 className="text-blue-900 font-bold pl-32 pb-5">Age Grap</h1>
+
+                <ProjectAge />
               </div>
             </div>
           </main>

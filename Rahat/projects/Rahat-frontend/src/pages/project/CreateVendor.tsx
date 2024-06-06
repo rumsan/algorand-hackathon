@@ -55,7 +55,7 @@ function CreateVendor() {
   }, [isSuccess, isError]);
 
   if (shouldNavigate) {
-    const route = `/admin/project/${id}/project`
+    const route = `/admin/project/${id}`
     return <Navigate to={route} replace />;
   }
 

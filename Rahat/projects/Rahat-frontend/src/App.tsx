@@ -20,7 +20,8 @@ import BeneficiaryDetails from './pages/beneficiary/details';
 import InviteTeamMembers from './components/AddTeamMembers';
 import CreateVendor from './pages/project/CreateVendor';
 import VendorDetail from './pages/project/VendorDetail';
-import AcquisitionsChart from './pages/Playground';
+import AcquisitionsChart from './components/chart/DashboardGender';
+import UtilizeAsa from './pages/beneficiary/UtilizeAsa';
 // import AcquisitionsChart from './pages/Playground';
 
 export default function App() {
@@ -179,14 +180,27 @@ export default function App() {
               }
             />
           </Route>
-          <Route
-            path="/beneficiary/details"
-            element={
-              <AdminRoute>
-                <BeneficiaryDetails />
-              </AdminRoute>
-            }
-          />
+
+          {/* Real beneficiary route */}
+          <Route path="/beneficiary" element={<AdminLayout />}>
+            <Route
+              path="/beneficiary/details/:id"
+              element={
+                <AdminRoute>
+                  <BeneficiaryDetails />
+                </AdminRoute>
+              }
+            />
+
+            <Route
+              path="/beneficiary/utilize-asa/:id"
+              element={
+                <AdminRoute>
+                  <UtilizeAsa />
+                </AdminRoute>
+              }
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

@@ -67,7 +67,7 @@ function SideBar() {
             <li key={item.name} className="flex items-center">
               {' '}
               {/* Add flex class for horizontal alignment */}
-              <img src={item.image} alt="" className=" w-10 mr-2" /> {/* Move image to the left */}
+              <img src={item.image} alt="" className=" w-9 mr-2" /> {/* Move image to the left */}
               <Link to={item.href} className="block p-2 text-lg font-medium text-blue-900 hover:bg-gray-200 rounded-md">
                 {item.name}
               </Link>

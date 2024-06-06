@@ -8,7 +8,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { EllipsisVerticalIcon } from 'lucide-react';
 
-const transaction = [
+export const transaction = [
   {
     id: 1,
     beneficiaryId: 'B12345',

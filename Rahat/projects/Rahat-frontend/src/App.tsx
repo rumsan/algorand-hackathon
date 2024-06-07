@@ -12,7 +12,6 @@ import AddProject from './pages/project/AddProject';
 import BeneficiaryDetail from './pages/project/BeneficiaryDetail';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProjectList from './pages/project/ProjectList';
-import Beneficiaries from './pages/Beneficiaries';
 import AddAdmin from './pages/project/AddAdmin';
 import Clawback from './pages/project/Clawback';
 import BeneficiaryDetails from './pages/beneficiary/details';

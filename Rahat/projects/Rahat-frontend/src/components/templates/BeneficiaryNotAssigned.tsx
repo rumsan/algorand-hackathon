@@ -10,6 +10,7 @@ import { algodClient } from '@/utils/typedClient';
 import { atomicTxnComposer } from '@/utils/atc';
 import { asaId } from '@/utils/asaId';
 import { useWallet } from '@txnlab/use-wallet';
+import * as snack from "../../components/Toaster";
 
 type Beneficiary = {
     uuid: string;
@@ -20,10 +21,9 @@ type Beneficiary = {
     walletAddress: string;
   };
 
-const BeneficiaryNotAssigned = ({handleSelectAll, setSelectedBeneficiaries, selectedBeneficiaries}: any) => {
-    const { id } = useParams();
+const BeneficiaryTab = ({handleSelectAll, setSelectedBeneficiaries, selectedBeneficiaries, data}: any) => {
+  const { id } = useParams();
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
-  const { data } = useList(`listProjectBeneficiary`, `${URLS.PROJECT}/${id}/beneficiaries`, 1, 5);
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! };
 
@@ -36,6 +36,7 @@ const BeneficiaryNotAssigned = ({handleSelectAll, setSelectedBeneficiaries, sele
   const submitTransferToken = async () => {
     const signedTxn = await atomicTxnComposer(activeAddress as string, selectedBeneficiaries, 1, asaId, sender)
     await algodClient.sendRawTransaction(signedTxn).do()
+    snack.default.success("Adding project to contract")
   };
 
   useEffect(() => {
@@ -115,4 +116,4 @@ const BeneficiaryNotAssigned = ({handleSelectAll, setSelectedBeneficiaries, sele
   )
 }
 
-export default BeneficiaryNotAssigned
+export default BeneficiaryTab

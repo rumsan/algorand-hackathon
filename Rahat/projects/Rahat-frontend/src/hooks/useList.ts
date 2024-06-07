@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import API from '../utils/API';
 
-const useList = (qkey: string, urls: string, page: number, limit: number, email?: string, id?: string) => {
+const useList = (qkey: string, urls: string, page: number, limit: number, email?: string, id?: string, status?: 'NOT_ASSIGNED' | 'FREEZED' | 'UNFREEZED') => {
   const str = JSON.stringify({ page, limit });
 
   const { isError, isLoading, data, refetch } = useQuery({
@@ -13,6 +13,7 @@ const useList = (qkey: string, urls: string, page: number, limit: number, email?
         limit: 15,
         email: email,
         id: id,
+        status
       };
       const { data } = await API.get(urls, { params });
       console.log(data, 'hooks');

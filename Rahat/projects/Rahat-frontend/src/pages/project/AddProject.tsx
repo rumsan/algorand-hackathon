@@ -14,6 +14,7 @@ import { typedClient } from "@/utils/typedClient";
 import algosdk from "algosdk";
 import { AlgoAmount } from "@algorandfoundation/algokit-utils/types/amount";
 import axios from "axios";
+import API from "@/utils/API";
 
 type ProjectType = z.infer<typeof projectSchema>;
 
@@ -79,7 +80,7 @@ export default function AddProject() {
       snack.default.success("Adding project to contract")
 
     // Needs refactor: Quick fix, need to refactor usePost()
-    const res = await axios.post(`${SERVER_URL}${URLS.PROJECT}`, {
+    const res = await API.post(`${SERVER_URL}${URLS.PROJECT}`, {
       name: data.name,
       adminAddress: adminAddress,
       imageUrl: data.imageUrl,

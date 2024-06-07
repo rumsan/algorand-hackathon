@@ -1,3 +1,5 @@
+import { asaId } from '@/utils/asaId';
+import { stringToUint8Array } from '@/utils/stringToUint8Array';
 import { algodClient } from '@/utils/typedClient';
 import { PeraWalletConnect } from '@perawallet/connect';
 import { SignerTransaction } from '@perawallet/connect/dist/util/model/peraWalletModels';
@@ -11,7 +13,7 @@ const Clawback = () => {
 
     const { projectId } = useParams();
 
-    let methodInstance = algosdk.ABIMethod.fromSignature('clawbackBeneficiaryAsset(address,asset,uint64)void');
+    let methodInstance = algosdk.ABIMethod.fromSignature('unfreezeBeneficiaryAsset(address,uint64)void');
     let selector = methodInstance.getSelector();
 
     const [initiateTxn, setInitiateTxn] = useState<boolean>();
@@ -26,8 +28,8 @@ const Clawback = () => {
         version: 1,
         threshold: 2,
         addrs: [
-            'QZNFM5ZXEEOUK5BLV7ZWUZNFKPC3XFOWATOGZXNAWGVHYESMIJ5CFRCEDE',
-            'RL7LKMB4W7EH7IDBIRJMF2ICUWGVXJ7YMNWPTYGEYJA2A3ZYZWFS6S5I4Q',
+            '3BZYCOTA7A3R45ZKUXCG72GCVKIMVDX5PMZMMC7YG72HXS4XKETU4SDLTA',
+            'NDYN2YSKD55TZAPGLFSXJ5TVUWE25L5TXEYBFH3AYQ7SATCOQMYTJRF2PY',
             'BQ63F7VH6FYQNFUK6YN6FGHI55FPE74FJT7EQ4NMBKHPT3QFSWJGXPPISA'
         ]
     };
@@ -43,7 +45,7 @@ const Clawback = () => {
         setSignersDetails(res?.data)
 
         res?.data.forEach((row:any) => {
-            row.walletAddress === accounts[0] && setDisabled(true)
+            row.walletAddress === accounts[0] && setDisabled(false)
         }
         )
     }
@@ -53,24 +55,27 @@ const Clawback = () => {
     }, [])
 
     const createAppCallTxn = async (): Promise<SignerTransaction[]> => {
-
+        const boxKey = algosdk.bigIntToBytes(asaId, 8);
         const suggestedParams = await algodClient.getTransactionParams().do();
-        const txn = algosdk.makeApplicationCallTxnFromObject({
-          from: connectedWallet as string,
-          appIndex: Number(import.meta.env.VITE_APP_ID),
-          appArgs: [
-            selector, 
-            new Uint8Array(Buffer.from('NAS')), 
-            new Uint8Array(1),
-            new Uint8Array(1),
+        const txn = algosdk.makeApplicationNoOpTxnFromObject({
+            from: connectedWallet as string,
+            appIndex: Number(import.meta.env.VITE_APP_ID),
+            appArgs: [
+              selector,
+              algosdk.decodeAddress('QZNFM5ZXEEOUK5BLV7ZWUZNFKPC3XFOWATOGZXNAWGVHYESMIJ5CFRCEDE').publicKey,
+              algosdk.encodeUint64(10),
+              algosdk.encodeUint64(asaId),
             ],
-          suggestedParams: {...suggestedParams,
-             fee: 1000
-            },
-            foreignAssets: [Number(localStorage.getItem('voucherId'))],
-          onComplete: algosdk.OnApplicationComplete.NoOpOC,
-          accounts: [connectedWallet as string],
-        });
+            suggestedParams: {...suggestedParams, fee: 1000},
+            foreignAssets: [asaId],
+            accounts: ['QZNFM5ZXEEOUK5BLV7ZWUZNFKPC3XFOWATOGZXNAWGVHYESMIJ5CFRCEDE'],
+            boxes: [
+              {
+                appIndex: 0,
+                name: boxKey,
+              },
+            ],
+          });
         return [{txn: txn, signers: [connectedWallet as string]}];
       };
 
@@ -82,16 +87,9 @@ const Clawback = () => {
 
         const formattedTxn = await createAppCallTxn();
 
-        // const signedTxn = formattedTxn[0].txn.signTxn(algosdk.mnemonicToSecretKey(import.meta.env.VITE_FUNDER_MNEMONICS).sk)
-
         const signedTxn = await peraWallet.signTransaction([formattedTxn])
 
-        console.log(signedTxn)
-
         // const sendTxn = await algodClient.sendRawTransaction(signedTxn).do();
-
-
-        // 
         
         const payload = {
             signature: signedTxn.toString(),
@@ -103,13 +101,19 @@ const Clawback = () => {
     }
     
     const finalizeTxnCall = async () => {
+        await peraWallet.disconnect()
+        await peraWallet.connect()
+
         const formattedTxn = await createAppCallTxn();
         const signedTxn = await peraWallet.signTransaction([formattedTxn]);
 
         let appendedTxn: Uint8Array | Uint8Array[];
 
         signersDetails?.forEach((txn:any) => {
-            appendedTxn = algosdk.appendSignRawMultisigSignature(txn.signature, multisigParams, txn.walletAddress, signedTxn[0])
+            
+            const uint8Signature1 = stringToUint8Array(txn.signature)
+            console.log(uint8Signature1)
+            appendedTxn = algosdk.appendSignRawMultisigSignature(uint8Signature1, multisigParams, txn.walletAddress, signedTxn[0])
         })
 
         const sendTxn = await algodClient.sendRawTransaction(appendedTxn).do()
@@ -148,7 +152,7 @@ const Clawback = () => {
 
     {finalizeTxn && !disabled && 
         <>
-        <button type="submit" className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-6" onClick={initiateOrAddTxnCall}>
+        <button type="submit" className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-6" onClick={finalizeTxnCall}>
         Finalize txn
         </button>
         </>

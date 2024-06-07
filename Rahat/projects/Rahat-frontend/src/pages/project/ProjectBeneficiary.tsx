@@ -15,6 +15,8 @@ import { useWallet } from '@txnlab/use-wallet';
 import * as Tabs from '@radix-ui/react-tabs';
 import BeneficiaryNotAssigned from '@/components/templates/BeneficiaryNotAssigned';
 import Hookpagination from '@/components/HookPagination';
+import NoProjects from '@/components/NoProjects';
+import NoBeneficiary from '@/components/NoBeneficiary';
 
 type Beneficiary = {
   uuid: string;
@@ -75,12 +77,17 @@ export default function ProjectBeneficiary() {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto"></div>
           <div className="mt-4 flex gap-2 sm:ml-16 sm:mt-0 sm:flex-none">
+            {
+              data?.total > 0 && (
+
             <Link
               className="block rounded-md bg-indigo-600  px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               to={`/admin/project/${id}/add-beneficiary`}
             >
               Add beneficiaries
             </Link>
+              )
+            }
 
             {selectedBeneficiaries.length > 0 && (
               <button
@@ -143,6 +150,10 @@ export default function ProjectBeneficiary() {
               selectedBeneficiaries={selectedBeneficiaries}
             />
           </Tabs.Content>
+          <div className='pt-20 pr-24'>
+            
+          {data?.total === 0 && <NoBeneficiary />}
+          </div>
         </Tabs.Root>
 
         <Hookpagination total={total} limit={limit} currentPage={currentPage} setCurrentPage={setCurrentPage} setLimit={setLimit} />

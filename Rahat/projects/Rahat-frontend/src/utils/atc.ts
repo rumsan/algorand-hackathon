@@ -4,10 +4,9 @@ import { useWallet } from "@txnlab/use-wallet";
 import { PeraWalletConnect } from "@perawallet/connect";
 
 
-const suggestedParams = await algodClient.getTransactionParams().do()
 const atc = new algosdk.AtomicTransactionComposer();
 
-const peraWallet = new PeraWalletConnect({chainId: 416002});    
+const peraWallet = new PeraWalletConnect({ chainId: 416002 });
 
 const connectWallet = async () => {
   await peraWallet.disconnect();
@@ -17,6 +16,8 @@ const connectWallet = async () => {
 export const atomicTxnComposer = async (signerAddress: string, beneficiaryAddresses: string[], amount: number, assetId: number, sender: any) => {
   let methodInstance = algosdk.ABIMethod.fromSignature('sendTokenToBeneficiary(address,uint64,uint64)void');
   let selector = methodInstance.getSelector();
+  
+const suggestedParams = await algodClient.getTransactionParams().do()
     await connectWallet();
     const boxKey = algosdk.bigIntToBytes(assetId, 8);
     beneficiaryAddresses.forEach((benAddress) => {
@@ -43,7 +44,7 @@ export const atomicTxnComposer = async (signerAddress: string, beneficiaryAddres
         atc.addTransaction({ txn, signer: sender.signer })
     })
 
-    const signedTxn = await peraWallet.signTransaction([atc.buildGroup()])
+  const signedTxn = await peraWallet.signTransaction([atc.buildGroup()]);
 
     return signedTxn;
     
@@ -56,6 +57,7 @@ export const atomicTxnComposerFreeze = async (signerAddress: string, beneficiary
   : 
   algosdk.ABIMethod.fromSignature('unfreezeBeneficiaryAsset(address,uint64)void');
 
+  const suggestedParams = await algodClient.getTransactionParams().do()
   let selector = methodInstance.getSelector();
   await connectWallet();
   const boxKey = algosdk.bigIntToBytes(assetId, 8);

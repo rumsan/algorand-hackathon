@@ -1,0 +1,66 @@
+name: Main-FE CI/CD
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  CI: false
+  env_main: ${{secrets.MAIN_ENV}}
+
+defaults:
+  run:
+    working-directory: ./Rahat/projects/Rahat-frontend
+
+jobs:
+  build-test:
+    name: build docker images and push to Docker Hub
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: create environment file
+        run: |
+          touch ./.env && echo "$env_main" >> ./.env
+      
+      - name: Install Pipx
+        run: |
+          sudo apt update && \
+            sudo apt install pipx && \
+            pipx ensurepath && \
+            sudo pipx ensurepath --global
+      
+      - name: Install Algorand
+        run: |
+          pipx install algokit 
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.10.0
+      
+      - name: Install dependencies and Run Build
+        run: npm install && npm run build
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: docker login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # algorand-fe Image
+      - name: build && push algorand-fe
+        id: build-push-algorand-fe
+        uses: docker/build-push-action@v5
+        with:
+          context: ./Rahat/projects/Rahat-frontend
+          file: ./Rahat/projects/Rahat-frontend/Dockerfile.nginx
+          push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+          tags: rumsan/algorand-fe:main

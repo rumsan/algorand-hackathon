@@ -15,7 +15,6 @@ const BeneficiaryDetailClawback = () => {
 
   const checkAssetFrozenStatus = async () => {
     const accountInfo = await algodClient.accountInformation(beneficiaryWallet).do();
-    console.log(accountInfo)
     //@ts-ignore
     const assetHolding = accountInfo['assets'].find(asset => asset['asset-id'] === Number(localStorage.getItem('voucherId')));
     if (assetHolding) {

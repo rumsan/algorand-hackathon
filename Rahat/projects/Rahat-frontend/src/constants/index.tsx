@@ -1,4 +1,4 @@
-export const SERVER_URL: string = 'http://localhost:5500';
+export const SERVER_URL: string = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const version: string = '/api/v1';
 export const URLS = {

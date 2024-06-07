@@ -23,7 +23,7 @@ const CreateBeneficiary = () => {
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const { postMutation, isError, data, isSuccess, success, isPending } = usePost('listProjectBeneficiary');
+  const { postMutation, isError, data, isSuccess, success, isPending } = usePost(`listProjectBeneficiary${id}`);
 
   const secretKey = import.meta.env.VITE_SECRET_KEY;
 

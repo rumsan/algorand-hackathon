@@ -71,10 +71,10 @@ function CreateVendor() {
             <div>
               <SnackbarUtilsConfigurator />
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form className='p-5 bg-gray-100' onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-6">
                 <div className="pb-12">
-                  <h2 className="text-base font-semibold leading-7 text-gray-900">Create A New Vendor</h2>
+                  <h2 className="text-base font-semibold leading-7 text-blue-900">Create A New Vendor</h2>
 
                   <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div className="sm:col-span-3">
@@ -139,7 +139,7 @@ function CreateVendor() {
                   <div className="mt-12 flex items-center justify-start gap-x-6">
                     <button
                       type="submit"
-                      className="rounded-md bg-gray-200 px-12 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-indigo-200 focus-visible:outline focus-visible:outline-2 w-[40%] focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="rounded-md bg-blue-500 px-12 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 w-[40%] focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
                       submit
                     </button>

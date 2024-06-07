@@ -7,6 +7,7 @@ import useList from '@/hooks/useList';
 import { URLS } from '../../constants';
 import NoProjects from '@/components/NoProjects';
 import { PlusIcon } from '@heroicons/react/20/solid';
+import Hookpagination from '@/components/HookPagination';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
@@ -22,23 +23,40 @@ type project = {
 
 export default function ProjectList() {
   localStorage.removeItem('voucher')
+  const [limit, setLimit] = useState(4);
+  const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [projects, setProjects] = useState<project[]>([]);
 
-  let { isLoading, isError, data } = useList('listProject', URLS.PROJECT, 1, 6);
+
+  let { isLoading, isError, data, } = useList('listProject', URLS.PROJECT, currentPage, limit);
 
 
   useEffect(() => {
     if (data) {
       setProjects(data.data);
+      setLimit(data.limit);
+    setCurrentPage(data.page);
+    setTotal(data.total);
     }
-  }, [data, setProjects]);
+  }, [data]);
+
+  if (isLoading) return (
+    <div className="flex items-center justify-center">
+      <div className="w-12 h-12 border-8 border-black border-opacity-0 animate-spin rounded-full"></div>
+    </div>
+  );
+
 
   return (
     <>
+    
       {/* <NoProjects /> */}
 
       {projects.length ? (
         <div>
+ 
+
           {' '}
           <div className="sm:flex sm:items-center mb-3">
             <div className="sm:flex-auto"></div>
@@ -139,6 +157,15 @@ export default function ProjectList() {
               </Link>
             ))}
           </ul>
+          <Hookpagination
+        total={total}
+        limit={limit}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        setLimit={setLimit}
+      />
+ 
+        
         </div>
       ) : (
         <NoProjects />

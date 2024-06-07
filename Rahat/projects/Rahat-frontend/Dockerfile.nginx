@@ -6,5 +6,5 @@ COPY conf.d /etc/nginx/conf.d
 WORKDIR /usr/share/nginx/html
 # Copy build static
 COPY dist/ /usr/share/nginx/html
-# COPY .env /usr/share/nginx/html/.env
+COPY .env /usr/share/nginx/html/.env
 CMD ["nginx", "-g", "daemon off;"]

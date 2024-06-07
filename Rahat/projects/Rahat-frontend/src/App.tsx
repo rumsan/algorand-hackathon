@@ -19,7 +19,7 @@ import BeneficiaryDetails from './pages/beneficiary/details';
 import InviteTeamMembers from './components/AddTeamMembers';
 import CreateVendor from './pages/project/CreateVendor';
 import VendorDetail from './pages/project/VendorDetail';
-// import AcquisitionsChart from './pages/Playground';
+import UtilizeAsa from './pages/beneficiary/UtilizeAsa';
 
 export default function App() {
   return (
@@ -140,9 +140,9 @@ export default function App() {
               element={
                 <AdminRoute>
                   <Clawback />
-                  </AdminRoute>
-                  }
-                  />
+                </AdminRoute>
+              }
+            />
             <Route
               path="/admin/token-detail"
               element={
@@ -168,14 +168,27 @@ export default function App() {
               }
             />
           </Route>
-          <Route
-              path="/beneficiary/details"
+
+          {/* Real beneficiary route */}
+          <Route path="/beneficiary" element={<AdminLayout />}>
+            <Route
+              path="/beneficiary/details/:id"
               element={
                 <AdminRoute>
                   <BeneficiaryDetails />
                 </AdminRoute>
               }
             />
+
+            <Route
+              path="/beneficiary/utilize-asa/:id"
+              element={
+                <AdminRoute>
+                  <UtilizeAsa />
+                </AdminRoute>
+              }
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

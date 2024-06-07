@@ -9,7 +9,8 @@ const useList = (qkey: string, urls: string, page: number, limit: number, email?
     queryFn: async () => {
       const params = {
         page: page,
-        limit: limit,
+        // Refactor: Asim
+        limit: 15,
         email: email,
         id: id,
       };

@@ -9,12 +9,12 @@ import RahatCreateProject from '@/components/contracts/RahatCreateProject';
 const CreateTokens = ({ props }: any) => {
   return (
     <>
-      <div className="flex">
+      <div className="flex justify-center mt-36">
         {/* Sidebar */}
         <SideBar />
-        <div className="ml-64 w-full">
+        <div className="  m-10 h-60 ">
           <RahatCreateAnAsset
-            buttonClass="btn m-2"
+            buttonClass="btn m-2  "
             buttonLoadingNode={<span className="loading loading-spinner" />}
             buttonNode="Call createAnAsset"
             typedClient={typedClient}

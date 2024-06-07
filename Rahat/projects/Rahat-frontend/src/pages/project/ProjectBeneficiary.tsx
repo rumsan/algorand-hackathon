@@ -27,7 +27,7 @@ type Beneficiary = {
 export default function ProjectBeneficiary() {
   const { id } = useParams();
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
-  const { data } = useList(`listProjectBeneficiary`, `${URLS.PROJECT}/${id}/beneficiaries`, 1, 5);
+  const { data } = useList('listProjectBeneficiary', `${URLS.PROJECT}/${id}/beneficiaries`, 1, 1);
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState<string[]>([]);
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! };
@@ -86,7 +86,7 @@ export default function ProjectBeneficiary() {
 
       <Tabs.Root
     className="flex flex-col w-[full] mt-8"
-    defaultValue="tab1"
+    defaultValue="not_assigned"
   >
     <Tabs.List className="shrink-0 flex border-b border-mauve6" aria-label="Manage your account">
       <Tabs.Trigger

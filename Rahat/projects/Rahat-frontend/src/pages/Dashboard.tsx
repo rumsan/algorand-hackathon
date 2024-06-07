@@ -14,7 +14,8 @@ import { URLS } from '@/constants';
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import { Bar, Doughnut, Pie, Line } from 'react-chartjs-2';
-
+import DashboardAge from '@/components/chart/DashboardAge';
+import DashboardGender from '@/components/chart/DashboardGender';
 const statuses = {
   Paid: 'text-green-700 bg-green-50 ring-green-600/20',
   Withdraw: 'text-gray-600 bg-gray-50 ring-gray-500/10',
@@ -103,22 +104,20 @@ function classNames(...classes) {
 }
 
 export default function DashBoard() {
-   let { isLoading, isError, data } = useList('listCount', `${URLS.BENEFICIARY}/get-count`, 1, 6);
-   console.log(data, 'dataaaaaaa');
+  let { isLoading, isError, data } = useList('listCount', `${URLS.BENEFICIARY}/get-count`, 1, 6);
+  console.log(data, 'dataaaaaaa');
   const stats = [
-    { name: 'Projects', value: data?.totalProject, change: 'active', changeType: 'positive' },
-    { name: 'Beneficiaries', value: data?.totalBeneficiary, change: '+54.02%', changeType: 'positive' },
+    { name: ' Projects', value: data?.totalProject, change: 'active', changeType: 'positive' },
+    { name: ' Beneficiaries', value: data?.totalBeneficiary, change: '+54.02%', changeType: 'positive' },
     { name: 'Outstanding invoices', value: '$245,988.00', change: '-1.39%', changeType: 'positive' },
     { name: 'Expenses', value: '$30,156.00', change: '+10.18%', changeType: 'negative' },
-
   ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-
   return (
     <>
-    
+      {/* start */}
 
       <main>
         <div className="relative isolate overflow-hidden">
@@ -128,18 +127,29 @@ export default function DashBoard() {
                 <div
                   key={stat.name}
                   className={classNames(
-                    statIdx % 2 === 1 ? "sm:border-l" : statIdx === 2 ? "lg:border-l" : "",
-                    "flex items-baseline flex-wrap justify-between gap-y-2 gap-x-4 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8"
+                    statIdx % 2 === 1 ? 'sm:border-l' : statIdx === 2 ? 'lg:border-l' : '',
+                    'flex items-baseline flex-wrap justify-between gap-y-2 gap-x-4 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8'
                   )}
                 >
                   <dt className="text-sm font-medium leading-6 text-gray-500">{stat.name}</dt>
-                  <dd className={classNames(stat.changeType === "negative" ? "text-rose-600" : "text-gray-700", "text-xs font-medium")}>
+                  <dd className={classNames(stat.changeType === 'negative' ? 'text-rose-600' : 'text-gray-700', 'text-xs font-medium')}>
                     {stat.change}
                   </dd>
                   <dd className="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">{stat.value}</dd>
                 </div>
               ))}
             </dl>
+            <div className="flex items-center justify-center space-x-40 pt-20">
+              <div>
+                <h1 className="text-blue-900 font-bold pl-32 pb-5">Gender Graph</h1>
+                <DashboardGender />
+              </div>
+              <div>
+                <h1 className="text-blue-900 font-bold pl-32 pb-5">Age Graph</h1>
+
+                <DashboardAge />
+              </div>
+            </div>
           </div>
 
           <div
@@ -150,7 +160,7 @@ export default function DashBoard() {
               className="aspect-[1154/678] w-[72.125rem] bg-gradient-to-br from-[#FF80B5] to-[#9089FC]"
               style={{
                 clipPath:
-                  "polygon(100% 38.5%, 82.6% 100%, 60.2% 37.7%, 52.4% 32.1%, 47.5% 41.8%, 45.2% 65.6%, 27.5% 23.4%, 0.1% 35.3%, 17.9% 0%, 27.7% 23.4%, 76.2% 2.5%, 74.2% 56%, 100% 38.5%)",
+                  'polygon(100% 38.5%, 82.6% 100%, 60.2% 37.7%, 52.4% 32.1%, 47.5% 41.8%, 45.2% 65.6%, 27.5% 23.4%, 0.1% 35.3%, 17.9% 0%, 27.7% 23.4%, 76.2% 2.5%, 74.2% 56%, 100% 38.5%)',
               }}
             />
           </div>
@@ -195,7 +205,7 @@ export default function DashBoard() {
                                       <div
                                         className={classNames(
                                           statuses[transaction.status],
-                                          "rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset"
+                                          'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset'
                                         )}
                                       >
                                         {transaction.status}
@@ -277,7 +287,7 @@ export default function DashBoard() {
                               {({ active }) => (
                                 <a
                                   href="#"
-                                  className={classNames(active ? "bg-gray-50" : "", "block px-3 py-1 text-sm leading-6 text-gray-900")}
+                                  className={classNames(active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900')}
                                 >
                                   View<span className="sr-only">, {client.name}</span>
                                 </a>
@@ -287,7 +297,7 @@ export default function DashBoard() {
                               {({ active }) => (
                                 <a
                                   href="#"
-                                  className={classNames(active ? "bg-gray-50" : "", "block px-3 py-1 text-sm leading-6 text-gray-900")}
+                                  className={classNames(active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900')}
                                 >
                                   Edit<span className="sr-only">, {client.name}</span>
                                 </a>
@@ -311,7 +321,7 @@ export default function DashBoard() {
                           <div
                             className={classNames(
                               statuses[client.lastInvoice.status],
-                              "rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset"
+                              'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset'
                             )}
                           >
                             {client.lastInvoice.status}

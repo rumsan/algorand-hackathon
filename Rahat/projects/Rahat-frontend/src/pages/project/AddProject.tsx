@@ -23,6 +23,8 @@ export default function AddProject() {
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! }
 
+  const [loading, setLoading] = useState(false);
+
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost("listProject");
@@ -40,6 +42,7 @@ export default function AddProject() {
   });
 
   const onSubmit = async (data: ProjectType) => {
+    setLoading(true)
 
     const adminAddress = [activeAddress];
     // @ts-ignore
@@ -58,6 +61,8 @@ export default function AddProject() {
       const asaIndex = Number(token?.return);
       const boxKey = algosdk.bigIntToBytes(asaIndex, 8);
 
+      snack.default.success("Created ASA for the project")
+
       await typedClient.createProject(
         {
           _assetId: asaIndex,
@@ -71,12 +76,15 @@ export default function AddProject() {
             }]
            }
       );
+      snack.default.success("Adding project to contract")
 
     // Needs refactor: Quick fix, need to refactor usePost()
     const res = await axios.post(`${SERVER_URL}${URLS.PROJECT}`, {
       name: data.name,
       adminAddress: adminAddress,
-      imageUrl: data.imageUrl})
+      imageUrl: data.imageUrl,
+      superAdmin: adminAddress[0]
+    })
 
     postMutation({ urls: URLS.VOUCHER, data: {
       projectId: res?.data?.uuid,
@@ -88,6 +96,7 @@ export default function AddProject() {
 
   useEffect(() => {
     if (isSuccess) {
+      setLoading(false)
       snack.default.success("Project created successfully");
       setShouldNavigate(true);
     } else if (isError) {
@@ -191,9 +200,10 @@ export default function AddProject() {
               
               <button
                 type="submit"
+                disabled={loading}
                 className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
-                Create
+                {loading ? "Creating" : "Create"}
               </button>
             </div>
           </form>

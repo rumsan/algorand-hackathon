@@ -35,9 +35,11 @@ const RahatAssignAdmin = (props: Props) => {
   }
 
   return (
-    <button className={props.buttonClass} onClick={callMethod}>
-      Assign admin
-    </button>
+    <>
+    </>
+    // <button className={props.buttonClass} onClick={callMethod}>
+    //   Assign admin
+    // </button>
   )
 }
 

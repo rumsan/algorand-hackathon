@@ -3,6 +3,8 @@ import { ReactNode, useState } from 'react'
 import { Rahat, RahatClient } from '../../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
 import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount'
+import algosdk from 'algosdk'
+import { asaId } from '@/utils/asaId'
 
 type RahatClawbackBeneficiaryAssetArgs = Rahat['methods']['clawbackBeneficiaryAsset(address,uint64,uint64)void']['argsObj']
 
@@ -23,7 +25,7 @@ const RahatClawbackBeneficiaryAsset = (props: Props) => {
 
   const callMethod = async () => {
     setLoading(true)
-    console.log(`Calling clawbackBeneficiaryAsset`)
+    const boxKey = algosdk.bigIntToBytes(asaId, 8);
     await props.typedClient.clawbackBeneficiaryAsset(
       {
         benAddress: props.benAddress,
@@ -33,7 +35,11 @@ const RahatClawbackBeneficiaryAsset = (props: Props) => {
       { sender,
          assets: [Number(localStorage.getItem('voucherId'))],
         accounts: [props.benAddress],
-        sendParams: {fee: new AlgoAmount({algos: 0.003})} 
+        sendParams: {fee: new AlgoAmount({algos: 0.003})},
+        boxes: [{
+          appIndex: 0,
+          name: boxKey,
+          }]
       },
     )
     setLoading(false)

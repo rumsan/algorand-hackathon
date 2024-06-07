@@ -10,7 +10,7 @@ const AddBeneficiary = () => {
     <>
       <div className="flex">
         <SideBar />
-        <div className=" ml-60 pl-52 pt-36 w-full">
+        <div className=" ml-60 pl-60 pt-  ">
           <CreateBeneficiary />
         </div>
       </div>

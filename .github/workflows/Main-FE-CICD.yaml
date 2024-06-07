@@ -61,11 +61,11 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # algorand-fe Image
-      - name: build and push algorand-fe
+      - name: build && push algorand-fe
         id: build-push-algorand-fe
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./Dockerfile.nginx
+          context: ./Rahat/projects/Rahat-frontend
+          file: ./Rahat/projects/Rahat-frontend/Dockerfile.nginx
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
           tags: rumsan/algorand-fe:main

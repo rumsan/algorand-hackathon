@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-       - name: create environment file
+      - name: create environment file
         run: |
           touch ./.env && echo "$env_main" >> ./.env
 

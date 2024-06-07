@@ -28,12 +28,16 @@ jobs:
         run: |
           touch ./.env && echo "$env_main" >> ./.env
       
-      - name: Install Algokit
+      - name: Install Pipx
         run: |
           sudo apt update && \
             sudo apt install pipx && \
             pipx ensurepath && \
             sudo pipx ensurepath --global
+      
+      - name: Install Algorand
+        run: |
+          pipx install algokit 
       
       - uses: actions/setup-node@v3
         with:
@@ -51,12 +55,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # algorandb-fe Image
-      - name: build && push algorandb-fe
-        id: build-push-algorandb-fe
+      # algorand-fe Image
+      - name: build && push algorand-fe
+        id: build-push-algorand-fe
         uses: docker/build-push-action@v5
         with:
           context: .
           file: Dockerfile.nginx
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-          tags: rumsan/algorandb-fe:main
+          tags: rumsan/algorand-fe:main

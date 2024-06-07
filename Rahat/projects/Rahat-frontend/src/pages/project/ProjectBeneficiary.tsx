@@ -18,7 +18,6 @@ import { sendBtns, tabs, tabsContent } from '@/constants/classnames/tabsclassNam
 import BeneficiaryTab from '@/components/templates/BeneficiaryNotAssigned';
 import usePost from '@/hooks/usePost';
 import Hookpagination from '@/components/HookPagination';
-import NoProjects from '@/components/NoProjects';
 import NoBeneficiary from '@/components/NoBeneficiary';
 
 type Beneficiary = {

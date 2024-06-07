@@ -3,6 +3,8 @@ import { ReactNode, useState } from 'react'
 import { Rahat, RahatClient } from '../../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
 import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount'
+import algosdk from 'algosdk'
+import { asaId } from '@/utils/asaId'
 
 type RahatClawbackBeneficiaryAssetArgs = Rahat['methods']['clawbackBeneficiaryAsset(address,uint64,uint64)void']['argsObj']
 
@@ -23,7 +25,7 @@ const RahatClawbackBeneficiaryAsset = (props: Props) => {
 
   const callMethod = async () => {
     setLoading(true)
-    console.log(`Calling clawbackBeneficiaryAsset`)
+    const boxKey = algosdk.bigIntToBytes(asaId, 8);
     await props.typedClient.clawbackBeneficiaryAsset(
       {
         benAddress: props.benAddress,
@@ -31,19 +33,23 @@ const RahatClawbackBeneficiaryAsset = (props: Props) => {
         amount: props.amount,
       },
       { sender,
-         assets: [Number(import.meta.env.VITE_ASA_ID)],
+         assets: [Number(localStorage.getItem('voucherId'))],
         accounts: [props.benAddress],
-        sendParams: {fee: new AlgoAmount({algos: 0.003})} 
+        sendParams: {fee: new AlgoAmount({algos: 0.003})},
+        boxes: [{
+          appIndex: 0,
+          name: boxKey,
+          }]
       },
     )
     setLoading(false)
   }
 
   return (
-    <button type="submit" className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-6" onClick={callMethod}>
+    <button type="submit" className="block px-3 py-1 text-sm leading-6 text-red-900" onClick={callMethod}>
       {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode}
     </button>
-  )
+  );
 }
 
 export default RahatClawbackBeneficiaryAsset

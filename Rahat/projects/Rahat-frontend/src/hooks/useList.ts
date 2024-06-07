@@ -5,11 +5,12 @@ const useList = (qkey: string, urls: string, page: number, limit: number, email?
   const str = JSON.stringify({ page, limit });
 
   const { isError, isLoading, data, refetch } = useQuery({
-    queryKey: [qkey, str],
+    queryKey: [qkey],
     queryFn: async () => {
       const params = {
         page: page,
-        limit: limit,
+        // Refactor: Asim
+        limit: 15,
         email: email,
         id: id,
       };

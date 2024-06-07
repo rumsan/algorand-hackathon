@@ -9,6 +9,8 @@ const usePost = (qkey: string) => {
   const queryClient = useQueryClient();
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  // Needs refactor, just for quick fix
+  const [dataState, setDataState] = useState<any>()
   const {
     mutate: postMutation,
     isError,
@@ -18,6 +20,7 @@ const usePost = (qkey: string) => {
   } = useMutation({
     mutationFn: async (payload: any) => {
       const { data } = await API.post(payload.urls, { ...payload.data });
+      setDataState(data)
       return data;
     },
     onError(error) {
@@ -33,7 +36,8 @@ const usePost = (qkey: string) => {
       if (qkey != 'false') var a = await queryClient.invalidateQueries({ queryKey: [qkey] });
     },
   });
-  return { postMutation, isError, isSuccess, data, error, success, isPending };
+  console.log(dataState)
+  return { postMutation, data, isError, isSuccess, dataState, error, success, isPending };
 };
 
 export default usePost;

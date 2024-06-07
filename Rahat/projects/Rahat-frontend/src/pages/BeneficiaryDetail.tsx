@@ -17,7 +17,7 @@ const BeneficiaryDetailClawback = () => {
     const accountInfo = await algodClient.accountInformation(beneficiaryWallet).do();
     console.log(accountInfo)
     //@ts-ignore
-    const assetHolding = accountInfo['assets'].find(asset => asset['asset-id'] === Number(import.meta.env.VITE_ASA_ID));
+    const assetHolding = accountInfo['assets'].find(asset => asset['asset-id'] === Number(localStorage.getItem('voucherId')));
     if (assetHolding) {
       setassetStatus({ isFrozen: assetHolding['is-frozen'], isCreated: true, amount: assetHolding['amount'] })
     }
@@ -47,7 +47,7 @@ const BeneficiaryDetailClawback = () => {
             typedClient={typedClient}
             benAddress={beneficiaryWallet}
             amount={amount}
-            assetId={Number(import.meta.env.VITE_ASA_ID)}
+            assetId={Number(localStorage.getItem('voucherId'))}
           />
         </>
       }
@@ -62,7 +62,7 @@ const BeneficiaryDetailClawback = () => {
             buttonNode="Call unfreezeBeneficiaryAsset"
             typedClient={typedClient}
             benAddress={beneficiaryWallet}
-            assetId={Number(import.meta.env.VITE_ASA_ID)}
+            assetId={Number(localStorage.getItem('voucherId'))}
           />
           </>
       }
@@ -76,7 +76,7 @@ const BeneficiaryDetailClawback = () => {
           buttonNode="Call freezeBeneficiaryAsset"
           typedClient={typedClient}
           benAddress={beneficiaryWallet}
-          assetId={Number(import.meta.env.VITE_ASA_ID)}
+          assetId={Number(localStorage.getItem('voucherId'))}
         />
         </>
       }
@@ -87,7 +87,7 @@ const BeneficiaryDetailClawback = () => {
         buttonNode="Call clawbackBeneficiaryAsset"
         typedClient={typedClient}
         benAddress={beneficiaryWallet}
-        assetId={Number(import.meta.env.VITE_ASA_ID)}
+        assetId={Number(localStorage.getItem('voucherId'))}
         amount={1}
       />
 

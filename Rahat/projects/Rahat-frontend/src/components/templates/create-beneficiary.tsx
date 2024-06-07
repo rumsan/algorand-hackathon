@@ -23,7 +23,7 @@ const CreateBeneficiary = () => {
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const { postMutation, isError, data, isSuccess, success, isPending } = usePost(`listProjectBeneficiary`);
+  const { postMutation, isError, data, isSuccess, success, isPending } = usePost('listProjectBeneficiary');
 
   const secretKey = import.meta.env.VITE_SECRET_KEY;
 
@@ -57,7 +57,7 @@ const CreateBeneficiary = () => {
       name: e.target['firstName'].value,
       age: Number(e.target['age'].value),
       gender: e.target['gender'].value,
-      walletAddress: beneficiaryWallet?.walletAddress,
+      walletAddress: e.target['walletAddress'].value,
       mnemonics: encryptedPassword,
       projectId: id,
     };
@@ -79,7 +79,7 @@ const CreateBeneficiary = () => {
       to: data.walletAddress as string,
       amount: 0,
       suggestedParams: await algodClient.getTransactionParams().do(),
-      assetIndex: Number(import.meta.env.VITE_ASA_ID),
+      assetIndex: Number(localStorage.getItem('voucherId')),
     });
     const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
     const { txId } = await algodClient.sendRawTransaction(signedTxn).do();
@@ -113,16 +113,17 @@ const CreateBeneficiary = () => {
       <div>
         <SnackbarUtilsConfigurator />
       </div>
-      <form onSubmit={(e) => createBeneficiary(e)}>
+      <form className='bg-gray-100 p-10 rounded-sm' onSubmit={(e) => createBeneficiary(e)}>
         <div className="space-y-6">
           <div className="pb-12">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Create A New Beneficiary</h2>
+            <h2 className="text-base font-semibold leading-7 text-blue-900">Create A New Beneficiary</h2>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label className="block text-sm font-medium leading-6 text-gray-900">First name</label>
                 <div className="mt-2">
                   <input
+                  required
                     type="text"
                     name="firstName"
                     id="first-name"
@@ -135,6 +136,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Last name</label>
                 <div className="mt-2">
                   <input
+                  required
                     type="text"
                     name="last-name"
                     id="last-name"
@@ -149,7 +151,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Phone number</label>
                 <div className="mt-2">
                   <input
-                    type="text"
+                    type="number"
                     name="first-name"
                     id="first-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
@@ -161,12 +163,13 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Wallet Address</label>
                 <div className="mt-2 flex w-full gap-[2%]">
                   <input
+                  required
                     type="text"
-                    name="first-name"
-                    id="first-name"
-                    className="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset  ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-[60%] px-2"
-                    value={beneficiaryWallet?.walletAddress}
+                    name="walletAddress"
+                    id="walletAddress"
                     disabled
+                    value={beneficiaryWallet?.walletAddress}
+                    className="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset  ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-[60%] px-2"
                   />
                   <button
                     type="button"
@@ -184,7 +187,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Email</label>
                 <div className="mt-2">
                   <input
-                    type="text"
+                    type="email"
                     name="email"
                     id="first-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
@@ -196,7 +199,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Age</label>
                 <div className="mt-2">
                   <input
-                    type="text"
+                    type="number"
                     name="age"
                     id="first-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
@@ -207,12 +210,22 @@ const CreateBeneficiary = () => {
               <div className="sm:col-span-2">
                 <label className="block text-sm font-medium leading-6 text-gray-900">Gender</label>
                 <div className="mt-2">
-                  <input
+                  {/* <input
                     type="text"
                     name="gender"
                     id="first-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                  />
+                  /> */}
+
+                  <select
+                    name="gender"
+                    id="gender"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                  >
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                    <option value="OTHER">Other</option>
+                  </select>
                 </div>
               </div>
             </div>

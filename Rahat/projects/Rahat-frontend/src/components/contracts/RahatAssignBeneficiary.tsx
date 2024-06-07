@@ -2,51 +2,45 @@
 import { ReactNode, useState } from 'react'
 import { Rahat, RahatClient } from '../../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
+import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount'
 
-/* Example usage
-
-*/
-type RahatAssignBeneficiaryArgs = Rahat['methods']['assignBeneficiary(address)void']['argsObj']
+type RahatAssignAdminArgs = Rahat['methods']['assignAdmin(string)void']['argsObj']
 
 type Props = {
   buttonClass: string
   buttonLoadingNode?: ReactNode
   buttonNode: ReactNode
   typedClient: RahatClient
-  _address: RahatAssignBeneficiaryArgs['_address']
+  _address: RahatAssignAdminArgs['_address']
 }
 
-const RahatAssignBeneficiary = (props: Props) => {
+const RahatAssignAdmin = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
-  const boxKey = new TextEncoder().encode('beneficiaries');
-
   const callMethod = async () => {
     setLoading(true)
-    console.log(`Calling assignBeneficiary`)
-    await props.typedClient.assignBeneficiary(
+    console.log(`Calling assignAdmin`)
+    await props.typedClient.assignAdmin(
       {
         _address: props._address,
       },
       { sender,
-        boxes: [
-          {
-          appIndex: Number(import.meta.env.VITE_APP_ID),
-          name: boxKey,
-          }
-      ]
+        sendParams: {fee: new AlgoAmount({algos: 0.003})},
+        boxes: []
        },
     )
     setLoading(false)
   }
 
   return (
-    <button className={props.buttonClass} onClick={callMethod}>
-      {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode}
-    </button>
+    <>
+    </>
+    // <button className={props.buttonClass} onClick={callMethod}>
+    //   Assign admin
+    // </button>
   )
 }
 
-export default RahatAssignBeneficiary
+export default RahatAssignAdmin

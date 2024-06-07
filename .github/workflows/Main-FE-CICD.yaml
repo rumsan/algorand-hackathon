@@ -18,7 +18,7 @@ defaults:
 
 jobs:
   build-test:
-    name: build docker images and push to ECR
+    name: build docker images and push to Docker Hub
     runs-on: ubuntu-latest
 
     steps:
@@ -60,7 +60,7 @@ jobs:
         id: build-push-algorand-fe
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./Rahat/projects/Rahat-frontend
           file: Dockerfile.nginx
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
           tags: rumsan/algorand-fe:main

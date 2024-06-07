@@ -1,58 +1,103 @@
 import { Contract } from '@algorandfoundation/tealscript';
 
-export class Rahat extends Contract {
-  // Token
-  token = GlobalStateKey<AssetID>();
+type projectType = {
+  name: string,
+  superAdmin: Address,
+  admins: Address[]
+}
 
-  beneficiaries = BoxMap<Address, uint64>({ prefix: 'beneficiary' });
+export class Rahat extends Contract {
+
+  project = BoxMap<AssetID, projectType>({});
+
+  /**
+   * A method to create a project
+   * @param _id Unique address of project
+   * @param _project Project type
+   * @returns Void
+   */
+  createProject(_assetId:AssetID, _project: projectType):void{
+    this.project(_assetId).value = _project
+  }
 
   /**
    * A method to assign beneficiary to projects
-   * @param _address Address
-   *
+   * @param _address Address of admin to be assigned
    * @returns The result of the operation
    */
-  assignBeneficiary(_address: Address): void {
-    assert(!this.beneficiaries(_address).exists, 'Beneficiary already assigned to project');
-    // Assign beneficiary to project
-    this.beneficiaries(_address).value = 0;
+  addAdminToProject(_address: Address, _assetId: AssetID): void{
+    assert(this.project(_assetId).value.superAdmin === this.txn.sender, "Only super admin can assign admin")
+    this.project(_assetId).value.admins.push(_address);
+  }
+
+  /**
+   * A method to get project
+   * @param _assetId Address of project to get
+   * @returns Project details 
+   */
+  getProject(_assetId: AssetID): projectType {
+      return this.project(_assetId).value;
   }
 
   /**
    * A method to create token
-   *
-   * @returns Asset (token)
+   *@param asaName Address of beneficiary to send token
+   *@param asaSymbol Address of beneficiary to send token
+   *@param _name Address of beneficiary to send token
+   *@returns Asset (token)
    */
-  createAnAsset(): AssetID {
-    verifyTxn(this.txn, { sender: this.app.creator });
+  createAnAsset(asaName: string, asaSymbol: string): AssetID {
     const asset = sendAssetCreation({
       configAssetTotal: 1_000_000_000_000_000,
       configAssetFreeze: this.app.address,
+      configAssetName: asaName,
+      configAssetUnitName: asaSymbol,
+      configAssetClawback: this.app.address
     });
-    this.token.value = asset;
     return asset;
   }
+
 
   /**
    * A method to send tokens to beneficiary
    * @param benAddress Address of beneficiary to send token
    * @param amount Amount of token to send
+   * @param assetId: AssetID of token to be sent
    */
-  sendTokenToBeneficiary(benAddress: Address, amount: uint64): void {
-    assert(this.beneficiaries(benAddress).exists, 'Beneficiary is not assigned.');
+  sendTokenToBeneficiary(benAddress: Address, amount: uint64, assetId: AssetID): void {
+
+    const projectAdmins = this.project(assetId).value.admins;
+    const isAdmin = this.checkAdminRecursive(projectAdmins, this.txn.sender, 0);
+    assert(isAdmin, "Not an admin");
+
     // Send asset to beneficiary
     sendAssetTransfer({
-      xferAsset: this.token.value,
+      xferAsset: assetId,
       assetReceiver: benAddress,
-      assetAmount: amount,
+      assetAmount: amount
     });
-
-    // Update mapping
-    this.beneficiaries(benAddress).value = amount;
 
     // Freeze their asset
     sendAssetFreeze({
-      freezeAsset: this.token.value,
+      freezeAsset: assetId,
+      freezeAssetAccount: benAddress,
+      freezeAssetFrozen: true,
+    });
+  }
+
+
+  /**
+   * A method to unfreeze token
+   * @param benAddress Address of beneficiary to unfreeze asset
+   */
+  freezeBeneficiaryAsset(benAddress: Address, assetId: AssetID): void {
+    
+    const projectAdmins = this.project(assetId).value.admins;
+    const isAdmin = this.checkAdminRecursive(projectAdmins, this.txn.sender, 0)
+    assert(isAdmin, "Not an admin")
+
+    sendAssetFreeze({
+      freezeAsset: assetId,
       freezeAssetAccount: benAddress,
       freezeAssetFrozen: true,
     });
@@ -62,9 +107,14 @@ export class Rahat extends Contract {
    * A method to unfreeze token
    * @param benAddress Address of beneficiary to unfreeze asset
    */
-  unfreezeBeneficiaryAsset(benAddress: Address): void {
+  unfreezeBeneficiaryAsset(benAddress: Address, assetId: AssetID): void {
+    
+    const projectAdmins = this.project(assetId).value.admins;
+    const isAdmin = this.checkAdminRecursive(projectAdmins, this.txn.sender, 0)
+    assert(isAdmin, "Not an admin")
+
     sendAssetFreeze({
-      freezeAsset: this.token.value,
+      freezeAsset: assetId,
       freezeAssetAccount: benAddress,
       freezeAssetFrozen: false,
     });
@@ -75,12 +125,47 @@ export class Rahat extends Contract {
    * @param venderAddress Address of vendor to receive tokens
    * @param amount Amount of token to send to vendor
    */
-  sendTokenToVendor(venderAddress: Address, amount: uint64): void {
-    // assert(this.beneficiaries(this.txn.sender).value > 0, "Beneficiary not assigned tokens");
+  sendTokenToVendor(venderAddress: Address, amount: uint64, assetId: AssetID): void {
     sendAssetTransfer({
-      xferAsset: this.token.value,
+      sender: this.txn.sender,
+      xferAsset: assetId,
       assetReceiver: venderAddress,
       assetAmount: amount,
     });
   }
+
+  /**
+   * A method to clawback asset
+   * @param benAddress Address of beneficiary to be clawbacked
+   * @param assetId Asset id of asset
+   * @param amount Amount, will be replace when box-issue is fixed
+   */
+  clawbackBeneficiaryAsset(benAddress: Address, assetId: AssetID, amount: uint64): void {
+
+    const projectAdmins = this.project(assetId).value.admins;
+    const isAdmin = this.checkAdminRecursive(projectAdmins, this.txn.sender, 0)
+    assert(isAdmin, "Not an admin")
+
+    // Unfreeze asset for beneficiary, incase we need to transfer later
+    this.unfreezeBeneficiaryAsset(benAddress, assetId)
+
+    // Send clawback transaction
+    sendAssetTransfer({
+      xferAsset: assetId,
+      assetSender: benAddress,
+      assetReceiver: this.app.address,
+      assetAmount: amount,
+    });
+  }
+
+  checkAdminRecursive(admins: Address[], address: Address, index: uint64): boolean {
+    if (index >= admins.length) {
+      return false;
+    }
+    if (admins[index] == address) {
+      return true;
+    }
+    return this.checkAdminRecursive(admins, address, index + 1);
+  }
+
 }

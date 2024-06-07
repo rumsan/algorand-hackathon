@@ -26,25 +26,30 @@ jobs:
 
       - name: create environment file
         run: |
-          touch ./.env && echo "$env_main" >> ./.env
-      
+          touch .env && echo "${{ secrets.MAIN_ENV }}" >> .env
+
       - name: Install Pipx
         run: |
           sudo apt update && \
-            sudo apt install pipx && \
-            pipx ensurepath && \
-            sudo pipx ensurepath --global
-      
+          sudo apt install -y pipx && \
+          pipx ensurepath
+
       - name: Install Algorand
         run: |
-          pipx install algokit 
-      
+          pipx install algokit
+
       - uses: actions/setup-node@v3
         with:
           node-version: 20.10.0
-      
-      - name: Install dependencies and Run Build
-        run: npm install && npm run build
+
+      - name: Clean Install Dependencies
+        run: |
+          rm -rf node_modules
+          rm -f package-lock.json
+          npm install
+
+      - name: Run Build
+        run: npm run build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3

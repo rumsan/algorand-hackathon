@@ -9,13 +9,19 @@ import { useWallet } from '@txnlab/use-wallet'
   buttonLoadingNode={<span className="loading loading-spinner" />}
   buttonNode="Call createAnAsset"
   typedClient={typedClient}
+  asaName={asaName}
+  asaSymbol={asaSymbol}
 />
 */
+type RahatCreateAnAssetArgs = Rahat['methods']['createAnAsset(string,string)uint64']['argsObj']
+
 type Props = {
   buttonClass: string
   buttonLoadingNode?: ReactNode
   buttonNode: ReactNode
   typedClient: RahatClient
+  asaName: RahatCreateAnAssetArgs['asaName']
+  asaSymbol: RahatCreateAnAssetArgs['asaSymbol']
 }
 
 const RahatCreateAnAsset = (props: Props) => {
@@ -27,7 +33,10 @@ const RahatCreateAnAsset = (props: Props) => {
     setLoading(true)
     console.log(`Calling createAnAsset`)
     await props.typedClient.createAnAsset(
-      {},
+      {
+        asaName: props.asaName,
+        asaSymbol: props.asaSymbol,
+      },
       { sender },
     )
     setLoading(false)

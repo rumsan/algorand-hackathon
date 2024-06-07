@@ -11,9 +11,10 @@ import { useWallet } from '@txnlab/use-wallet'
   typedClient={typedClient}
   benAddress={benAddress}
   amount={amount}
+  assetId={assetId}
 />
 */
-type RahatSendTokenToBeneficiaryArgs = Rahat['methods']['sendTokenToBeneficiary(address,uint64)void']['argsObj']
+type RahatSendTokenToBeneficiaryArgs = Rahat['methods']['sendTokenToBeneficiary(address,uint64,uint64)void']['argsObj']
 
 type Props = {
   buttonClass: string
@@ -22,6 +23,7 @@ type Props = {
   typedClient: RahatClient
   benAddress: RahatSendTokenToBeneficiaryArgs['benAddress']
   amount: RahatSendTokenToBeneficiaryArgs['amount']
+  assetId: RahatSendTokenToBeneficiaryArgs['assetId']
 }
 
 const RahatSendTokenToBeneficiary = (props: Props) => {
@@ -36,6 +38,7 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
       {
         benAddress: props.benAddress,
         amount: props.amount,
+        assetId: props.assetId,
       },
       { sender },
     )

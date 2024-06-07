@@ -3,13 +3,34 @@
   "desc": "",
   "methods": [
     {
-      "name": "assignBeneficiary",
+      "name": "createProject",
+      "desc": "A method to create a project",
+      "args": [
+        {
+          "name": "_assetId",
+          "type": "uint64"
+        },
+        {
+          "name": "_project",
+          "type": "(string,address,address[])"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "addAdminToProject",
       "desc": "A method to assign beneficiary to projects",
       "args": [
         {
           "name": "_address",
           "type": "address",
-          "desc": "Address"
+          "desc": "Address of admin to be assigned"
+        },
+        {
+          "name": "_assetId",
+          "type": "uint64"
         }
       ],
       "returns": {
@@ -18,12 +39,37 @@
       }
     },
     {
+      "name": "getProject",
+      "desc": "A method to get admin",
+      "args": [
+        {
+          "name": "_assetId",
+          "type": "uint64",
+          "desc": "Address of admin to be assigned"
+        }
+      ],
+      "returns": {
+        "type": "(string,address,address[])",
+        "desc": "The result of the operation"
+      }
+    },
+    {
       "name": "createAnAsset",
       "desc": "A method to create token",
-      "args": [],
+      "args": [
+        {
+          "name": "asaName",
+          "type": "string",
+          "desc": "Address of beneficiary to send token"
+        },
+        {
+          "name": "asaSymbol",
+          "type": "string",
+          "desc": "Address of beneficiary to send token"
+        }
+      ],
       "returns": {
-        "type": "uint64",
-        "desc": "Asset (token)"
+        "type": "uint64"
       }
     },
     {
@@ -39,6 +85,49 @@
           "name": "amount",
           "type": "uint64",
           "desc": "Amount of token to send"
+        },
+        {
+          "name": "assetId",
+          "type": "uint64",
+          "desc": ": AssetID of token to be sent"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "checkAdminRecursive",
+      "args": [
+        {
+          "name": "admins",
+          "type": "address[]"
+        },
+        {
+          "name": "address",
+          "type": "address"
+        },
+        {
+          "name": "index",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "bool"
+      }
+    },
+    {
+      "name": "freezeBeneficiaryAsset",
+      "desc": "A method to unfreeze token",
+      "args": [
+        {
+          "name": "benAddress",
+          "type": "address",
+          "desc": "Address of beneficiary to unfreeze asset"
+        },
+        {
+          "name": "assetId",
+          "type": "uint64"
         }
       ],
       "returns": {
@@ -53,6 +142,10 @@
           "name": "benAddress",
           "type": "address",
           "desc": "Address of beneficiary to unfreeze asset"
+        },
+        {
+          "name": "assetId",
+          "type": "uint64"
         }
       ],
       "returns": {
@@ -72,6 +165,34 @@
           "name": "amount",
           "type": "uint64",
           "desc": "Amount of token to send to vendor"
+        },
+        {
+          "name": "assetId",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "clawbackBeneficiaryAsset",
+      "desc": "A method to clawback asset",
+      "args": [
+        {
+          "name": "benAddress",
+          "type": "address",
+          "desc": "Address of beneficiary to be clawbacked"
+        },
+        {
+          "name": "assetId",
+          "type": "uint64",
+          "desc": "Asset id of asset"
+        },
+        {
+          "name": "amount",
+          "type": "uint64",
+          "desc": "Amount, will be replace when box-issue is fixed"
         }
       ],
       "returns": {

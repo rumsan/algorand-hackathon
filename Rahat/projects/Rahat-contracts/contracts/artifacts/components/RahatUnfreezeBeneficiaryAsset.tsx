@@ -10,9 +10,10 @@ import { useWallet } from '@txnlab/use-wallet'
   buttonNode="Call unfreezeBeneficiaryAsset"
   typedClient={typedClient}
   benAddress={benAddress}
+  assetId={assetId}
 />
 */
-type RahatUnfreezeBeneficiaryAssetArgs = Rahat['methods']['unfreezeBeneficiaryAsset(address)void']['argsObj']
+type RahatUnfreezeBeneficiaryAssetArgs = Rahat['methods']['unfreezeBeneficiaryAsset(address,uint64)void']['argsObj']
 
 type Props = {
   buttonClass: string
@@ -20,6 +21,7 @@ type Props = {
   buttonNode: ReactNode
   typedClient: RahatClient
   benAddress: RahatUnfreezeBeneficiaryAssetArgs['benAddress']
+  assetId: RahatUnfreezeBeneficiaryAssetArgs['assetId']
 }
 
 const RahatUnfreezeBeneficiaryAsset = (props: Props) => {
@@ -33,6 +35,7 @@ const RahatUnfreezeBeneficiaryAsset = (props: Props) => {
     await props.typedClient.unfreezeBeneficiaryAsset(
       {
         benAddress: props.benAddress,
+        assetId: props.assetId,
       },
       { sender },
     )

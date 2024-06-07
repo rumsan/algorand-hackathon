@@ -120,6 +120,7 @@ export default function ProjectList() {
                   <div className="font-medium text-gray-900">{client.lastInvoice.amount}</div>
                   <div
                     className={classNames(
+                      // @ts-ignore
                       statuses[client.lastInvoice.status],
                       "rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset"
                     )}

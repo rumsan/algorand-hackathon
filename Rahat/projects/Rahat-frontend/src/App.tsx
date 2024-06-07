@@ -15,7 +15,6 @@ import ProjectList from './pages/project/ProjectList';
 import Beneficiaries from './pages/Beneficiaries';
 import AddAdmin from './pages/project/AddAdmin';
 import Clawback from './pages/project/Clawback';
-import BeneficiaryDetailClawback from './pages/BeneficiaryDetail';
 import BeneficiaryDetails from './pages/beneficiary/details';
 import InviteTeamMembers from './components/AddTeamMembers';
 import CreateVendor from './pages/project/CreateVendor';
@@ -132,15 +131,6 @@ export default function App() {
               element={
                 <AdminRoute>
                   <CreateTokens />
-                </AdminRoute>
-              }
-            />
-
-          <Route
-              path="/admin/beneficiary/details"
-              element={
-                <AdminRoute>
-                  <BeneficiaryDetailClawback />
                 </AdminRoute>
               }
             />

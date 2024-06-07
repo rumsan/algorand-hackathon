@@ -67,7 +67,7 @@ const Clawback = () => {
           suggestedParams: {...suggestedParams,
              fee: 1000
             },
-            foreignAssets: [Number(import.meta.env.VITE_ASA_ID)],
+            foreignAssets: [Number(localStorage.getItem('voucherId'))],
           onComplete: algosdk.OnApplicationComplete.NoOpOC,
           accounts: [connectedWallet as string],
         });

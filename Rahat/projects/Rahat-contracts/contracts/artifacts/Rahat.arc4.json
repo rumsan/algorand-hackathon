@@ -3,7 +3,24 @@
   "desc": "",
   "methods": [
     {
-      "name": "assignAdmin",
+      "name": "createProject",
+      "desc": "A method to create a project",
+      "args": [
+        {
+          "name": "_assetId",
+          "type": "uint64"
+        },
+        {
+          "name": "_project",
+          "type": "(string,address,address[])"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "addAdminToProject",
       "desc": "A method to assign beneficiary to projects",
       "args": [
         {
@@ -12,9 +29,8 @@
           "desc": "Address of admin to be assigned"
         },
         {
-          "name": "project",
-          "type": "string",
-          "desc": "string"
+          "name": "_assetId",
+          "type": "uint64"
         }
       ],
       "returns": {
@@ -23,17 +39,17 @@
       }
     },
     {
-      "name": "getAdmin",
+      "name": "getProject",
       "desc": "A method to get admin",
       "args": [
         {
-          "name": "_address",
-          "type": "address",
+          "name": "_assetId",
+          "type": "uint64",
           "desc": "Address of admin to be assigned"
         }
       ],
       "returns": {
-        "type": "string",
+        "type": "(string,address,address[])",
         "desc": "The result of the operation"
       }
     },
@@ -43,11 +59,13 @@
       "args": [
         {
           "name": "asaName",
-          "type": "string"
+          "type": "string",
+          "desc": "Address of beneficiary to send token"
         },
         {
           "name": "asaSymbol",
-          "type": "string"
+          "type": "string",
+          "desc": "Address of beneficiary to send token"
         }
       ],
       "returns": {
@@ -76,6 +94,26 @@
       ],
       "returns": {
         "type": "void"
+      }
+    },
+    {
+      "name": "checkAdminRecursive",
+      "args": [
+        {
+          "name": "admins",
+          "type": "address[]"
+        },
+        {
+          "name": "address",
+          "type": "address"
+        },
+        {
+          "name": "index",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "bool"
       }
     },
     {

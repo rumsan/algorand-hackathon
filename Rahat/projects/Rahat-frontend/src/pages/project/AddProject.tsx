@@ -8,19 +8,24 @@ import * as snack from "../../components/Toaster";
 import { Link, Navigate, useParams } from "react-router-dom";
 
 import usePost from "../../hooks/usePost";
-import { URLS } from "@/constants";
+import { SERVER_URL, URLS } from "@/constants";
 import { useWallet } from "@txnlab/use-wallet";
+import { typedClient } from "@/utils/typedClient";
+import algosdk from "algosdk";
+import { AlgoAmount } from "@algorandfoundation/algokit-utils/types/amount";
+import axios from "axios";
 
 type ProjectType = z.infer<typeof projectSchema>;
 
 export default function AddProject() {
   const { id } = useParams();
 
-  const { activeAddress } = useWallet();
+  const { activeAddress, signer } = useWallet();
+  const sender = { signer, addr: activeAddress! }
+
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
-  const { postMutation, data, isSuccess, error, success, isError, isPending } = usePost("listProject");
-  const [showError, setShowError] = useState(false);
+  const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost("listProject");
 
   const {
     register,
@@ -30,18 +35,55 @@ export default function AddProject() {
     resolver: zodResolver(projectSchema),
     defaultValues: {
       name: "",
-      // donation: 0,
-      // status: 'Pending',
-      // token: 0,
-      imageUrl: "",
+      imageUrl: ""
     },
   });
 
   const onSubmit = async (data: ProjectType) => {
+
     const adminAddress = [activeAddress];
     // @ts-ignore
     data.adminAddress = adminAddress;
-    await postMutation({ urls: URLS.PROJECT, data });
+
+    // const boxKey = algosdk.decodeAddress(callerAddress[0] as string).publicKey;
+    
+      const token = await typedClient.createAnAsset(
+        {
+          asaName: data.asaName,
+          asaSymbol: data.asaSymbol
+        },
+        { sender, sendParams: { fee: new AlgoAmount({ algos: 0.02 }) }}
+      );
+
+      const asaIndex = Number(token?.return);
+      const boxKey = algosdk.bigIntToBytes(asaIndex, 8);
+
+      await typedClient.createProject(
+        {
+          _assetId: asaIndex,
+          _project: [data.name, adminAddress[0] as string, [adminAddress[0] as string]]
+        },
+        { sender, 
+          sendParams: { fee: new AlgoAmount({ algos: 0.02 }) },
+          boxes: [{
+            appIndex: 0,
+            name: boxKey,
+            }]
+           }
+      );
+
+    // Needs refactor: Quick fix, need to refactor usePost()
+    const res = await axios.post(`${SERVER_URL}${URLS.PROJECT}`, {
+      name: data.name,
+      adminAddress: adminAddress,
+      imageUrl: data.imageUrl})
+
+    postMutation({ urls: URLS.VOUCHER, data: {
+      projectId: res?.data?.uuid,
+      voucherName: data.asaName,
+      voucherSymbol: data.asaSymbol,
+      assetId: asaIndex.toString()
+    } });
   };
 
   useEffect(() => {
@@ -58,10 +100,10 @@ export default function AddProject() {
   }
 
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="h-screen flex justify-center">
       <SnackbarUtilsConfigurator />
 
-      <div className="space-y-10 divide-y divide-gray-900/10 w-full max-w-4xl px-4 pb-80">
+      <div className="space-y-10 divide-y divide-gray-900/10 w-full max-w-4xl px-4">
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -91,53 +133,6 @@ export default function AddProject() {
                   </div>
                 </div>
 
-                {/* <div className="sm:col-span-3">
-                  <label htmlFor="donation" className="block text-sm font-medium leading-6 text-gray-900">
-                    Total donation
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      {...register('donation')}
-                      type="number"
-                      id="donation"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                    {errors.donation && <p className="text-red-500">{errors.donation.message}</p>}
-                  </div>
-                </div>
-
-                <div className="sm:col-span-4">
-                  <label htmlFor="status" className="block text-sm font-medium leading-6 text-gray-900">
-                    Status
-                  </label>
-                  <div className="mt-2">
-                    <select
-                      {...register('status')}
-                      id="status"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    >
-                      <option value="Pending">Pending</option>
-                      <option value="Running">Running</option>
-                    </select>
-                    {errors.status && <p className="text-red-500">{errors.status.message}</p>}
-                  </div>
-                </div>
-
-                <div className="col-span-full">
-                  <label htmlFor="token" className="block text-sm font-medium leading-6 text-gray-900">
-                    Project token
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      {...register('token')}
-                      type="number"
-                      id="token"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                    {errors.token && <p className="text-red-500">{errors.token.message}</p>}
-                  </div>
-                </div> */}
-
                 <div className="col-span-full">
                   <label htmlFor="imageUrl" className="block text-sm font-medium leading-6 text-gray-900">
                     Image URL
@@ -152,6 +147,37 @@ export default function AddProject() {
                     {errors.imageUrl && <p className="text-red-500">{errors.imageUrl.message}</p>}
                   </div>
                 </div>
+
+                <div className="col-span-full">
+                  <label htmlFor="imageUrl" className="block text-sm font-medium leading-6 text-gray-900">
+                    ASA Name
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      {...register("asaName")}
+                      type="text"
+                      id="imageUrl"
+                      className="block w-full rounded-md border-0 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                    {errors.imageUrl && <p className="text-red-500">{errors.imageUrl.message}</p>}
+                  </div>
+                </div>
+
+                <div className="col-span-full">
+                  <label htmlFor="imageUrl" className="block text-sm font-medium leading-6 text-gray-900">
+                    ASA Symbol
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      {...register("asaSymbol")}
+                      type="text"
+                      id="imageUrl"
+                      className="block w-full rounded-md border-0 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                    {errors.imageUrl && <p className="text-red-500">{errors.imageUrl.message}</p>}
+                  </div>
+                </div>
+
               </div>
             </div>
 
@@ -162,6 +188,7 @@ export default function AddProject() {
               >
                 <Link to="/admin/project">Cancel</Link>
               </button>
+              
               <button
                 type="submit"
                 className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"

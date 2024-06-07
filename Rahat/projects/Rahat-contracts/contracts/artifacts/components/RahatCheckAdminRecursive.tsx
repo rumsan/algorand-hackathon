@@ -4,35 +4,41 @@ import { Rahat, RahatClient } from '../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
 
 /* Example usage
-<RahatGetAdmin
+<RahatCheckAdminRecursive
   buttonClass="btn m-2"
   buttonLoadingNode={<span className="loading loading-spinner" />}
-  buttonNode="Call getAdmin"
+  buttonNode="Call checkAdminRecursive"
   typedClient={typedClient}
-  _address={_address}
+  admins={admins}
+  address={address}
+  index={index}
 />
 */
-type RahatGetAdminArgs = Rahat['methods']['getAdmin(address)(string,bool)']['argsObj']
+type RahatCheckAdminRecursiveArgs = Rahat['methods']['checkAdminRecursive(address[],address,uint64)bool']['argsObj']
 
 type Props = {
   buttonClass: string
   buttonLoadingNode?: ReactNode
   buttonNode: ReactNode
   typedClient: RahatClient
-  _address: RahatGetAdminArgs['_address']
+  admins: RahatCheckAdminRecursiveArgs['admins']
+  address: RahatCheckAdminRecursiveArgs['address']
+  index: RahatCheckAdminRecursiveArgs['index']
 }
 
-const RahatGetAdmin = (props: Props) => {
+const RahatCheckAdminRecursive = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
   const callMethod = async () => {
     setLoading(true)
-    console.log(`Calling getAdmin`)
-    await props.typedClient.getAdmin(
+    console.log(`Calling checkAdminRecursive`)
+    await props.typedClient.checkAdminRecursive(
       {
-        _address: props._address,
+        admins: props.admins,
+        address: props.address,
+        index: props.index,
       },
       { sender },
     )
@@ -46,4 +52,4 @@ const RahatGetAdmin = (props: Props) => {
   )
 }
 
-export default RahatGetAdmin
+export default RahatCheckAdminRecursive

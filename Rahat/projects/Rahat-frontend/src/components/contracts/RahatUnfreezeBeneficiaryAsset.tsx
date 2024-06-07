@@ -103,7 +103,7 @@ const createAppCallTxn = async (): Promise<SignerTransaction[]> => {
         assetId: props.assetId,
       },
       { sender,
-        assets: [Number(import.meta.env.VITE_ASA_ID)],
+        assets: [Number(localStorage.getItem('voucherId'))],
         sendParams: {fee: new AlgoAmount({algos: 0.003})},
         accounts: [props.benAddress]
        },

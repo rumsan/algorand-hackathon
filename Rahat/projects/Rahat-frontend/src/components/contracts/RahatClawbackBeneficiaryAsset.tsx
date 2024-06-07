@@ -31,7 +31,7 @@ const RahatClawbackBeneficiaryAsset = (props: Props) => {
         amount: props.amount,
       },
       { sender,
-         assets: [Number(import.meta.env.VITE_ASA_ID)],
+         assets: [Number(localStorage.getItem('voucherId'))],
         accounts: [props.benAddress],
         sendParams: {fee: new AlgoAmount({algos: 0.003})} 
       },

@@ -15,7 +15,7 @@ const BeneficiaryDetailClawback = ({ walletAddress }: { walletAddress: string })
     const accountInfo = await algodClient.accountInformation(walletAddress).do();
     console.log(accountInfo);
     //@ts-ignore
-    const assetHolding = accountInfo['assets'].find((asset) => asset['asset-id'] === Number(import.meta.env.VITE_ASA_ID));
+    const assetHolding = accountInfo['assets'].find((asset) => asset['asset-id'] === Number(localStorage.getItem('voucherId')));
     if (assetHolding) {
       setassetStatus({ isFrozen: assetHolding['is-frozen'], isCreated: true, amount: assetHolding['amount'] });
     } else {
@@ -38,7 +38,7 @@ const BeneficiaryDetailClawback = ({ walletAddress }: { walletAddress: string })
           typedClient={typedClient}
           benAddress={walletAddress}
           amount={amount}
-          assetId={Number(import.meta.env.VITE_ASA_ID)}
+          assetId={Number(localStorage.getItem('voucherId'))}
         />
         {/* )} */}
 

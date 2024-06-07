@@ -13,7 +13,7 @@ import { useWallet } from '@txnlab/use-wallet'
   project={project}
 />
 */
-type RahatAssignAdminArgs = Rahat['methods']['assignAdmin(address,string)void']['argsObj']
+type RahatAssignAdminArgs = Rahat['methods']['assignAdmin(address,(string,bool))void']['argsObj']
 
 type Props = {
   buttonClass: string

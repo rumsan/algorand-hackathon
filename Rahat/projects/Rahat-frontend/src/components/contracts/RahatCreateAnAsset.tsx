@@ -37,12 +37,20 @@ const RahatCreateAnAsset = (props: Props) => {
     const res = await axios.get(`http://localhost:5500/api/v1/vouchers/get-voucher-symbol/${payload.voucherSymbol}`);
 
     if (!res?.data?.uuid) {
+      const callerAddress = [activeAddress];
+      const boxKey = algosdk.decodeAddress(callerAddress[0] as string).publicKey;
       const algoResponse = await props.typedClient.createAnAsset(
         {
           asaName: e.target['asaName'].value,
           asaSymbol: e.target['asaSymbol'].value,
+          _name: 'Project'
         },
-        { sender, sendParams: { fee: new AlgoAmount({ algos: 0.02 }) } }
+        { sender, sendParams: { fee: new AlgoAmount({ algos: 0.02 }) },
+          boxes: [{
+            appIndex: 0,
+            name: boxKey,
+            }]
+           }
       );
       const assetId = Number(algoResponse?.return).toString();
       if (assetId) {

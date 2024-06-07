@@ -2,36 +2,38 @@
 import { ReactNode, useState } from 'react'
 import { Rahat, RahatClient } from '../../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
-import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount'
+import algosdk from 'algosdk'
 
-
-type RahatAssignAdminArgs = Rahat['methods']['assignAdmin(string)void']['argsObj']
+/* Example usage
+*/
+type RahatCreateProjectArgs = Rahat['methods']['createProject(uint64,(string,address))void']['argsObj']
 
 type Props = {
   buttonClass: string
   buttonLoadingNode?: ReactNode
   buttonNode: ReactNode
   typedClient: RahatClient
-  _address: RahatAssignAdminArgs['_address']
+  _id: RahatCreateProjectArgs['_id']
+  _project: RahatCreateProjectArgs['_project']
 }
 
-const RahatAssignAdmin = (props: Props) => {
+const RahatCreateProject = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
   const callMethod = async () => {
-    const boxKey = new Uint8Array(Buffer.from('admins'));
     setLoading(true)
-    console.log(`Calling assignAdmin`)
-    await props.typedClient.assignAdmin(
+    console.log(`Calling createProject`)
+    const boxKey = algosdk.bigIntToBytes(123, 64)
+    await props.typedClient.createProject(
       {
-        _address: 'admins'
+        _id: 123,
+        _project: props._project,
       },
       { sender,
-        sendParams: {fee: new AlgoAmount({algos: 0.003})},
         boxes: [{
-          appIndex: Number(import.meta.env.VITE_APP_ID),
+          appIndex: 0,
           name: boxKey,
           }]
        },
@@ -46,4 +48,4 @@ const RahatAssignAdmin = (props: Props) => {
   )
 }
 
-export default RahatAssignAdmin
+export default RahatCreateProject

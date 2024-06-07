@@ -13,7 +13,6 @@ function SideBar() {
 
   useEffect(() => {
     if (data) {
-      console.log(data, 'data');
       setProject(data);
 
       if (data.vendorId !== null) {
@@ -27,7 +26,6 @@ function SideBar() {
   }
 const p = localStorage.getItem('project');
 let pid = p ? JSON.parse(p).uuid : null;
-  console.log(p, 'p');
   const navigation = [
     {
       name: 'Projects Details',

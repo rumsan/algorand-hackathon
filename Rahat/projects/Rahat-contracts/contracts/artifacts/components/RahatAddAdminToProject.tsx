@@ -4,35 +4,38 @@ import { Rahat, RahatClient } from '../contracts/RahatClient'
 import { useWallet } from '@txnlab/use-wallet'
 
 /* Example usage
-<RahatGetAdmin
+<RahatAddAdminToProject
   buttonClass="btn m-2"
   buttonLoadingNode={<span className="loading loading-spinner" />}
-  buttonNode="Call getAdmin"
+  buttonNode="Call addAdminToProject"
   typedClient={typedClient}
   _address={_address}
+  _assetId={_assetId}
 />
 */
-type RahatGetAdminArgs = Rahat['methods']['getAdmin(address)(string,bool)']['argsObj']
+type RahatAddAdminToProjectArgs = Rahat['methods']['addAdminToProject(address,uint64)void']['argsObj']
 
 type Props = {
   buttonClass: string
   buttonLoadingNode?: ReactNode
   buttonNode: ReactNode
   typedClient: RahatClient
-  _address: RahatGetAdminArgs['_address']
+  _address: RahatAddAdminToProjectArgs['_address']
+  _assetId: RahatAddAdminToProjectArgs['_assetId']
 }
 
-const RahatGetAdmin = (props: Props) => {
+const RahatAddAdminToProject = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
 
   const callMethod = async () => {
     setLoading(true)
-    console.log(`Calling getAdmin`)
-    await props.typedClient.getAdmin(
+    console.log(`Calling addAdminToProject`)
+    await props.typedClient.addAdminToProject(
       {
         _address: props._address,
+        _assetId: props._assetId,
       },
       { sender },
     )
@@ -46,4 +49,4 @@ const RahatGetAdmin = (props: Props) => {
   )
 }
 
-export default RahatGetAdmin
+export default RahatAddAdminToProject

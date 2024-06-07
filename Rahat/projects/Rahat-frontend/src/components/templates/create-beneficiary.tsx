@@ -79,7 +79,7 @@ const CreateBeneficiary = () => {
       to: data.walletAddress as string,
       amount: 0,
       suggestedParams: await algodClient.getTransactionParams().do(),
-      assetIndex: Number(import.meta.env.VITE_ASA_ID),
+      assetIndex: Number(localStorage.getItem('voucherId')),
     });
     const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
     const { txId } = await algodClient.sendRawTransaction(signedTxn).do();
@@ -103,10 +103,10 @@ const CreateBeneficiary = () => {
     }
   }, [isSuccess, isError]);
 
-  if (shouldNavigate) {
-    const route = `/admin/project/${id}/beneficiary`;
-    return <Navigate to={route} replace />;
-  }
+  // if (shouldNavigate) {
+  //   const route = `/admin/project/${id}/beneficiary`;
+  //   return <Navigate to={route} replace />;
+  // }
 
   return (
     <>
@@ -149,7 +149,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Phone number</label>
                 <div className="mt-2">
                   <input
-                    type="text"
+                    type="number"
                     name="first-name"
                     id="first-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
@@ -183,7 +183,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Email</label>
                 <div className="mt-2">
                   <input
-                    type="text"
+                    type="email"
                     name="email"
                     id="first-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
@@ -195,7 +195,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Age</label>
                 <div className="mt-2">
                   <input
-                    type="text"
+                    type="number"
                     name="age"
                     id="first-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"

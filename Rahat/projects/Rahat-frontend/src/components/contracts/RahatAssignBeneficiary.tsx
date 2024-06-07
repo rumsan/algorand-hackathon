@@ -27,7 +27,8 @@ const RahatAssignAdmin = (props: Props) => {
         _address: props._address,
       },
       { sender,
-        sendParams: {fee: new AlgoAmount({algos: 0.003})}
+        sendParams: {fee: new AlgoAmount({algos: 0.003})},
+        boxes: []
        },
     )
     setLoading(false)

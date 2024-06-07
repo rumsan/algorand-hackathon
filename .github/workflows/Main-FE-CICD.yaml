@@ -10,7 +10,7 @@ on:
 
 env:
   CI: false
-  env_main: ${{secrets.MAIN_ENV}}
+  env_main: ${{secrets.ENV_MAIN}}
 
 defaults:
   run:
@@ -24,9 +24,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: create environment file
+       - name: create environment file
         run: |
-          touch .env && echo "${{ secrets.MAIN_ENV }}" >> .env
+          touch ./.env && echo "$env_main" >> ./.env
 
       - name: Install Pipx
         run: |

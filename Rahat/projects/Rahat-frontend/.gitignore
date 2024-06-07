@@ -15,6 +15,10 @@
 # dotenv environment variable files
 .env
 env/
+!.env.template
+!.env.example
+.env.*
+
 
 # misc
 /dist

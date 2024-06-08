@@ -35,12 +35,11 @@ function CreateVendor() {
   });
 
   const onSubmit = async (data: VendorType) => {
-    console.log('ajhsdj');
-    // console.log(data);
+   
     // @ts-ignore
 
     data.projectId = id;
-        console.log(data);
+      
 
     await postMutation({ urls: URLS.VENDOR, data });
   };

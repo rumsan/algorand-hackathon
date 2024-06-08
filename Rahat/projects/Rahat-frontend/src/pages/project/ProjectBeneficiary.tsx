@@ -36,7 +36,6 @@ export default function ProjectBeneficiary() {
   const [currentPage, setCurrentPage] = useState(1);
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
 
-  console.log(limit,currentPage,'hagdja=================')
   const { data } = useList(`listProjectBeneficiary${id}`, `${URLS.PROJECT}/${id}/beneficiaries`, currentPage, limit);
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState<string[]>([]);
   const { activeAddress, signer } = useWallet();
@@ -54,7 +53,6 @@ export default function ProjectBeneficiary() {
   };
 
   const submitTransferToken = async () => {
-    console.log(selectedBeneficiaries);
     const signedTxn = await atomicTxnComposer(activeAddress as string, selectedBeneficiaries, 1, asaId, sender);
     await algodClient.sendRawTransaction(signedTxn).do();
   };
@@ -68,9 +66,7 @@ export default function ProjectBeneficiary() {
     }
   }, [data]);
 
-  console.log(data, 'this is the actual data of beneeeeeeeeeee=========');
-  console.log(limit, total, currentPage, 'this is the limit, total and current page');
-
+ 
   return (
     <div className="flex">
       <SideBar />

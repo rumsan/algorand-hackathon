@@ -2,7 +2,6 @@ import TokenDetail from './pages/project/TokenDetail';
 import AdminLayout from './layout/AdminLayout';
 import { AdminRoute } from './components/Routes';
 import Dashboard from './pages/Dashboard';
-import CreateTokens from './pages/CreateTokens';
 import LoginPage from './pages/Login';
 import AddBeneficiary from './pages/AddBeneficiary';
 import Transaction from './pages/project/Transaction';
@@ -110,14 +109,6 @@ export default function App() {
                 </AdminRoute>
               }
             />
-            <Route
-              path="/admin/project/:id/create-asa"
-              element={
-                <AdminRoute>
-                  <CreateTokens />
-                </AdminRoute>
-              }
-            />
             {/* <Route
               path="/admin/beneficiary"
               element={
@@ -126,14 +117,6 @@ export default function App() {
                 </AdminRoute>
               }
             /> */}
-            <Route
-              path="/admin/createToken"
-              element={
-                <AdminRoute>
-                  <CreateTokens />
-                </AdminRoute>
-              }
-            />
 
             <Route
               path="/admin/project/:projectId/beneficiary/clawback"

@@ -13,7 +13,6 @@ import { useWallet } from "@txnlab/use-wallet";
 import { typedClient } from "@/utils/typedClient";
 import algosdk from "algosdk";
 import { AlgoAmount } from "@algorandfoundation/algokit-utils/types/amount";
-import axios from "axios";
 import API from "@/utils/API";
 
 type ProjectType = z.infer<typeof projectSchema>;

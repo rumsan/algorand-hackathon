@@ -17,6 +17,9 @@ import BeneficiaryNotAssigned from '@/components/templates/BeneficiaryNotAssigne
 import { sendBtns, tabs, tabsContent } from '@/constants/classnames/tabsclassNames';
 import BeneficiaryTab from '@/components/templates/BeneficiaryNotAssigned';
 import usePost from '@/hooks/usePost';
+import Hookpagination from '@/components/HookPagination';
+import NoProjects from '@/components/NoProjects';
+import NoBeneficiary from '@/components/NoBeneficiary';
 
 type Beneficiary = {
   uuid: string;
@@ -31,14 +34,20 @@ type AssetStatus = 'NOT_ASSIGNED' | 'FREEZED' | 'UNFREEZED';
 
 export default function ProjectBeneficiary() {
   const { id } = useParams();
+
+  // pagination state
+  const [limit, setLimit] = useState(6);
+  const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
+  
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState<string[]>([]);
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! };
   const [tabsValue, setTabsValue] = useState<AssetStatus>('NOT_ASSIGNED');
 
   // Refactor - Asim, please use object
-  const { data } = useList(`listProjectBeneficiary-${tabsValue}`, `${URLS.PROJECT}/${id}/beneficiaries`, 1, 1, undefined, undefined, tabsValue);
+  const { data } = useList(`listProjectBeneficiary-${tabsValue}`, `${URLS.PROJECT}/${id}/beneficiaries`, currentPage, limit, undefined, undefined, tabsValue);
 
   const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost("updateBeneficiary");
 
@@ -82,25 +91,27 @@ export default function ProjectBeneficiary() {
   useEffect(() => {
     if (data && Array.isArray(data.data)) {
       setBeneficiaries(data.data);
+      setLimit(data.limit);
+      setCurrentPage(data.page);
+      setTotal(data.total);
     }
   }, [data]);
-
 
   return (
     <div className="flex">
       <SideBar />
       <div className="ml-64 flow-root w-screen">
-
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto"></div>
           <div className="mt-4 flex gap-2 sm:ml-16 sm:mt-0 sm:flex-none">
-            <Link
-              className={sendBtns}
-              to={`/admin/project/${id}/add-beneficiary`}
-            >
-              Add beneficiaries
-            </Link>
-
+            {data?.total > 0 && (
+              <Link
+                className={sendBtns}
+                to={`/admin/project/${id}/add-beneficiary`}
+              >
+                Add beneficiaries
+              </Link>
+            )}
             {selectedBeneficiaries.length > 0 && (
               <button
                 onClick={() => submitTransferToken()}
@@ -110,41 +121,36 @@ export default function ProjectBeneficiary() {
                 Transfer Token
               </button>
             )}
-
           </div>
         </div>
-
-        <Tabs.Root className="flex flex-col w-[full] mt-8" defaultValue="not_assigned" >
+        <Tabs.Root className="flex flex-col w-[full] mt-8" defaultValue="not_assigned">
           <Tabs.List className="shrink-0 flex border-b border-mauve6" aria-label="Manage your account">
-            <Tabs.Trigger className={tabs} value="not_assigned" onClick={() => setTabsValue('NOT_ASSIGNED')}>
+            <Tabs.Trigger
+              className={tabs}
+              value="not_assigned"
+              onClick={() => setTabsValue('NOT_ASSIGNED')}
+            >
               ASA Not Assigned
             </Tabs.Trigger>
-            <Tabs.Trigger className={tabs} value="freezed" onClick={() => setTabsValue('FREEZED')}>
+            <Tabs.Trigger
+              className={tabs}
+              value="freezed"
+              onClick={() => setTabsValue('FREEZED')}
+            >
               Freezed ASA
             </Tabs.Trigger>
-            <Tabs.Trigger className={tabs} value="unfreezed" onClick={() => setTabsValue('UNFREEZED')}>
+            <Tabs.Trigger
+              className={tabs}
+              value="unfreezed"
+              onClick={() => setTabsValue('UNFREEZED')}
+            >
               Unfreezed ASA
             </Tabs.Trigger>
           </Tabs.List>
-          <Tabs.Content className={tabsContent} value="not_assigned">
-            <BeneficiaryTab
-              handleSelectAll={handleSelectAll}
-              setSelectedBeneficiaries={setSelectedBeneficiaries}
-              selectedBeneficiaries={selectedBeneficiaries}
-              data={data}
-            />
-
-          </Tabs.Content>
-          <Tabs.Content className={tabsContent} value="freezed">
-            <BeneficiaryTab
-              handleSelectAll={handleSelectAll}
-              setSelectedBeneficiaries={setSelectedBeneficiaries}
-              selectedBeneficiaries={selectedBeneficiaries}
-              data={data}
-            />
-          </Tabs.Content>
-
-          <Tabs.Content className={tabsContent} value="unfreezed">
+          <Tabs.Content
+            className={tabsContent}
+            value="not_assigned"
+          >
             <BeneficiaryTab
               handleSelectAll={handleSelectAll}
               setSelectedBeneficiaries={setSelectedBeneficiaries}
@@ -152,9 +158,31 @@ export default function ProjectBeneficiary() {
               data={data}
             />
           </Tabs.Content>
+          <Tabs.Content className={tabsContent}
+           value="freezed">
+            <BeneficiaryTab
+              handleSelectAll={handleSelectAll}
+              setSelectedBeneficiaries={setSelectedBeneficiaries}
+              selectedBeneficiaries={selectedBeneficiaries}
+              data={data}
+            />
+          </Tabs.Content>
+          <Tabs.Content
+            className={tabsContent}
+            value="unfreezed"
+          >
+            <BeneficiaryTab
+              handleSelectAll={handleSelectAll}
+              setSelectedBeneficiaries={setSelectedBeneficiaries}
+              selectedBeneficiaries={selectedBeneficiaries}
+              data={data}
+            />
+          </Tabs.Content>
+          <div className="pt-20 pr-24">{data?.total === 0 && <NoBeneficiary />}</div>
         </Tabs.Root>
-
+        <Hookpagination total={total} limit={limit} currentPage={currentPage} setCurrentPage={setCurrentPage} setLimit={setLimit} />
       </div>
     </div>
   );
+  
 }

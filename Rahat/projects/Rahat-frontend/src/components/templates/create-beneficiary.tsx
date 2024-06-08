@@ -4,7 +4,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import CryptoJS from 'crypto-js';
 import * as algosdk from 'algosdk';
 import { algodClient } from '../../utils/typedClient';
-import { URLS } from '../../constants';
+import { SERVER_URL, URLS } from '../../constants';
 import usePost from '../../hooks/usePost';
 import { useWallet } from '@txnlab/use-wallet';
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,7 +24,7 @@ const CreateBeneficiary = () => {
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const { postMutation, isError, data, isSuccess, success, isPending } = usePost('listProjectBeneficiary');
+  const { postMutation, isError, data, isSuccess, success, isPending } = usePost(`listProjectBeneficiary${id}`);
 
   const secretKey = import.meta.env.VITE_SECRET_KEY;
 
@@ -63,27 +63,36 @@ const CreateBeneficiary = () => {
       projectId: id,
     };
 
-    // Send Algo
-    postMutation({ urls: URLS.BENEFICIARY + '/send-asa', data: {walletAddress: data.walletAddress} });
+   
+    // postMutation({ urls: URLS.BENEFICIARY + '/send-asa', data: {walletAddress: data.walletAddress} });
 
-    // Optin to asset using beneficiary wallet
-    const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
-      from: data.walletAddress as string,
-      to: data.walletAddress as string,
-      amount: 0,
-      suggestedParams: await algodClient.getTransactionParams().do(),
-      assetIndex: Number(localStorage.getItem('voucherId')),
-    });
-    const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
-    await algodClient.sendRawTransaction(signedTxn).do();
+  // Send Algo
+    API.post(`${SERVER_URL}/send-asa`, {walletAddress: data.walletAddress})
+    .then(async () => {
+        // Optin to asset using beneficiary wallet
+        const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+          from: data.walletAddress as string,
+          to: data.walletAddress as string,
+          amount: 0,
+          suggestedParams: await algodClient.getTransactionParams().do(),
+          assetIndex: Number(localStorage.getItem('voucherId')),
+        });
+        const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
+        await algodClient.sendRawTransaction(signedTxn).do();
 
-    postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
-    if (data.email) {
-      snack.default.success('Beneficiary created successfully');
-      setShouldNavigate(true);
-    } else {
-      snack.default.error('There was a problem with your request');
-    }
+        postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
+        if (data.email) {
+          snack.default.success('Beneficiary created successfully');
+          setShouldNavigate(true);
+        } else {
+          snack.default.error('There was a problem with your request');
+        }
+    })
+    .catch(() => {
+      snack.default.error('Couldnot send Algo to beneficiary');
+    })
+
+    
   };
 
   useEffect(() => {

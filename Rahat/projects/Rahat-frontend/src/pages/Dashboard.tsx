@@ -16,95 +16,37 @@ import Chart from 'chart.js/auto';
 import { Bar, Doughnut, Pie, Line } from 'react-chartjs-2';
 import DashboardAge from '@/components/chart/DashboardAge';
 import DashboardGender from '@/components/chart/DashboardGender';
+import ProjectList from './project/ProjectList';
+import NoProjects from '@/components/NoProjects';
 const statuses = {
   Paid: 'text-green-700 bg-green-50 ring-green-600/20',
   Withdraw: 'text-gray-600 bg-gray-50 ring-gray-500/10',
   Overdue: 'text-red-700 bg-red-50 ring-red-600/10',
 };
-const days = [
-  {
-    date: 'Today',
-    dateTime: '2023-03-22',
-    transactions: [
-      {
-        id: 1,
-        invoiceNumber: '00012',
-        href: '#',
-        amount: '$7,600.00 USD',
-        tax: '$500.00',
-        status: 'Paid',
-        client: 'Reform',
-        description: 'Website redesign',
-        icon: ArrowUpCircleIcon,
-      },
-      {
-        id: 2,
-        invoiceNumber: '00011',
-        href: '#',
-        amount: '$10,000.00 USD',
-        status: 'Withdraw',
-        client: 'Tom Cook',
-        description: 'Salary',
-        icon: ArrowDownCircleIcon,
-      },
-      {
-        id: 3,
-        invoiceNumber: '00009',
-        href: '#',
-        amount: '$2,000.00 USD',
-        tax: '$130.00',
-        status: 'Overdue',
-        client: 'Tuple',
-        description: 'Logo design',
-        icon: ArrowPathIcon,
-      },
-    ],
-  },
-  {
-    date: 'Yesterday',
-    dateTime: '2023-03-21',
-    transactions: [
-      {
-        id: 4,
-        invoiceNumber: '00010',
-        href: '#',
-        amount: '$14,000.00 USD',
-        tax: '$900.00',
-        status: 'Paid',
-        client: 'SavvyCal',
-        description: 'Website redesign',
-        icon: ArrowUpCircleIcon,
-      },
-    ],
-  },
-];
-const clients = [
-  {
-    id: 1,
-    name: 'Tuple',
-    imageUrl: 'https://tailwindui.com/img/logos/48x48/tuple.svg',
-    lastInvoice: { date: 'December 13, 2022', dateTime: '2022-12-13', amount: '$2,000.00', status: 'Overdue' },
-  },
-  {
-    id: 2,
-    name: 'SavvyCal',
-    imageUrl: 'https://tailwindui.com/img/logos/48x48/savvycal.svg',
-    lastInvoice: { date: 'January 22, 2023', dateTime: '2023-01-22', amount: '$14,000.00', status: 'Paid' },
-  },
-  {
-    id: 3,
-    name: 'Reform',
-    imageUrl: 'https://tailwindui.com/img/logos/48x48/reform.svg',
-    lastInvoice: { date: 'January 23, 2023', dateTime: '2023-01-23', amount: '$7,600.00', status: 'Paid' },
-  },
-];
 
-function classNames(...classes) {
+type project = {
+  uuid: string;
+  name: string;
+  imageUrl: string;
+  createdAt: string;
+  voucherId: number;
+};
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function DashBoard() {
   let { isLoading, isError, data } = useList('listCount', `${URLS.BENEFICIARY}/get-count`, 1, 6);
+  const [projects, setProjects] = useState<project[]>([]);
+
+  useEffect(()=>{})
+  let { data: projectData } = useList('listProject', URLS.PROJECT, 1, 3);
+
+  useEffect(() => {
+    if (data) {
+      setProjects(projectData?.data);
+    }
+  }, [data]);
   console.log(data, 'dataaaaaaa');
   const stats = [
     { name: ' Projects', value: data?.totalProject, change: 'active', changeType: 'positive' },
@@ -119,7 +61,7 @@ export default function DashBoard() {
     <>
       {/* start */}
 
-      <main>
+      <main >
         <div className="relative isolate overflow-hidden">
           <div className="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5">
             <dl className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-2 xl:px-0">
@@ -133,23 +75,25 @@ export default function DashBoard() {
                 >
                   <dt className="text-sm font-medium leading-6 text-gray-500">{stat.name}</dt>
                   <dd className={classNames(stat.changeType === 'negative' ? 'text-rose-600' : 'text-gray-700', 'text-xs font-medium')}>
-                    {stat.change}
+                    {/* {stat.change} */}
                   </dd>
                   <dd className="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">{stat.value}</dd>
                 </div>
               ))}
             </dl>
-            <div className="flex items-center justify-center space-x-40 pt-20">
-              <div>
-                <h1 className="text-blue-900 font-bold pl-32 pb-5">Gender Graph</h1>
-                <DashboardGender />
-              </div>
-              <div>
-                <h1 className="text-blue-900 font-bold pl-32 pb-5">Age Graph</h1>
+            {data?.totalBeneficiary > 0 && (
+              <div className="flex items-center justify-center space-x-40 pt-20 pb-5">
+                <div>
+                  <h1 className="text-blue-900 font-bold pl-32 pb-5">Gender Graph</h1>
+                  <DashboardGender />
+                </div>
+                <div>
+                  <h1 className="text-blue-900 font-bold pl-32 pb-5">Age Graph</h1>
 
-                <DashboardAge />
+                  <DashboardAge />
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div
@@ -167,7 +111,7 @@ export default function DashBoard() {
         </div>
 
         <div className="space-y-16 py-16 xl:space-y-20">
-          <div>
+          {/* <div>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <h2 className="mx-auto max-w-2xl text-base font-semibold leading-6 text-gray-900 lg:mx-0 lg:max-w-none">
                 Recent Transactions
@@ -248,84 +192,42 @@ export default function DashBoard() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
+          {/* <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none"></div> */}
 
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+          {projects?.length ? (
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between">
-                <h2 className="text-base font-semibold leading-7 text-gray-900">Recent projects</h2>
-                <a href="#" className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                  View all<span className="sr-only">, clients</span>
-                </a>
+                <h2 className="text-base font-semibold leading-7 text-blue-900">Recent projects</h2>
+              </div>{' '}
+              <div className="sm:flex sm:items-center mb-3">
+                <div className="sm:flex-auto"></div>
               </div>
-              <ul role="list" className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
-                {clients.map((client) => (
-                  <li key={client.id} className="overflow-hidden rounded-xl border border-gray-200">
+              <ul role="list" className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
+                {projects.map((project) => (
+                  <li key={project.uuid} className="overflow-hidden rounded-xl border border-gray-200">
                     <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
                       <img
-                        src={client.imageUrl}
-                        alt={client.name}
+                        src={project.imageUrl}
+                        alt={project.name}
                         className="h-12 w-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10"
                       />
-                      <div className="text-sm font-medium leading-6 text-gray-900">{client.name}</div>
-                      <Menu as="div" className="relative ml-auto">
-                        <Menu.Button className="-m-2.5 block p-2.5 text-gray-400 hover:text-gray-500">
-                          <span className="sr-only">Open options</span>
-                          <EllipsisHorizontalIcon className="h-5 w-5" aria-hidden="true" />
-                        </Menu.Button>
-                        <Transition
-                          as={Fragment}
-                          enter="transition ease-out duration-100"
-                          enterFrom="transform opacity-0 scale-95"
-                          enterTo="transform opacity-100 scale-100"
-                          leave="transition ease-in duration-75"
-                          leaveFrom="transform opacity-100 scale-100"
-                          leaveTo="transform opacity-0 scale-95"
-                        >
-                          <Menu.Items className="absolute right-0 z-10 mt-0.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                            <Menu.Item>
-                              {({ active }) => (
-                                <a
-                                  href="#"
-                                  className={classNames(active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900')}
-                                >
-                                  View<span className="sr-only">, {client.name}</span>
-                                </a>
-                              )}
-                            </Menu.Item>
-                            <Menu.Item>
-                              {({ active }) => (
-                                <a
-                                  href="#"
-                                  className={classNames(active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900')}
-                                >
-                                  Edit<span className="sr-only">, {client.name}</span>
-                                </a>
-                              )}
-                            </Menu.Item>
-                          </Menu.Items>
-                        </Transition>
-                      </Menu>
+                      <div className="text-sm font-medium leading-6 text-gray-900">{project.name}</div>
+                      
+                          
                     </div>
                     <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
                       <div className="flex justify-between gap-x-4 py-3">
-                        <dt className="text-gray-500">Last invoice</dt>
+                        <dt className="text-gray-500">Created Date</dt>
                         <dd className="text-gray-700">
-                          <time dateTime={client.lastInvoice.dateTime}>{client.lastInvoice.date}</time>
+                          <time dateTime={project.createdAt}>{project.createdAt}</time>
                         </dd>
                       </div>
                       <div className="flex justify-between gap-x-4 py-3">
-                        <dt className="text-gray-500">Amount</dt>
+                        <dt className="text-gray-500">Asset Id</dt>
                         <dd className="flex items-start gap-x-2">
-                          <div className="font-medium text-gray-900">{client.lastInvoice.amount}</div>
-                          <div
-                            className={classNames(
-                              statuses[client.lastInvoice.status],
-                              'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset'
-                            )}
-                          >
-                            {client.lastInvoice.status}
-                          </div>
+                          <div className="font-medium text-gray-900">{project.voucherId}</div>
+                     
                         </dd>
                       </div>
                     </dl>
@@ -333,7 +235,9 @@ export default function DashBoard() {
                 ))}
               </ul>
             </div>
-          </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       </main>
     </>

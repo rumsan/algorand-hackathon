@@ -8,8 +8,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
 import { EllipsisVerticalIcon } from 'lucide-react';
-import DashboardGender from '@/components/chart/DashboardGender';
-import DashboardAge from '@/components/chart/DashboardAge';
+
 import ProjectAge from '@/components/chart/ProjectAge';
 import ProjectGender from '@/components/chart/ProjectGender';
 
@@ -44,8 +43,6 @@ export default function Example() {
   console.log(voucher, 'voucher');
   voucher ? localStorage.setItem('voucher', JSON.stringify(voucher)) : null;
 
-  
-
   useEffect(() => {
     if (data) {
       console.log(data, 'data');
@@ -56,9 +53,9 @@ export default function Example() {
 
   console.log(project, 'projecy');
 
- 
   if (project) {
     console.log(project.voucherId);
+    console.log(project, 'project');
     localStorage.setItem('project', JSON.stringify(project));
   }
 
@@ -189,7 +186,7 @@ export default function Example() {
               <div className="w-1/2 -mx-4 px-4 py-8 shadow-sm ring-1 ring-gray-900/5 sm:mx-0 sm:rounded-lg sm:px-8 sm:pb-14 xl:px-16 xl:pb-20 xl:pt-16">
                 <h2 className="text-2xl font-semibold leading-6 text-blue-900">Asset</h2>
                 <dl className="mt-6 grid grid-cols-1 text-sm leading-6 sm:grid-cols-2">
-                  <div className="sm:pr-4 text-gray-500">
+                  <div className="mt-6 border-t border-gray-900/5 pt-6 sm:pr-4">
                     <dt className="font-semibold text-gray-900">Asset Name</dt>
                     <dd className="mt-2 text-xl text-gray-600"> {voucher?.voucherName ? voucher.voucherName : '...'}</dd>
                     <br />
@@ -202,9 +199,9 @@ export default function Example() {
                     <br className="text-gray-400" />
                     <br />
                   </div>
-                </dl>
-                <dl className="mt-6 grid grid-cols-1 text-sm leading-6 sm:grid-cols-2">
-                  <div className="mt-6 border-t border-gray-900/5 pt-6 sm:pr-4">
+                {/* </dl> */}
+                {/* <dl className="mt-6 grid grid-cols-1 text-sm leading-6 sm:grid-cols-2 "> */}
+                  <div className="mt-1 border-t border-gray-900/5 pt-6 sm:pr-4 ">
                     <dt className="font-semibold text-gray-900">Disbursed ASA</dt>
                     <dd className="mt-2 text-gray-500">
                       <span className="font-medium text-gray-900">100</span>
@@ -213,7 +210,7 @@ export default function Example() {
                       <br />
                     </dd>
                   </div>
-                  <div className="mt-8 sm:mt-6 sm:border-t sm:border-gray-900/5 sm:pl-4 sm:pt-6">
+                  <div className="mt-1 sm:mt-1 sm:border-t sm:border-gray-900/5 sm:pl-4 sm:pt-6 ">
                     <dt className="font-semibold text-gray-900">Redeemed ASA</dt>
                     <dd className="mt-2 text-gray-500">
                       <span className="font-medium text-gray-900">10</span>
@@ -233,17 +230,18 @@ export default function Example() {
                 </table>
               </div>
             </div>
-            <div className="flex items-center justify-center space-x-40 pt-20">
-              <div>
-                <h1 className="text-blue-900 font-bold pl-32 pb-5">Gender Graph</h1>
-                <ProjectGender />
+            {project?.beneficiaries?.length > 0 && (
+              <div className="flex items-center justify-center space-x-40 pt-20">
+                <div>
+                  <h1 className="text-blue-900 font-bold pl-32 pb-5">Gender Graph</h1>
+                  <ProjectGender />
+                </div>
+                <div>
+                  <h1 className="text-blue-900 font-bold pl-32 pb-5">Age Graph</h1>
+                  <ProjectAge />
+                </div>
               </div>
-              <div>
-                <h1 className="text-blue-900 font-bold pl-32 pb-5">Age Graph</h1>
-
-                <ProjectAge />
-              </div>
-            </div>
+            )}
           </main>
         </div>
       </div>

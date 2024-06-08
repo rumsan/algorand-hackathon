@@ -119,11 +119,6 @@ export default function Example() {
                             Add admin
                           </Link>
                         </Menu.Item>
-                        <Menu.Item>
-                          <Link className="block px-3 py-1 text-sm leading-6 text-gray-900" to={`/admin/project/${id}/create-asa`}>
-                            Create ASA
-                          </Link>
-                        </Menu.Item>
                       </Menu.Items>
                     </Transition>
                   </Menu>

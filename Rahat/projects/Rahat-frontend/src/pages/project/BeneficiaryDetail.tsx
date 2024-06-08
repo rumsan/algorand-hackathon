@@ -1,12 +1,13 @@
 import SideBar from '@/components/SideBar';
 import { Link, useParams } from 'react-router-dom';
-import BeneficiaryDetailClawback from '../BeneficiaryDetailClawback';
+import BeneficiaryTransactASA from '../BeneficiaryTransactASA';
 import { useEffect, useState } from 'react';
 import useGet from '@/hooks/useGet';
 import { URLS } from '@/constants';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { EllipsisVerticalIcon } from 'lucide-react';
+import { algodClient } from '@/utils/typedClient';
 
 export const transaction = [
   {
@@ -64,7 +65,7 @@ export const transaction = [
 export default function BeneficiaryDetail() {
   const { id } = useParams();
   const [beneficiaries, setBeneficiaries] = useState<any>(null);
-
+  const [assetStatus, setassetStatus] = useState({ isFrozen: false, isCreated: true, amount: 0 });
   const { data } = useGet(`getById${id}`, URLS.BENEFICIARY, id as string);
   const [project, setProject] = useState<any>(() => {
     const storedProject = localStorage.getItem('project');
@@ -77,19 +78,29 @@ export default function BeneficiaryDetail() {
   }
   )
 
-  // useEffect(() => {
-  //   console.log('Project from localStorage:', project);
-  // }, [project]);
+  
+
+  useEffect(() => {
+    const checkAssetFrozenStatus = async () => {
+      const accountInfo = await algodClient.accountInformation(beneficiaries?.walletAddress).do();
+      //@ts-ignore
+      const assetHolding = accountInfo['assets'].find((asset) => asset['asset-id'] === Number(localStorage.getItem('voucherId')));
+      if (assetHolding) {
+        setassetStatus({ isFrozen: assetHolding['is-frozen'], isCreated: true, amount: assetHolding['amount'] });
+      } else {
+        setassetStatus({ isFrozen: false, isCreated: false, amount: 0 });
+      }
+    };
+    checkAssetFrozenStatus();
+  }, [beneficiaries]);
+
+  console.log(assetStatus)
 
   useEffect(() => {
     if (data) {
       setBeneficiaries(data);
     }
   }, [data]);
-
-  // if (!beneficiaries) {
-  //   return <div>Loading...</div>;
-  // }
 
   return (
     <>
@@ -122,9 +133,6 @@ export default function BeneficiaryDetail() {
                     className="h-16 w-16 flex-none rounded-full ring-1 ring-gray-900/10"
                   />
                   <h1>
-                    <div className="text-sm leading-6 text-gray-500 py-1">
-                      Beneficiary id <span className="text-gray-700">{beneficiaries?.uuid}</span>
-                    </div>
                     <div className="py-1 text-2xl mt-1 font-semibold leading-6 text-gray-900">{beneficiaries?.name}</div>
                     <div className="py-1 text-sm leading-6 text-gray-500">
                       <span className="text-gray-700">{beneficiaries?.walletAddress}</span>
@@ -149,7 +157,7 @@ export default function BeneficiaryDetail() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="bg-gray-200 absolute right-0 z-10 mt-0.5 w-44 origin-top-right rounded-md  py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                      <BeneficiaryDetailClawback walletAddress={beneficiaries?.walletAddress}/>
+                      <BeneficiaryTransactASA walletAddress={beneficiaries?.walletAddress} assetStatus={assetStatus}/>
                     </Menu.Items>
                   </Transition>
                 </Menu>

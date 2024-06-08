@@ -69,9 +69,6 @@ const BeneficiaryDetails = () => {
                     className="h-16 w-16 flex-none rounded-full ring-1 ring-gray-900/10"
                   />
                   <h1>
-                    <div className="text-sm leading-6 text-gray-500 py-1">
-                      Beneficiary id <span className="text-gray-700">{beneficiary?.uuid}</span>
-                    </div>
                     <div className="py-1 text-2xl mt-1 font-semibold leading-6 text-gray-900">{beneficiary?.name}</div>
                     <div className="py-1 text-sm leading-6 text-gray-500">
                       <span className="text-gray-700">{beneficiary?.walletAddress}</span>

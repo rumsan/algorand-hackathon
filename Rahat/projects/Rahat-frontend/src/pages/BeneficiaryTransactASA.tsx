@@ -6,31 +6,14 @@ import RahatUnfreezeBeneficiaryAsset from '@/components/contracts/RahatUnfreezeB
 import RahatFreezeBeneficiaryAsset from '@/components/contracts/RahatFreezeBeneficiaryAsset';
 import RahatClawbackBeneficiaryAsset from '@/components/contracts/RahatClawbackBeneficiaryAsset';
 
-const BeneficiaryDetailClawback = ({ walletAddress }: { walletAddress: string }) => {
-  const [assetStatus, setassetStatus] = useState({ isFrozen: false, isCreated: true, amount: 0 });
+const BeneficiaryTransactASA = ({ walletAddress, assetStatus }: any) => {
 
   const amount = 1;
-
-  const checkAssetFrozenStatus = async () => {
-    const accountInfo = await algodClient.accountInformation(walletAddress).do();
-    console.log(accountInfo);
-    //@ts-ignore
-    const assetHolding = accountInfo['assets'].find((asset) => asset['asset-id'] === Number(localStorage.getItem('voucherId')));
-    if (assetHolding) {
-      setassetStatus({ isFrozen: assetHolding['is-frozen'], isCreated: true, amount: assetHolding['amount'] });
-    } else {
-      setassetStatus({ isFrozen: false, isCreated: false, amount: 0 });
-    }
-  };
-
-  useEffect(() => {
-    checkAssetFrozenStatus();
-  }, []);
 
   return (
     <>
       <div className="  block justify-end  bg-gray-200 align-middle mt-4 space-x-2 ">
-        {/* {assetStatus.isCreated && ( */}
+        {assetStatus.isCreated && !assetStatus.isFrozen && 
         <RahatSendTokenToBeneficiary
           buttonClass="btn"
           buttonLoadingNode={<span className="loading loading-spinner" />}
@@ -40,9 +23,9 @@ const BeneficiaryDetailClawback = ({ walletAddress }: { walletAddress: string })
           amount={amount}
           assetId={Number(localStorage.getItem('voucherId'))}
         />
-        {/* )} */}
+        }
 
-        {/* {assetStatus.isFrozen && ( */}
+        {assetStatus.isCreated && assetStatus.isFrozen && 
         <RahatUnfreezeBeneficiaryAsset
           buttonClass="btn"
           buttonLoadingNode={<span className="loading loading-spinner" />}
@@ -51,9 +34,9 @@ const BeneficiaryDetailClawback = ({ walletAddress }: { walletAddress: string })
           benAddress={walletAddress}
           assetId={Number(localStorage.getItem('voucherId'))}
         />
-        {/* )} */}
+        }
 
-        {!assetStatus.isFrozen && (
+        {assetStatus.isCreated && !assetStatus.isFrozen && 
           <RahatFreezeBeneficiaryAsset
             buttonClass="btn"
             buttonLoadingNode={<span className="loading loading-spinner" />}
@@ -62,8 +45,9 @@ const BeneficiaryDetailClawback = ({ walletAddress }: { walletAddress: string })
             benAddress={walletAddress}
             assetId={Number(localStorage.getItem('voucherId'))}
           />
-        )}
+        }
 
+        {assetStatus.isCreated && assetStatus.amount > 0 && 
         <RahatClawbackBeneficiaryAsset
           buttonClass="btn"
           buttonLoadingNode={<span className="loading loading-spinner" />}
@@ -72,10 +56,10 @@ const BeneficiaryDetailClawback = ({ walletAddress }: { walletAddress: string })
           benAddress={walletAddress}
           assetId={Number(localStorage.getItem('voucherId'))}
           amount={1}
-        />
+        />}
       </div>
     </>
   );
 };
 
-export default BeneficiaryDetailClawback;
+export default BeneficiaryTransactASA;

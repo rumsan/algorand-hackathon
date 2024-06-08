@@ -94,7 +94,7 @@ export default function addAdmin() {
         <SideBar />
         
         {/* Main Content */}
-        <div className="ml-96 pl-52 pt-40 w-full">
+        <div className="pl-52 pt-16 w-full flex justify-center">
           <div className="space-y-10 divide-y divide-gray-900/10 w-full max-w-4xl px-4 pb-80">
             <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
               <form
@@ -103,7 +103,7 @@ export default function addAdmin() {
               >
                 <div className="px-4 py-6 sm:p-8">
                   <div className="px-4 sm:px-0">
-                    <h2 className="text-base font-semibold leading-7 text-gray-900">Add New Admin <span onClick={testBtn}>Test admin</span></h2>
+                    <h2 className="text-base font-semibold leading-7 text-gray-900">Add New Admin</h2>
                     
                     <p className="mt-1 text-sm leading-6 text-gray-600">
                       Enter the wallet address of the new admin to add them to the project.

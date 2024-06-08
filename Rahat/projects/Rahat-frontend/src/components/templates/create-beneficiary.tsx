@@ -47,8 +47,6 @@ const CreateBeneficiary = () => {
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! };
 
-  const mnemonicsOfSender = import.meta.env.VITE_FUNDER_MNEMONICS;
-  const walletOfSender = import.meta.env.VITE_FUNDER_WALLET;
 
   const createBeneficiary = async (e: any) => {
     e.preventDefault();
@@ -67,7 +65,7 @@ const CreateBeneficiary = () => {
     // postMutation({ urls: URLS.BENEFICIARY + '/send-asa', data: {walletAddress: data.walletAddress} });
 
   // Send Algo
-    API.post(`${SERVER_URL}/send-asa`, {walletAddress: data.walletAddress})
+    API.post(`${SERVER_URL}${URLS.BENEFICIARY}/send-asa`, {walletAddress: data.walletAddress})
     .then(async () => {
         // Optin to asset using beneficiary wallet
         const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
@@ -88,7 +86,8 @@ const CreateBeneficiary = () => {
           snack.default.error('There was a problem with your request');
         }
     })
-    .catch(() => {
+    .catch((error) => {
+      console.log(error)
       snack.default.error('Couldnot send Algo to beneficiary');
     })
 

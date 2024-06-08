@@ -3,7 +3,7 @@ import { generateRandomBeneficiaryAccount } from '../../utils/generateRandomBenA
 import { QRCodeSVG } from 'qrcode.react';
 import CryptoJS from 'crypto-js';
 import * as algosdk from 'algosdk';
-import { algodClient, typedClient } from '../../utils/typedClient';
+import { algodClient } from '../../utils/typedClient';
 import { URLS } from '../../constants';
 import usePost from '../../hooks/usePost';
 import { useWallet } from '@txnlab/use-wallet';
@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Navigate, useParams } from 'react-router-dom';
 import { SnackbarUtilsConfigurator } from '../../components/Toaster';
 import * as snack from '../../components/Toaster';
+import API from '@/utils/API';
 
 interface WalletType {
   mnemonicsQRText: string | undefined;
@@ -62,16 +63,8 @@ const CreateBeneficiary = () => {
       projectId: id,
     };
 
-    // Send tokens to beneficiary from funder wallet
-    const secretOfSenderWallet = algosdk.mnemonicToSecretKey(mnemonicsOfSender);
-    const txnSender = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-      from: walletOfSender,
-      to: data.walletAddress as string,
-      amount: 500000,
-      suggestedParams: await algodClient.getTransactionParams().do(),
-    });
-    const signedTxnSender = txnSender.signTxn(secretOfSenderWallet.sk);
-    await algodClient.sendRawTransaction(signedTxnSender).do();
+    // Send Algo
+    postMutation({ urls: URLS.BENEFICIARY + '/send-asa', data: {walletAddress: data.walletAddress} });
 
     // Optin to asset using beneficiary wallet
     const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
@@ -82,12 +75,11 @@ const CreateBeneficiary = () => {
       assetIndex: Number(localStorage.getItem('voucherId')),
     });
     const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
-    const { txId } = await algodClient.sendRawTransaction(signedTxn).do();
+    await algodClient.sendRawTransaction(signedTxn).do();
 
     postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
     if (data.email) {
       snack.default.success('Beneficiary created successfully');
-      // toast.success('Beneficiary created successfully');
       setShouldNavigate(true);
     } else {
       snack.default.error('There was a problem with your request');

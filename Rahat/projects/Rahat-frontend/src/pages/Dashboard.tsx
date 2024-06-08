@@ -39,6 +39,7 @@ export default function DashBoard() {
   let { isLoading, isError, data } = useList('listCount', `${URLS.BENEFICIARY}/get-count`, 1, 6);
   const [projects, setProjects] = useState<project[]>([]);
 
+  useEffect(()=>{})
   let { data: projectData } = useList('listProject', URLS.PROJECT, 1, 3);
 
   useEffect(() => {
@@ -60,7 +61,7 @@ export default function DashBoard() {
     <>
       {/* start */}
 
-      <main>
+      <main >
         <div className="relative isolate overflow-hidden">
           <div className="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5">
             <dl className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-2 xl:px-0">
@@ -197,7 +198,7 @@ export default function DashBoard() {
           {projects?.length ? (
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between">
-                <h2 className="text-base font-semibold leading-7 text-gray-900">Recent projects</h2>
+                <h2 className="text-base font-semibold leading-7 text-blue-900">Recent projects</h2>
               </div>{' '}
               <div className="sm:flex sm:items-center mb-3">
                 <div className="sm:flex-auto"></div>
@@ -235,7 +236,7 @@ export default function DashBoard() {
               </ul>
             </div>
           ) : (
-            <NoProjects />
+            <div></div>
           )}
         </div>
       </main>

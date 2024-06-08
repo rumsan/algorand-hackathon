@@ -23,7 +23,7 @@ type project = {
 
 export default function ProjectList() {
   localStorage.removeItem('voucher')
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(6);
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [projects, setProjects] = useState<project[]>([]);

@@ -8,12 +8,12 @@ const useList = (qkey: string, urls: string, page: number, limit: number, email?
     queryKey: [qkey,str],
     queryFn: async () => {
       const params = {
-        page,
-        // Refactor: Asim
         limit,
+        page,
         email,
         id: id,
       };
+      console.log(params, 'hooks');
       const { data } = await API.get(urls, { params });
       console.log(data, 'hooks');
       return data;

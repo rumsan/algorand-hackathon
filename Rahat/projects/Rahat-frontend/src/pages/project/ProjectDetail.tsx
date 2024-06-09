@@ -11,6 +11,8 @@ import { EllipsisVerticalIcon } from 'lucide-react';
 
 import ProjectAge from '@/components/chart/ProjectAge';
 import ProjectGender from '@/components/chart/ProjectGender';
+import TruncatedCell from '@/components/TruncatedCell';
+import Loader from '@/components/Loader';
 
 export const navigation = [
   {
@@ -80,6 +82,7 @@ export default function Example() {
               </div>
               <div className="absolute inset-x-0 bottom-0 h-px bg-gray-900/5" />
             </div>
+          
 
             <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
               <div className="mx-auto flex max-w-2xl items-center justify-between gap-x-8 lg:mx-0 lg:max-w-none">
@@ -162,7 +165,7 @@ export default function Example() {
                   <div className="mt-8 sm:mt-6 sm:border-t sm:border-gray-900/5 sm:pl-4 sm:pt-6">
                     <dt className="font-semibold text-gray-900">Created By</dt>
                     <dd className="mt-2 text-gray-500">
-                      <span className="font-small text-gray-700 text-xl">{project?.createdBy}</span>
+                      <span className="font-small text-gray-700 text-xl">{<TruncatedCell text={project?.superAdmin ?? ''} />}</span>
                       <br />
 
                       <br />

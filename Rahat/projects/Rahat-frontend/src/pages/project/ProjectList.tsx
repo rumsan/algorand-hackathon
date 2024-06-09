@@ -8,6 +8,7 @@ import { URLS } from '../../constants';
 import NoProjects from '@/components/NoProjects';
 import { PlusIcon } from '@heroicons/react/20/solid';
 import Hookpagination from '@/components/HookPagination';
+import Loader from '@/components/Loader';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
@@ -41,11 +42,7 @@ export default function ProjectList() {
     }
   }, [data]);
 
-  if (isLoading) return (
-    <div className="flex items-center justify-center">
-      <div className="w-12 h-12 border-8 border-black border-opacity-0 animate-spin rounded-full"></div>
-    </div>
-  );
+  if (isLoading) return <Loader />;
 
 
   return (

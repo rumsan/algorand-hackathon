@@ -1,4 +1,6 @@
 import React from 'react';
+import { SnackbarUtilsConfigurator } from './Toaster';
+import * as snack from './Toaster';
 
 const TruncatedCell = ({ text }: { text: string }) => {
   const maxLength = 20;
@@ -7,10 +9,10 @@ const TruncatedCell = ({ text }: { text: string }) => {
     navigator.clipboard
       .writeText(text)
       .then(() => {
-        alert('Copied to clipboard');
+        snack.default.success('Copied to clipboard');
       })
       .catch((err) => {
-        console.error('Failed to copy text: ', err);
+        snack.default.error('Failed to copy text');
       });
   };
 
@@ -24,7 +26,9 @@ const TruncatedCell = ({ text }: { text: string }) => {
   const truncatedText = truncateMiddle(text, maxLength);
   return (
     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500" title={text} onClick={copyToClipboard} style={{ cursor: 'pointer' }}>
+
       {truncatedText}
+      <SnackbarUtilsConfigurator />
     </td>
   );
 };

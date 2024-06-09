@@ -50,7 +50,7 @@ function UtilizeAsa() {
   };
 
   const backRoute = `/beneficiary/details/${id}`;
-
+console.log(projects);
   return (
     <div className="h-screen flex items-center justify-center">
       <SnackbarUtilsConfigurator />

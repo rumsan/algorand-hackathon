@@ -162,10 +162,7 @@ export default function Example() {
                   <div className="mt-8 sm:mt-6 sm:border-t sm:border-gray-900/5 sm:pl-4 sm:pt-6">
                     <dt className="font-semibold text-gray-900">Created By</dt>
                     <dd className="mt-2 text-gray-500">
-                      <span className="font-small text-gray-700 text-xl">
-                        iu23end2389dn83u48ebndw
-                        {/* {project.createdBy} */}
-                      </span>
+                      <span className="font-small text-gray-700 text-xl">{project?.createdBy}</span>
                       <br />
 
                       <br />
@@ -199,8 +196,8 @@ export default function Example() {
                     <br className="text-gray-400" />
                     <br />
                   </div>
-                {/* </dl> */}
-                {/* <dl className="mt-6 grid grid-cols-1 text-sm leading-6 sm:grid-cols-2 "> */}
+                  {/* </dl> */}
+                  {/* <dl className="mt-6 grid grid-cols-1 text-sm leading-6 sm:grid-cols-2 "> */}
                   <div className="mt-1 border-t border-gray-900/5 pt-6 sm:pr-4 ">
                     <dt className="font-semibold text-gray-900">Disbursed ASA</dt>
                     <dd className="mt-2 text-gray-500">

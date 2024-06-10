@@ -3,6 +3,10 @@ import { ReactNode, useState } from 'react';
 import { Rahat, RahatClient } from '../../contracts/RahatClient';
 import { useWallet } from '@txnlab/use-wallet';
 import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount';
+import usePost from '@/hooks/usePost';
+import { URLS } from '@/constants';
+import algosdk from 'algosdk';
+import { asaId } from '@/utils/asaId';
 
 type RahatFreezeBeneficiaryAssetArgs = Rahat['methods']['freezeBeneficiaryAsset(address,uint64)void']['argsObj'];
 
@@ -19,11 +23,13 @@ const RahatFreezeBeneficiaryAsset = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! };
+  const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost('updateBeneficiary');
 
   const callMethod = async () => {
     setLoading(true);
     console.log(`Calling freezeBeneficiaryAsset`);
-    await props.typedClient.freezeBeneficiaryAsset(
+    const boxKey = algosdk.bigIntToBytes(asaId, 8);
+    const res = await props.typedClient.freezeBeneficiaryAsset(
       {
         benAddress: props.benAddress,
         assetId: props.assetId,
@@ -33,8 +39,24 @@ const RahatFreezeBeneficiaryAsset = (props: Props) => {
         assets: [Number(localStorage.getItem('voucherId'))],
         accounts: [props.benAddress],
         sendParams: { fee: new AlgoAmount({ algos: 0.003 }) },
+        boxes: [
+          {
+            appIndex: 0,
+            name: boxKey,
+          },
+        ],
       }
     );
+
+    res &&
+      postMutation({
+        urls: URLS.BENEFICIARY + '/update',
+        data: {
+          addresses: [props?.benAddress],
+          status: 'FREEZED',
+        },
+      });
+
     setLoading(false);
   };
 

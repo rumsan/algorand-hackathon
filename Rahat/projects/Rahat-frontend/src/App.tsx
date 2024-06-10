@@ -19,6 +19,7 @@ import CreateVendor from './pages/project/CreateVendor';
 import VendorDetail from './pages/project/VendorDetail';
 import VendorDetails from './pages/vendor/VendorDetails';
 import UtilizeAsa from './pages/beneficiary/UtilizeAsa';
+import Model from './components/Model';
 
 export default function App() {
   return (
@@ -102,7 +103,7 @@ export default function App() {
               }
             />
             <Route
-              path="/admin/project/:id/beneficiary/:id"
+              path="/admin/project/:id/beneficiary/:beneficiaryId"
               element={
                 <AdminRoute>
                   <BeneficiaryDetail />

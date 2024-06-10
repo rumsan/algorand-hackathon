@@ -8,6 +8,10 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { EllipsisVerticalIcon } from 'lucide-react';
 import { algodClient } from '@/utils/typedClient';
+import { AssetStatus } from './ProjectBeneficiary';
+import { atomicTxnComposer, atomicTxnComposerFreeze } from '@/utils/atc';
+import usePost from '@/hooks/usePost';
+import { useWallet } from '@txnlab/use-wallet';
 
 export const transaction = [
   {
@@ -64,6 +68,8 @@ export const transaction = [
 
 export default function BeneficiaryDetail() {
   const { id } = useParams();
+  const { activeAddress, signer } = useWallet();
+
   const [beneficiaries, setBeneficiaries] = useState<any>(null);
   const [assetStatus, setassetStatus] = useState({ isFrozen: false, isCreated: true, amount: 0 });
   const { data } = useGet(`getById${id}`, URLS.BENEFICIARY, id as string);
@@ -72,13 +78,12 @@ export default function BeneficiaryDetail() {
     return storedProject ? JSON.parse(storedProject) : null;
   });
 
-  const [voucher,setVoucher]=useState<any>(()=>{
-    const storedVoucher=localStorage.getItem('voucher')
-    return storedVoucher?JSON.parse(storedVoucher):null
-  }
-  )
+  const [voucher, setVoucher] = useState<any>(() => {
+    const storedVoucher = localStorage.getItem('voucher');
+    return storedVoucher ? JSON.parse(storedVoucher) : null;
+  });
 
-  
+  const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost('updateBeneficiary');
 
   useEffect(() => {
     const checkAssetFrozenStatus = async () => {
@@ -94,7 +99,8 @@ export default function BeneficiaryDetail() {
     checkAssetFrozenStatus();
   }, [beneficiaries]);
 
-  console.log(assetStatus)
+  console.log(assetStatus);
+
 
   useEffect(() => {
     if (data) {
@@ -157,7 +163,7 @@ export default function BeneficiaryDetail() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="bg-gray-200 absolute right-0 z-10 mt-0.5 w-44 origin-top-right rounded-md  py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                      <BeneficiaryTransactASA walletAddress={beneficiaries?.walletAddress} assetStatus={assetStatus}/>
+                      <BeneficiaryTransactASA walletAddress={beneficiaries?.walletAddress} assetStatus={assetStatus} />
                     </Menu.Items>
                   </Transition>
                 </Menu>

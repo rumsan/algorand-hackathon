@@ -8,13 +8,15 @@ import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount';
 import { asaId } from '@/utils/asaId';
 import { PeraWalletConnect } from '@perawallet/connect';
 import { atomicTxnComposer } from '@/utils/atc';
+import { URLS } from '@/constants';
+import usePost from '@/hooks/usePost';
 
 type RahatSendTokenToBeneficiaryArgs = Rahat['methods']['sendTokenToBeneficiary(address,uint64,uint64)void']['argsObj'];
 
 type Props = {
   buttonClass: string;
   buttonLoadingNode?: ReactNode;
-  buttonNode: ReactNode;
+  buttonNode: ReactNode;  
   typedClient: RahatClient;
   benAddress: RahatSendTokenToBeneficiaryArgs['benAddress'];
   amount: RahatSendTokenToBeneficiaryArgs['amount'];
@@ -28,18 +30,18 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
 
   const atc = new algosdk.AtomicTransactionComposer();
 
-  const peraWallet = new PeraWalletConnect({chainId: 416002});
+  const peraWallet = new PeraWalletConnect({ chainId: 416002 });
 
   let methodInstance = algosdk.ABIMethod.fromSignature('sendTokenToBeneficiary(address,uint64,uint64)void');
-    let selector = methodInstance.getSelector();
-   
-  const callMethod = async () => {
+  let selector = methodInstance.getSelector();
+  const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost('updateBeneficiary');
 
+  const callMethod = async () => {
     setLoading(true);
 
     const boxKey = algosdk.bigIntToBytes(asaId, 8);
 
-    await props.typedClient.sendTokenToBeneficiary(
+    const res = await props.typedClient.sendTokenToBeneficiary(
       {
         benAddress: props?.benAddress,
         amount: props?.amount,
@@ -50,13 +52,24 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
         assets: [asaId],
         accounts: [props?.benAddress],
         sendParams: { fee: new AlgoAmount({ algos: 0.003 }) },
-        boxes: [{
-          appIndex: 0,
-          name: boxKey,
-          }]
+        boxes: [
+          {
+            appIndex: 0,
+            name: boxKey,
+          },
+        ],
       }
     );
-    
+
+    res &&
+      postMutation({
+        urls: URLS.BENEFICIARY + '/update',
+        data: {
+          addresses: [props?.benAddress],
+          status: 'FREEZED',
+        },
+      });
+
     setLoading(false);
   };
 

@@ -22,7 +22,7 @@ type Beneficiary = {
   };
 
 const BeneficiaryTab = ({handleSelectAll, setSelectedBeneficiaries, selectedBeneficiaries, data}: any) => {
-  const { id } = useParams();
+  const { id ,beneficiaryId} = useParams();
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! };
@@ -50,6 +50,8 @@ const BeneficiaryTab = ({handleSelectAll, setSelectedBeneficiaries, selectedBene
       <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
           <table className="min-w-full divide-y divide-gray-300">
+            {data?.data.length > 0 && (
+
             <thead>
               <tr>
                 <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
@@ -69,6 +71,8 @@ const BeneficiaryTab = ({handleSelectAll, setSelectedBeneficiaries, selectedBene
                 </th>
               </tr>
             </thead>
+            )}
+
             <tbody className="divide-y divide-gray-200 bg-white">
               {beneficiaries.map((beneficiary) => (
                 <tr key={beneficiary.walletAddress}>
@@ -98,7 +102,7 @@ const BeneficiaryTab = ({handleSelectAll, setSelectedBeneficiaries, selectedBene
                   </td>
                   <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                     <Link to={`/admin/project/${id}/beneficiary/${beneficiary.uuid}`} className="text-gray-500">
-                    <TruncatedCell text={beneficiary.walletAddress} />
+                      <TruncatedCell text={beneficiary.walletAddress} />
                     </Link>
                   </td>
                   <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">

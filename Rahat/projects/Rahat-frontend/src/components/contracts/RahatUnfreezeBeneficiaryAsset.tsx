@@ -8,7 +8,9 @@ import algosdk from 'algosdk';
 import { algodClient } from '@/utils/typedClient';
 import { SignerTransaction } from '@perawallet/connect/dist/util/model/peraWalletModels';
 import { asaId } from '@/utils/asaId';
-import * as snack from "../../components/Toaster";
+import * as snack from '../../components/Toaster';
+import { URLS } from '@/constants';
+import usePost from '@/hooks/usePost';
 
 type RahatUnfreezeBeneficiaryAssetArgs = Rahat['methods']['unfreezeBeneficiaryAsset(address,uint64)void']['argsObj'];
 
@@ -22,36 +24,49 @@ type Props = {
 };
 
 const RahatUnfreezeBeneficiaryAsset = (props: Props) => {
-  const [loading, setLoading] = useState<boolean>(false)
-  const { activeAddress, signer } = useWallet()
-  const sender = { signer, addr: activeAddress! }
+  const [loading, setLoading] = useState<boolean>(false);
+  const { activeAddress, signer } = useWallet();
+  const sender = { signer, addr: activeAddress! };
+
+  const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost('updateBeneficiary');
 
   const callMethod = async () => {
-
     const boxKey = algosdk.bigIntToBytes(asaId, 8);
-    
+
     const res = await props.typedClient.unfreezeBeneficiaryAsset(
       {
         benAddress: props.benAddress,
         assetId: props.assetId,
       },
-      { sender,
+      {
+        sender,
         assets: [Number(localStorage.getItem('voucherId'))],
-        sendParams: {fee: new AlgoAmount({algos: 0.003}), },
+        sendParams: { fee: new AlgoAmount({ algos: 0.003 }) },
         accounts: [props.benAddress],
-        boxes: [{
-          appIndex: 0,
-          name: boxKey,
-          }]
-       },
-    )
-    snack.default.success("Beneficiary asset unfreezed successfully.")
-    setLoading(false)
-  }
+        boxes: [
+          {
+            appIndex: 0,
+            name: boxKey,
+          },
+        ],
+      }
+    );
+
+    res &&
+      postMutation({
+        urls: URLS.BENEFICIARY + '/update',
+        data: {
+          addresses: [props?.benAddress],
+          status: 'UNFREEZED',
+        },
+      });
+    snack.default.success('Beneficiary asset unfreezed successfully.');
+    setLoading(false);
+  };
 
   return (
     <button type="submit" className="fblock px-3 py-1 text-sm leading-6 text-green-900" onClick={callMethod}>
-      {loading ? "Transating" : "Unfreeze asset"}
+      {loading ? 'Transating' : 'Unfreeze asset'}
     </button>
   );
 };

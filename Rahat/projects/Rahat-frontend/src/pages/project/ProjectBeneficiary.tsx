@@ -4,8 +4,6 @@ import { URLS } from '../../constants';
 import { useEffect, useState } from 'react';
 
 // @ts-ignore
-import Jdenticon from 'react-jdenticon';
-import TruncatedCell from '@/components/TruncatedCell';
 import SideBar from '@/components/SideBar';
 import { algodClient } from '@/utils/typedClient';
 import { atomicTxnComposer } from '@/utils/atc';
@@ -13,7 +11,6 @@ import { asaId } from '@/utils/asaId';
 import { useWallet } from '@txnlab/use-wallet';
 
 import * as Tabs from '@radix-ui/react-tabs';
-import BeneficiaryNotAssigned from '@/components/templates/BeneficiaryNotAssigned';
 import { sendBtns, tabs, tabsContent } from '@/constants/classnames/tabsclassNames';
 import BeneficiaryTab from '@/components/templates/BeneficiaryNotAssigned';
 import usePost from '@/hooks/usePost';
@@ -51,6 +48,8 @@ export default function ProjectBeneficiary() {
 
   const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost("updateBeneficiary");
 
+  const wallet = useWallet()
+
   const handleCheckboxChange = (walletAddress: string) => {
     setSelectedBeneficiaries((prevSelected) =>
       prevSelected.includes(walletAddress) ? prevSelected.filter((e) => e !== walletAddress) : [...prevSelected, walletAddress]
@@ -77,7 +76,7 @@ export default function ProjectBeneficiary() {
     };
   
     const updateBeneficiaryData = async (status: AssetStatus) => {
-    const signedTxn = await atomicTxnComposer(activeAddress as string, selectedBeneficiaries, 1, asaId, sender);
+    const signedTxn = await atomicTxnComposer(activeAddress as string, selectedBeneficiaries, 1, asaId, sender, wallet);
     postMutation({ 
         urls: URLS.BENEFICIARY + '/update',
         data: {

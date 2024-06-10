@@ -2,7 +2,8 @@
 import { ReactNode, useState } from 'react';
 import { Rahat, RahatClient } from '../../contracts/RahatClient';
 import { useWallet } from '@txnlab/use-wallet';
-import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount';
+import algosdk from 'algosdk';
+import { algodClient } from '@/utils/typedClient';
 
 /* Example usage
 <RahatSendTokenToVendor
@@ -28,23 +29,28 @@ type Props = {
 };
 
 const RahatSendTokenToVendor = (props: Props) => {
-  // console.log('props', props)
   const [loading, setLoading] = useState<boolean>(false);
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! };
 
+  const wallet = useWallet()
+
   const callMethod = async (event: any) => {
     event.preventDefault();
     setLoading(true);
-    console.log(`Calling sendTokenToVendor`);
-    await props.typedClient.sendTokenToVendor(
-      {
-        venderAddress: props.venderAddress,
-        amount: props.amount,
-        assetId: props.assetId,
-      },
-      { sender, accounts: [props?.venderAddress], sendParams: { fee: new AlgoAmount({ algos: 0.003 }) } }
-    );
+
+    const sentTxn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+      amount: 1,
+      assetIndex: props.assetId as number,
+      from: sender.addr,
+      to: props.venderAddress,
+      suggestedParams: await algodClient.getTransactionParams().do()
+    })    
+
+    const signedTxnSender = await wallet.signTransactions([sentTxn.toByte()]);
+
+    await algodClient.sendRawTransaction(signedTxnSender).do();
+
     setLoading(false);
   };
 

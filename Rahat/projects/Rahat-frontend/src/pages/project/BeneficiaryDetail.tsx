@@ -67,12 +67,12 @@ export const transaction = [
 ];
 
 export default function BeneficiaryDetail() {
-  const { id } = useParams();
+  const { id ,beneficiaryId} = useParams();
   const { activeAddress, signer } = useWallet();
 
   const [beneficiaries, setBeneficiaries] = useState<any>(null);
   const [assetStatus, setassetStatus] = useState({ isFrozen: false, isCreated: true, amount: 0 });
-  const { data } = useGet(`getById${id}`, URLS.BENEFICIARY, id as string);
+  const { data } = useGet(`getById${beneficiaryId}`, URLS.BENEFICIARY, beneficiaryId as string);
   const [project, setProject] = useState<any>(() => {
     const storedProject = localStorage.getItem('project');
     return storedProject ? JSON.parse(storedProject) : null;
@@ -107,6 +107,7 @@ export default function BeneficiaryDetail() {
       setBeneficiaries(data);
     }
   }, [data]);
+  console.log('beneficiaries', beneficiaries);
 
   return (
     <>

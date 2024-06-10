@@ -12,7 +12,7 @@
         },
         {
           "name": "_project",
-          "type": "(string,address,address[])"
+          "type": "(string,address,address[],address)"
         }
       ],
       "returns": {
@@ -40,17 +40,17 @@
     },
     {
       "name": "getProject",
-      "desc": "A method to get admin",
+      "desc": "A method to get project",
       "args": [
         {
           "name": "_assetId",
           "type": "uint64",
-          "desc": "Address of admin to be assigned"
+          "desc": "Address of project to get"
         }
       ],
       "returns": {
-        "type": "(string,address,address[])",
-        "desc": "The result of the operation"
+        "type": "(string,address,address[],address)",
+        "desc": "Project details"
       }
     },
     {
@@ -94,26 +94,6 @@
       ],
       "returns": {
         "type": "void"
-      }
-    },
-    {
-      "name": "checkAdminRecursive",
-      "args": [
-        {
-          "name": "admins",
-          "type": "address[]"
-        },
-        {
-          "name": "address",
-          "type": "address"
-        },
-        {
-          "name": "index",
-          "type": "uint64"
-        }
-      ],
-      "returns": {
-        "type": "bool"
       }
     },
     {
@@ -197,6 +177,26 @@
       ],
       "returns": {
         "type": "void"
+      }
+    },
+    {
+      "name": "checkAdminRecursive",
+      "args": [
+        {
+          "name": "admins",
+          "type": "address[]"
+        },
+        {
+          "name": "address",
+          "type": "address"
+        },
+        {
+          "name": "index",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "bool"
       }
     },
     {

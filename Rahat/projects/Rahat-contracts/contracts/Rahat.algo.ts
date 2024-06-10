@@ -27,7 +27,7 @@ export class Rahat extends Contract {
    */
   addAdminToProject(_address: Address, _assetId: AssetID): void{
     assert(this.project(_assetId).value.superAdmin === this.txn.sender, "Only super admin can assign admin")
-    this.project(_assetId).value.admins.push(_address);
+    this.project(_assetId).value.admins = [_address];
   }
 
   /**

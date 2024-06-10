@@ -2,25 +2,22 @@ import { useAuth } from "../context/AuthContext";
 import { Provider, useWallet } from "@txnlab/use-wallet";
 import { useEffect } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const ConnectWallet = () => {
   const { providers, activeAddress } = useWallet();
   const { isAuthenticated, login, logout } = useAuth();
   const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
 
   const navigate = useNavigate(); // Hook for navigation
 
   const isKmd = (provider: Provider) => provider.metadata.name.toLowerCase() === "kmd";
 
-  // useEffect(() => {
-  //   if (!isAuthenticated) {
-  //     login(); // You should replace this with actual logic to check wallet connection status
-  //   }
-  // }, [isAuthenticated, login]);
-
   useEffect(() => {
     if (activeAddress) {
       login();
+      enqueueSnackbar(`You have been successfully logged in.`, { variant: "success" });
       const redirectTo = location.state?.from?.pathname || "/admin/dashboard";
       navigate(redirectTo, { replace: true });
     }
@@ -31,11 +28,12 @@ const ConnectWallet = () => {
       const activeProvider = providers.find((p) => p.isActive);
       if (activeProvider) {
         await activeProvider.disconnect();
+        enqueueSnackbar(`You have been logged out.`, { variant: "success" });
       }
     }
     logout();
+    enqueueSnackbar(`You have been logged out.`, { variant: "success" });
     navigate("/", { replace: true });
-    // This ensures that the application state is reset
   };
 
   return (
@@ -46,13 +44,6 @@ const ConnectWallet = () => {
       </p>
 
       <div className="grid gap-6">
-        {/* {activeAddress && (
-            <>
-              <Navigate replace to="/admin/dashboard" />
-              <div className="border-b border-gray-600 my-4" />
-            </>
-          )} */}
-
         {!activeAddress &&
           providers?.map((provider) => (
             <button
@@ -71,24 +62,7 @@ const ConnectWallet = () => {
 
       <div className="modal-action flex justify-end space-x-4 mt-8">
         {activeAddress && (
-          <button
-            className="btn  text-white py-2 px-4 rounded-lg"
-            data-test-id="logout"
-            onClick={handleLogout}
-            // onClick={async () => {
-            //   if (providers) {
-            //     const activeProvider = providers.find((p) => p.isActive);
-            //     if (activeProvider) {
-            //       activeProvider.disconnect();
-            //     } else {
-            //       localStorage.removeItem('txnlab-use-wallet');
-            //       logout();
-            //       navigate('/', { replace: true });
-            //       window.location.reload();
-            //     }
-            //   }
-            // }}
-          >
+          <button className="btn  text-white py-2 px-4 rounded-lg" data-test-id="logout" onClick={handleLogout}>
             Logout
           </button>
         )}

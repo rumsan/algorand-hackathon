@@ -139,7 +139,7 @@ import { Link } from "react-router-dom";
 import { useWallet } from "@txnlab/use-wallet";
 import TruncatedCell from "@/components/TruncatedCell";
 
-function classNames(...classes) {
+function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
 

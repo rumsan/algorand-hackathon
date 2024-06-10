@@ -17,6 +17,7 @@ import BeneficiaryDetails from './pages/beneficiary/details';
 import InviteTeamMembers from './components/AddTeamMembers';
 import CreateVendor from './pages/project/CreateVendor';
 import VendorDetail from './pages/project/VendorDetail';
+import VendorDetails from './pages/vendor/VendorDetails';
 import UtilizeAsa from './pages/beneficiary/UtilizeAsa';
 
 export default function App() {
@@ -160,8 +161,9 @@ export default function App() {
                   <BeneficiaryDetails />
                 </AdminRoute>
               }
-            />
+              />
 
+              </Route>
             <Route
               path="/beneficiary/utilize-asa/:id"
               element={
@@ -170,6 +172,18 @@ export default function App() {
                 </AdminRoute>
               }
             />
+
+            {/* Real vendor route */}
+
+            <Route path="/vendor" element={<AdminLayout />}>
+              <Route
+                path="/vendor/details/:id"
+                element={
+                  <AdminRoute>
+                    <VendorDetails />
+                  </AdminRoute>
+                }
+              />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -19,6 +19,7 @@ import BeneficiaryTab from '@/components/templates/BeneficiaryNotAssigned';
 import usePost from '@/hooks/usePost';
 import Hookpagination from '@/components/HookPagination';
 import NoBeneficiary from '@/components/NoBeneficiary';
+import Loader from '@/components/Loader';
 
 type Beneficiary = {
   uuid: string;
@@ -46,7 +47,7 @@ export default function ProjectBeneficiary() {
   const [tabsValue, setTabsValue] = useState<AssetStatus>('NOT_ASSIGNED');
 
   // Refactor - Asim, please use object
-  const { data } = useList(`listProjectBeneficiary-${tabsValue}`, `${URLS.PROJECT}/${id}/beneficiaries`, currentPage, limit, undefined, undefined, tabsValue);
+  const { data,isLoading } = useList(`listProjectBeneficiary-${tabsValue}`, `${URLS.PROJECT}/${id}/beneficiaries`, currentPage, limit, undefined, undefined, tabsValue);
 
   const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost("updateBeneficiary");
 
@@ -95,6 +96,8 @@ export default function ProjectBeneficiary() {
       setTotal(data.total);
     }
   }, [data]);
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="flex">

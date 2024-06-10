@@ -47,8 +47,7 @@ export default function DashBoard() {
     if (data) {
       setProjects(projectData?.data);
     }
-  }, [data,projectData]);
-  console.log(data, 'dataaaaaaa');
+  }, [data]);
   const stats = [
     { name: ' Projects', value: data?.totalProject, change: 'active', changeType: 'positive' },
     { name: ' Beneficiaries', value: data?.totalBeneficiary, change: '+54.02%', changeType: 'positive' },

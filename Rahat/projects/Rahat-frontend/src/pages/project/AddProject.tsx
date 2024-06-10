@@ -120,7 +120,7 @@ export default function AddProject() {
           >
             <div className="px-4 py-6 sm:p-8">
               <div className="px-4 sm:px-0">
-                <h2 className="text-base font-semibold leading-7 text-gray-900">Project Information</h2>
+                <h2 className=" font-semibold leading-7 text-2xl text-blue-900">Project Information</h2>
                 <p className="mt-1 text-sm leading-6 text-gray-600">
                   Include all relevant details about your project to ensure accurate evaluation and feedback.
                 </p>
@@ -137,6 +137,7 @@ export default function AddProject() {
                       type="text"
                       id="name"
                       className="block w-full rounded-md border-0 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="Enter project name"
                     />
                     {errors.name && <p className="text-red-500">{errors.name.message}</p>}
                   </div>
@@ -150,6 +151,7 @@ export default function AddProject() {
                     <input
                       {...register("imageUrl")}
                       type="text"
+                      placeholder="https://example.com/image.jpg"
                       id="imageUrl"
                       className="block w-full rounded-md border-0 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
@@ -164,6 +166,7 @@ export default function AddProject() {
                   <div className="mt-2">
                     <input
                       {...register("asaName")}
+                      placeholder="Enter ASA Name"
                       type="text"
                       id="imageUrl"
                       className="block w-full rounded-md border-0 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -179,6 +182,7 @@ export default function AddProject() {
                   <div className="mt-2">
                     <input
                       {...register("asaSymbol")}
+                      placeholder="AAA"
                       type="text"
                       id="imageUrl"
                       className="block w-full rounded-md border-0 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

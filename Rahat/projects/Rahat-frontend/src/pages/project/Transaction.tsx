@@ -1,58 +1,57 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-import { useAlgorandAssetInfo } from '../../hooks/useAlgorandInfo';
+import { useLayoutEffect, useRef, useState } from "react";
 
-import SideBar from '@/components/SideBar';
+import SideBar from "@/components/SideBar";
 
 const people = [
   {
     id: 1,
-    beneficiaryId: 'B12345',
-    from: '0xabcdef1234567890abcdef1234567890abcdef00',
-    to: '0x1234567890abcdef1234567890abcdef12345600',
-    timestamp: '2024-05-24T10:30:00Z',
-    txnHash: '0x123abc',
-    amount: '100.00',
-    txnFee: '1.00',
+    beneficiaryId: "B12345",
+    from: "0xabcdef1234567890abcdef1234567890abcdef00",
+    to: "0x1234567890abcdef1234567890abcdef12345600",
+    timestamp: "2024-05-24T10:30:00Z",
+    txnHash: "0x123abc",
+    amount: "100.00",
+    txnFee: "1.00",
   },
   {
     id: 2,
-    beneficiaryId: 'B54321',
-    from: '0x7890abcdef1234567890abcdef1234567890abcd',
-    to: '0xef1234567890abcdef1234567890abcdef123400',
-    timestamp: '2024-05-23T11:00:00Z',
-    txnHash: '0x456def',
-    amount: '50.00',
-    txnFee: '0.50',
+    beneficiaryId: "B54321",
+    from: "0x7890abcdef1234567890abcdef1234567890abcd",
+    to: "0xef1234567890abcdef1234567890abcdef123400",
+    timestamp: "2024-05-23T11:00:00Z",
+    txnHash: "0x456def",
+    amount: "50.00",
+    txnFee: "0.50",
   },
   {
     id: 3,
-    beneficiaryId: 'B67890',
-    from: '0xabcdefabcdefabcdefabcdefabcdefabcdef00',
-    to: '0xabcdefabcdefabcdefabcdefabcdefabcdef01',
-    timestamp: '2024-05-22T12:15:00Z',
-    txnHash: '0x789ghi',
-    amount: '200.00',
-    txnFee: '2.00',
+    beneficiaryId: "B67890",
+    from: "0xabcdefabcdefabcdefabcdefabcdefabcdef00",
+    to: "0xabcdefabcdefabcdefabcdefabcdefabcdef01",
+    timestamp: "2024-05-22T12:15:00Z",
+    txnHash: "0x789ghi",
+    amount: "200.00",
+    txnFee: "2.00",
   },
   {
     id: 4,
-    beneficiaryId: 'B09876',
-    from: '0x1234567890123456789012345678901234567890',
-    to: '0x0987654321098765432109876543210987654321',
-    timestamp: '2024-05-21T09:45:00Z',
-    txnHash: '0xabc123',
-    amount: '150.00',
-    txnFee: '1.50',
+    beneficiaryId: "B09876",
+    from: "0x1234567890123456789012345678901234567890",
+    to: "0x0987654321098765432109876543210987654321",
+    timestamp: "2024-05-21T09:45:00Z",
+    txnHash: "0xabc123",
+    amount: "150.00",
+    txnFee: "1.50",
   },
   {
     id: 5,
-    beneficiaryId: 'B11223',
-    from: '0x0abcdef1234567890abcdef1234567890abcdef0',
-    to: '0x0abcdef0987654321098765432109876543210ab',
-    timestamp: '2024-05-20T14:30:00Z',
-    txnHash: '0xdef456',
-    amount: '75.00',
-    txnFee: '0.75',
+    beneficiaryId: "B11223",
+    from: "0x0abcdef1234567890abcdef1234567890abcdef0",
+    to: "0x0abcdef0987654321098765432109876543210ab",
+    timestamp: "2024-05-20T14:30:00Z",
+    txnHash: "0xdef456",
+    amount: "75.00",
+    txnFee: "0.75",
   },
 ];
 
@@ -61,10 +60,6 @@ export default function TransactionPage() {
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
   const [selectedPeople, setSelectedPeople] = useState([]);
-
-  const { assetInfo, loading: assetLoading, error: assetError } = useAlgorandAssetInfo(671526136);
-
-  console.log(assetInfo);
 
   useLayoutEffect(() => {
     const isIndeterminate = selectedPeople.length > 0 && selectedPeople.length < people.length;
@@ -147,7 +142,7 @@ export default function TransactionPage() {
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {people.map((person) => (
-                      <tr key={person.beneficiaryId} className={selectedPeople.includes(person) ? 'bg-gray-50' : undefined}>
+                      <tr key={person.beneficiaryId} className={selectedPeople.includes(person) ? "bg-gray-50" : undefined}>
                         <td className="relative px-7 sm:w-12 sm:px-6">
                           {selectedPeople.includes(person) && <div className="absolute inset-y-0 left-0 w-0.5 bg-indigo-600" />}
                           <input

@@ -26,7 +26,7 @@ const Clawback = () => {
 
     const multisigParams = {
         version: 1,
-        threshold: 2,
+        threshold: 1,
         addrs: [
             '3BZYCOTA7A3R45ZKUXCG72GCVKIMVDX5PMZMMC7YG72HXS4XKETU4SDLTA',
             'NDYN2YSKD55TZAPGLFSXJ5TVUWE25L5TXEYBFH3AYQ7SATCOQMYTJRF2PY',
@@ -107,18 +107,60 @@ const Clawback = () => {
         const formattedTxn = await createAppCallTxn();
         const signedTxn = await peraWallet.signTransaction([formattedTxn]);
 
-        let appendedTxn: Uint8Array | Uint8Array[];
+        // const decodedSignedTxn1 = algosdk.decodeSignedTransaction(signedTxn[0])
+        // const decodedSignedTxn2 = algosdk.decodeSignedTransaction(signedTxn[0])
+
+        // const rawSignature1 = decodedSignedTxn1.msig?.subsig[0].s
+        // const rawSignature2 = decodedSignedTxn2.msig?.subsig[0].s
+
+        // const appended1 = algosdk.appendSignRawMultisigSignature(
+        //     signedTxn[0],
+        //     multisigParams,
+        //     'signerAddr1',
+        //     rawSignature1 as Uint8Array
+        //   );
+
+        //   const appended2 = algosdk.appendSignRawMultisigSignature(
+        //     appended1.blob,
+        //     multisigParams,
+        //     connectedWallet as string,
+        //     rawSignature2 as Uint8Array
+        //   );
+
+        // await algodClient.sendRawTransaction(appended2.blob).do();
+
+        // Finalize
+        const decodedSignedTxn = algosdk.decodeSignedTransaction(signedTxn[0])
+        console.log(decodedSignedTxn)
+        const rawSign1 = decodedSignedTxn.msig?.subsig[0].pk
+
+        console.log(rawSign1)
+
+        console.log("reached")
+
+        let combinedFinalizeTxn = algosdk.appendSignRawMultisigSignature(
+            signedTxn[0],
+            multisigParams,
+            connectedWallet as string,
+            rawSign1 as Uint8Array
+          );
 
         signersDetails?.forEach((txn:any) => {
-            
-            const uint8Signature1 = stringToUint8Array(txn.signature)
-            console.log(uint8Signature1)
-            appendedTxn = algosdk.appendSignRawMultisigSignature(uint8Signature1, multisigParams, txn.walletAddress, signedTxn[0])
+            const decodedTxn = algosdk.decodeSignedTransaction(stringToUint8Array(txn.signature))
+            const rawSign = decodedTxn.msig?.subsig[0].s
+            const finalTxn = algosdk.appendSignRawMultisigSignature(
+                combinedFinalizeTxn.blob,
+                multisigParams,
+                txn.walletAddress as string,
+                rawSign as Uint8Array
+              );
+
+            combinedFinalizeTxn = finalTxn;
         })
 
-        const sendTxn = await algodClient.sendRawTransaction(appendedTxn).do()
+        console.log(combinedFinalizeTxn)
 
-        await axios.delete(`http://localhost:5500/api/v1/multisig/${projectId}`)
+        // await axios.delete(`http://localhost:5500/api/v1/multisig/${projectId}`)
     }
 
   return (

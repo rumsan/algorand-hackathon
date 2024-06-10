@@ -8,12 +8,14 @@ import vendor from '../assets/vendor.png';
 import beneficiary from '../assets/beneficiary.png';
 
 function SideBar() {
-  const { id } = useParams();
+  const param = useParams();
+
+  console.log(param.id, param.beneficiaryId);
 
   const [project, setProject] = useState<any>(null);
   const [showVendorDetail, setShowVendorDetail] = useState(false);
 
-  const { data } = useGet(`getById${id}`, URLS.PROJECT, id as string);
+  const { data } = useGet(`getById${param.id}`, URLS.PROJECT, param.id as string);
 
   useEffect(() => {
     if (data) {
@@ -24,7 +26,6 @@ function SideBar() {
       }
     }
   }, [data]);
-
 
   const p = localStorage.getItem('project');
   let pid = p ? JSON.parse(p).uuid : null;
@@ -47,7 +48,7 @@ function SideBar() {
     },
     {
       name: 'Beneficiaries',
-      href: `/admin/project/${id}/beneficiary`,
+      href: `/admin/project/${param.id}/beneficiary`,
       image: (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
           <path
@@ -61,7 +62,7 @@ function SideBar() {
     },
     {
       name: 'Transactions',
-      href: `/admin/project/${id}/transactions`,
+      href: `/admin/project/${param.id}/transactions`,
       image: (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
           <path
@@ -73,20 +74,20 @@ function SideBar() {
       ),
       current: false,
     },
-    {
-      name: 'Vendor',
-      href: showVendorDetail ? `/admin/project/${id}/vendor` : `/admin/project/${id}/create-vendor`,
-      image: (
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-          />
-        </svg>
-      ),
-      current: false,
-    },
+    // {
+    //   name: 'Vendor',
+    //   href: showVendorDetail ? `/admin/project/${id}/vendor` : `/admin/project/${id}/create-vendor`,
+    //   image: (
+    //     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+    //       <path
+    //         stroke-linecap="round"
+    //         stroke-linejoin="round"
+    //         d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+    //       />
+    //     </svg>
+    //   ),
+    //   current: false,
+    // },
   ];
 
   return (

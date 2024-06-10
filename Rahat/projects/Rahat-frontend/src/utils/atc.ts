@@ -1,24 +1,14 @@
 import algosdk from "algosdk";
 import { algodClient } from "./typedClient";
-import { useWallet } from "@txnlab/use-wallet";
-import { PeraWalletConnect } from "@perawallet/connect";
 
 
-const atc = new algosdk.AtomicTransactionComposer();
 
-const peraWallet = new PeraWalletConnect({ chainId: 416002 });
-
-const connectWallet = async () => {
-  await peraWallet.disconnect();
-  await peraWallet.connect();
-}
-
-export const atomicTxnComposer = async (signerAddress: string, beneficiaryAddresses: string[], amount: number, assetId: number, sender: any) => {
+export const atomicTxnComposer = async (signerAddress: string, beneficiaryAddresses: string[], amount: number, assetId: number, sender: any, wallet?:any) => {
   let methodInstance = algosdk.ABIMethod.fromSignature('sendTokenToBeneficiary(address,uint64,uint64)void');
   let selector = methodInstance.getSelector();
   
-const suggestedParams = await algodClient.getTransactionParams().do()
-    await connectWallet();
+const suggestedParams = await algodClient.getTransactionParams().do();
+const atc = new algosdk.AtomicTransactionComposer();
     const boxKey = algosdk.bigIntToBytes(assetId, 8);
     beneficiaryAddresses.forEach((benAddress) => {
         const txn = algosdk.makeApplicationNoOpTxnFromObject({
@@ -44,22 +34,24 @@ const suggestedParams = await algodClient.getTransactionParams().do()
         atc.addTransaction({ txn, signer: sender.signer })
     })
 
-  const signedTxn = await peraWallet.signTransaction([atc.buildGroup()]);
+    const txnGroup = atc.buildGroup();
+
+  const signedTxn = await wallet.signTransactions([txnGroup.map(txn => txn.txn.toByte())]);
 
     return signedTxn;
     
 }
 
-export const atomicTxnComposerFreeze = async (signerAddress: string, beneficiaryAddresses: string[], assetId: number, sender: any, freeze: boolean) => {
+export const atomicTxnComposerFreeze = async (signerAddress: string, beneficiaryAddresses: string[], assetId: number, sender: any, freeze: boolean, wallet?: any) => {
   let methodInstance = 
   freeze ? 
   algosdk.ABIMethod.fromSignature('freezeBeneficiaryAsset(address,uint64)void') 
   : 
   algosdk.ABIMethod.fromSignature('unfreezeBeneficiaryAsset(address,uint64)void');
+  const atc = new algosdk.AtomicTransactionComposer();
 
   const suggestedParams = await algodClient.getTransactionParams().do()
   let selector = methodInstance.getSelector();
-  await connectWallet();
   const boxKey = algosdk.bigIntToBytes(assetId, 8);
   beneficiaryAddresses.forEach((benAddress) => {
       const txn = algosdk.makeApplicationNoOpTxnFromObject({
@@ -84,7 +76,9 @@ export const atomicTxnComposerFreeze = async (signerAddress: string, beneficiary
       atc.addTransaction({ txn, signer: sender.signer })
   })
 
-  const signedTxn = await peraWallet.signTransaction([atc.buildGroup()])
+  const txnGroup = atc.buildGroup();
+
+  const signedTxn = await wallet.signTransactions([txnGroup.map(txn => txn.txn.toByte())]);
 
   return signedTxn;
   

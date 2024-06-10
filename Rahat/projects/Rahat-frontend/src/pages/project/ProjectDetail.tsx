@@ -38,31 +38,30 @@ export default function Example() {
   const {activeAddress} = useWallet()
   const { id } = useParams();
   const [project, setProject] = useState<any>(null);
+  const [showVendorDetail, setShowVendorDetail] = useState(false);
 
   const { data } = useGet(`getById${id}`, URLS.PROJECT, id as string);
 
   const vid = project?.voucherId;
 
   let { data: voucher } = useGet(`getVoucher${id}`, URLS.VOUCHER, vid as string);
-  console.log(voucher, 'voucher');
   voucher ? localStorage.setItem('voucher', JSON.stringify(voucher)) : null;
 
   useEffect(() => {
     if (data) {
-      console.log(data, 'data');
       setProject(data);
       localStorage.setItem('voucherId', JSON.stringify(data.voucherId));
+      if (data.vendorId !== null) {
+        setShowVendorDetail(true);
+      }
     }
   }, [data]);
 
-  console.log(project, 'projecy');
 
   if (project) {
-    console.log(project.voucherId);
-    console.log(project, 'project');
+   
     localStorage.setItem('project', JSON.stringify(project));
   }
-  console.log(project?.superAdmin === activeAddress, 'superAdmin');
 
   return (
     <>
@@ -85,7 +84,6 @@ export default function Example() {
               </div>
               <div className="absolute inset-x-0 bottom-0 h-px bg-gray-900/5" />
             </div>
-          
 
             <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
               <div className="mx-auto flex max-w-2xl items-center justify-between gap-x-8 lg:mx-0 lg:max-w-none">
@@ -102,32 +100,41 @@ export default function Example() {
                   </h1>
                 </div>
                 <div>
-                {project?.superAdmin === activeAddress && (
-                  <Menu as="div" className="relative ml-auto">
-                    <Menu.Button className="-m-2.5 block p-2.5 text-gray-900 hover:text-gray-500">
-                      <span className="sr-only">Open options</span>
-                      <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
-                    </Menu.Button>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                      <Menu.Items className="absolute right-0 z-10 mt-0.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                        <Menu.Item>
-                          <Link className="block px-3 py-1 text-sm leading-6 text-gray-900" to={`/admin/project/${id}/addAdmin`}>
-                            Add admin
-                          </Link>
-                        </Menu.Item>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
-                 ) }
-                  
+                  {project?.superAdmin === activeAddress && (
+                    <Menu as="div" className="relative ml-auto">
+                      <Menu.Button className="-m-2.5 block p-2.5 text-gray-900 hover:text-gray-500">
+                        <span className="sr-only">Open options</span>
+                        <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
+                      </Menu.Button>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="absolute right-0 z-10 mt-0.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                          <Menu.Item>
+                            <Link className="block px-3 py-1 text-sm leading-6 text-gray-900" to={`/admin/project/${id}/addAdmin`}>
+                              Add admin
+                            </Link>
+                          </Menu.Item>
+                          {
+                            !showVendorDetail && (
+                          <Menu.Item>
+                            <Link className="block px-3 py-1 text-sm leading-6 text-gray-900" to={`/admin/project/${id}/create-vendor`}>
+                              Add Vendor
+                            </Link>
+                          </Menu.Item>
+                            )
+
+                          }
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  )}
                 </div>
               </div>
             </div>

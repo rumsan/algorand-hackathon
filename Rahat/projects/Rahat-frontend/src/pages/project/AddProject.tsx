@@ -14,6 +14,7 @@ import { typedClient } from "@/utils/typedClient";
 import algosdk from "algosdk";
 import { AlgoAmount } from "@algorandfoundation/algokit-utils/types/amount";
 import API from "@/utils/API";
+import Loader from "@/components/Loader";
 
 type ProjectType = z.infer<typeof projectSchema>;
 
@@ -114,7 +115,7 @@ export default function AddProject() {
 
       <div className="space-y-10 divide-y divide-gray-900/10 w-full max-w-4xl px-4">
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
-          <form
+          {!loading ? <form
             onSubmit={handleSubmit(onSubmit)}
             className="bg-gray-50 text-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-3"
           >
@@ -207,10 +208,10 @@ export default function AddProject() {
                 disabled={loading}
                 className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
-                {loading ? "Creating" : "Create"}
+                Create
               </button>
             </div>
-          </form>
+          </form>: <Loader />}
         </div>
       </div>
     </div>

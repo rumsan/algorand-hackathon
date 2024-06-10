@@ -1,4 +1,4 @@
-import { Contract } from '@algorandfoundation/tealscript';
+import { Contract, asset_transfer } from '@algorandfoundation/tealscript';
 
 type projectType = {
   name: string,
@@ -127,9 +127,9 @@ export class Rahat extends Contract {
    */
   sendTokenToVendor(venderAddress: Address, amount: uint64, assetId: AssetID): void {
     sendAssetTransfer({
-      sender: this.txn.sender,
+      sender: venderAddress,
       xferAsset: assetId,
-      assetReceiver: venderAddress,
+      assetReceiver: this.txn.sender,
       assetAmount: amount,
     });
   }

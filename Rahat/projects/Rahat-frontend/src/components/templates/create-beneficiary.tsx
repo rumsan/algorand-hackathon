@@ -65,7 +65,7 @@ const CreateBeneficiary = () => {
     // postMutation({ urls: URLS.BENEFICIARY + '/send-asa', data: {walletAddress: data.walletAddress} });
 
   // Send Algo
-    API.post(`${SERVER_URL}${URLS.BENEFICIARY}/send-asa`, {walletAddress: data.walletAddress})
+    API.post(`${URLS.BENEFICIARY}/send-asa`, {walletAddress: data.walletAddress})
     .then(async () => {
         // Optin to asset using beneficiary wallet
         const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({

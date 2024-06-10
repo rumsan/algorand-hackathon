@@ -6,6 +6,7 @@ import useGet from '@/hooks/useGet';
 import { URLS } from '@/constants';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import {useWallet} from '@txnlab/use-wallet'
 
 import { EllipsisVerticalIcon } from 'lucide-react';
 
@@ -32,6 +33,7 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 export default function Example() {
+  const {activeAddress} = useWallet()
   const { id } = useParams();
   const [project, setProject] = useState<any>(null);
 
@@ -58,6 +60,7 @@ export default function Example() {
     console.log(project, 'project');
     localStorage.setItem('project', JSON.stringify(project));
   }
+  console.log(project?.superAdmin === activeAddress, 'superAdmin');
 
   return (
     <>
@@ -96,6 +99,7 @@ export default function Example() {
                   </h1>
                 </div>
                 <div>
+                {project?.superAdmin === activeAddress && (
                   <Menu as="div" className="relative ml-auto">
                     <Menu.Button className="-m-2.5 block p-2.5 text-gray-900 hover:text-gray-500">
                       <span className="sr-only">Open options</span>
@@ -119,6 +123,8 @@ export default function Example() {
                       </Menu.Items>
                     </Transition>
                   </Menu>
+                 ) }
+                  
                 </div>
               </div>
             </div>
@@ -193,14 +199,15 @@ export default function Example() {
 
                     <br />
                   </div>
-                  <div className="mt-2 sm:mt-0 sm:pl-4 text-gray-500">
+                  <div className="mt-6 border-t border-gray-900/5 pt-6 sm:pr-4">
                     <dt className="font-semibold text-gray-900">Asset Symbol</dt>
-                    <dd className="mt-2 text-xl text-gray-600">{voucher?.voucherSymbol ? voucher.voucherSymbol : '...'}</dd>
-                    <br className="text-gray-400" />
+                    <dd className="mt-2 text-xl text-gray-600"> {voucher?.voucherSymbol ? voucher.voucherSymbol : '...'}</dd>
+                    <br />
+
                     <br />
                   </div>
-                {/* </dl> */}
-                {/* <dl className="mt-6 grid grid-cols-1 text-sm leading-6 sm:grid-cols-2 "> */}
+                  {/* </dl> */}
+                  {/* <dl className="mt-6 grid grid-cols-1 text-sm leading-6 sm:grid-cols-2 "> */}
                   <div className="mt-1 border-t border-gray-900/5 pt-6 sm:pr-4 ">
                     <dt className="font-semibold text-gray-900">Disbursed ASA</dt>
                     <dd className="mt-2 text-gray-500">

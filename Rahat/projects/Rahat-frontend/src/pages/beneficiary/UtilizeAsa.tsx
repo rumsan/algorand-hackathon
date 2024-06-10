@@ -1,12 +1,35 @@
 import { SnackbarUtilsConfigurator } from '@/components/Toaster';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { algodClient, typedClient } from '../../utils/typedClient';
+import RahatSendTokenToVendor from '@/components/contracts/RahatSendTokenToVendor';
 
 function UtilizeAsa() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [projects, setProjects] = useState<any[]>([]);
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [utilizeToken, setUtilizeToken] = useState<number>(0);
+  const [balance, setBalance] = useState<number>(0);
+  const [assetStatus, setAssetStatus] = useState({ isFrozen: false, isCreated: true, amount: 0 });
+
+  const check = async () => {
+    if (id) {
+      const accountInfo = await algodClient.accountInformation(id).do();
+      const assetHolding = accountInfo.assets.find((asset: any) => asset['asset-id'] === selectedProject?.voucherId);
+      if (assetHolding) {
+        setAssetStatus({ isFrozen: assetHolding['is-frozen'], isCreated: true, amount: assetHolding.amount });
+      } else {
+        setAssetStatus({ isFrozen: false, isCreated: false, amount: 0 });
+      }
+      setBalance(accountInfo.amount);
+      console.log(accountInfo.assets, 'accountInfo');
+      console.log(selectedProject?.voucherId);
+    }
+  };
+
+  useEffect(() => {
+    check();
+  }, [id, selectedProject]);
 
   useEffect(() => {
     const p = localStorage.getItem('projects');
@@ -26,23 +49,15 @@ function UtilizeAsa() {
     setSelectedProject(project);
   };
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Access all input data here
-    console.log('Selected Project:', selectedProject);
-    console.log('Utilize Token:', utilizeToken);
-    // Add logic to utilize ASA
-  };
-
   const backRoute = `/beneficiary/details/${id}`;
-
+console.log(projects);
   return (
     <div className="h-screen flex items-center justify-center">
       <SnackbarUtilsConfigurator />
 
       <div className="space-y-10 divide-y divide-gray-900/10 w-full max-w-4xl px-4 pb-80">
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
-          <form onSubmit={onSubmit} className="bg-gray-50 text-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-3">
+          <form className="bg-gray-50 text-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-3">
             <div className="px-4 py-6 sm:p-8">
               <div className="px-4 sm:px-0">
                 <h2 className="text-base font-semibold leading-7 text-blue-900">Utilize ASA</h2>
@@ -83,7 +98,7 @@ function UtilizeAsa() {
                         type="text"
                         id="vendor"
                         className="block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                        value={selectedProject.vendor.name}
+                        value={selectedProject?.vendor?.name || ''}
                         readOnly
                       />
                     </div>
@@ -92,7 +107,7 @@ function UtilizeAsa() {
 
                 <div className="col-span-full">
                   <label htmlFor="balance" className="block text-sm font-medium leading-6 text-gray-900">
-                    Your Project Balance : 100
+                    Your Balance : {assetStatus?.amount}
                   </label>
                 </div>
                 <div className="col-span-full">
@@ -119,12 +134,15 @@ function UtilizeAsa() {
               >
                 Cancel
               </Link>
-              <button
-                type="submit"
-                className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-              >
-                Utilize
-              </button>
+              <RahatSendTokenToVendor
+                buttonClass="bg-blue-600 p-1 rounded-sm"
+                buttonLoadingNode={<span className="loading loading-spinner" />}
+                buttonNode=" Send Token To Vendor"
+                venderAddress={selectedProject?.vendor?.walletAddress || ''}
+                amount={utilizeToken}
+                assetId={selectedProject?.voucherId || 0}
+                typedClient={typedClient}
+              />
             </div>
           </form>
         </div>

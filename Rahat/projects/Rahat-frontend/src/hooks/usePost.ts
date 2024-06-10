@@ -36,7 +36,6 @@ const usePost = (qkey: string) => {
       if (qkey != 'false') var a = await queryClient.invalidateQueries({ queryKey: [qkey] });
     },
   });
-  console.log(dataState)
   return { postMutation, data, isError, isSuccess, dataState, error, success, isPending };
 };
 

@@ -27,17 +27,18 @@ jobs:
       - name: create environment file
         run: |
           touch ./.env && echo "$env_main" >> ./.env
-
+      
       - name: Install Pipx
         run: |
           sudo apt update && \
-          sudo apt install -y pipx && \
-          pipx ensurepath
-
+            sudo apt install pipx && \
+            pipx ensurepath && \
+            sudo pipx ensurepath --global
+      
       - name: Install Algorand
         run: |
-          pipx install algokit
-
+          pipx install algokit 
+      
       - uses: actions/setup-node@v3
         with:
           node-version: 20.10.0
@@ -66,6 +67,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./Rahat/projects/Rahat-frontend
-          file: ./Rahat/projects/Rahat-frontend/Dockerfile.nginx
+          file: Dockerfile.nginx
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
           tags: rumsan/algorand-fe:main

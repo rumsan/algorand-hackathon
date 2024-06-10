@@ -18,7 +18,6 @@ import { sendBtns, tabs, tabsContent } from '@/constants/classnames/tabsclassNam
 import BeneficiaryTab from '@/components/templates/BeneficiaryNotAssigned';
 import usePost from '@/hooks/usePost';
 import Hookpagination from '@/components/HookPagination';
-import NoProjects from '@/components/NoProjects';
 import NoBeneficiary from '@/components/NoBeneficiary';
 
 type Beneficiary = {
@@ -34,7 +33,7 @@ type AssetStatus = 'NOT_ASSIGNED' | 'FREEZED' | 'UNFREEZED';
 
 export default function ProjectBeneficiary() {
   const { id } = useParams();
-
+// jsdhfushd
   // pagination state
   const [limit, setLimit] = useState(6);
   const [total, setTotal] = useState(0);

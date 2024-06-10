@@ -40,13 +40,14 @@ export default function DashBoard() {
   const [projects, setProjects] = useState<project[]>([]);
 
   useEffect(()=>{})
+
   let { data: projectData } = useList('listProject', URLS.PROJECT, 1, 3);
 
   useEffect(() => {
     if (data) {
       setProjects(projectData?.data);
     }
-  }, [data]);
+  }, [data,projectData]);
   console.log(data, 'dataaaaaaa');
   const stats = [
     { name: ' Projects', value: data?.totalProject, change: 'active', changeType: 'positive' },

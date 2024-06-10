@@ -1,13 +1,14 @@
 import algosdk from "algosdk";
 import { algodClient } from "./typedClient";
 
-const atc = new algosdk.AtomicTransactionComposer();
+
 
 export const atomicTxnComposer = async (signerAddress: string, beneficiaryAddresses: string[], amount: number, assetId: number, sender: any, wallet?:any) => {
   let methodInstance = algosdk.ABIMethod.fromSignature('sendTokenToBeneficiary(address,uint64,uint64)void');
   let selector = methodInstance.getSelector();
   
 const suggestedParams = await algodClient.getTransactionParams().do();
+const atc = new algosdk.AtomicTransactionComposer();
     const boxKey = algosdk.bigIntToBytes(assetId, 8);
     beneficiaryAddresses.forEach((benAddress) => {
         const txn = algosdk.makeApplicationNoOpTxnFromObject({
@@ -47,6 +48,7 @@ export const atomicTxnComposerFreeze = async (signerAddress: string, beneficiary
   algosdk.ABIMethod.fromSignature('freezeBeneficiaryAsset(address,uint64)void') 
   : 
   algosdk.ABIMethod.fromSignature('unfreezeBeneficiaryAsset(address,uint64)void');
+  const atc = new algosdk.AtomicTransactionComposer();
 
   const suggestedParams = await algodClient.getTransactionParams().do()
   let selector = methodInstance.getSelector();

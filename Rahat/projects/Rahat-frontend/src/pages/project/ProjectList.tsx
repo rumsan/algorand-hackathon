@@ -9,6 +9,7 @@ import NoProjects from '@/components/NoProjects';
 import { PlusIcon } from '@heroicons/react/20/solid';
 import Hookpagination from '@/components/HookPagination';
 import Loader from '@/components/Loader';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
@@ -42,7 +43,7 @@ export default function ProjectList() {
     }
   }, [data]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <LoadingSpinner visible={true} />;
 
 
   return (

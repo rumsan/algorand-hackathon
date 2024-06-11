@@ -21,6 +21,7 @@ import Loader from '@/components/Loader';
 //model
 import React, { useRef } from 'react';
 import Modal from 'react-modal';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const customStyles = {
   content: {
@@ -149,7 +150,7 @@ export default function ProjectBeneficiary() {
     }
   }, [data]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <LoadingSpinner visible={true}/>;
 
   return (
     <div className="flex">

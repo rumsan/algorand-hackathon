@@ -98,8 +98,8 @@
 
 // export default SideBar;
 
-import { Fragment, useEffect, useState } from "react";
-import { Dialog, Menu, Transition } from "@headlessui/react";
+import { Fragment, useEffect, useState } from 'react';
+import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
   ChartPieIcon,
   DocumentDuplicateIcon,
@@ -108,14 +108,14 @@ import {
   UsersIcon,
   XMarkIcon,
   BanknotesIcon,
-} from "@heroicons/react/24/outline";
-import { URLS } from "@/constants";
-import useGet from "@/hooks/useGet";
-import { useParams } from "react-router-dom";
+} from '@heroicons/react/24/outline';
+import { URLS } from '@/constants';
+import useGet from '@/hooks/useGet';
+import { Link, useParams } from 'react-router-dom';
 
 //@ts-ignore
 function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 export default function Example() {
@@ -138,16 +138,16 @@ export default function Example() {
     }
   }, [data]);
 
-  const p = localStorage.getItem("project");
+  const p = localStorage.getItem('project');
   let pid = p ? JSON.parse(p).uuid : null;
 
   const navigationOne = [
-    { name: "Projects", href: `/admin/project/${pid}`, icon: FolderIcon, current: false },
-    { name: "Beneficiaries", href: `/admin/project/${param.id}/beneficiary`, icon: UsersIcon, current: false },
+    { name: 'Projects', href: `/admin/project/${pid}`, icon: FolderIcon, current: false },
+    { name: 'Beneficiaries', href: `/admin/project/${param.id}/beneficiary`, icon: UsersIcon, current: false },
   ];
   const navigationTwo = [
-    { name: "Transaction", href: `/admin/project/${param.id}/transactions`, icon: BanknotesIcon, current: false },
-    { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+    { name: 'Transaction', href: `/admin/project/${param.id}/transactions`, icon: BanknotesIcon, current: false },
+    { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
   ];
 
   return (
@@ -209,22 +209,22 @@ export default function Example() {
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigationOne.map((item) => (
                               <li key={item.name}>
-                                <a
-                                  href={item.href}
+                                <Link
+                                  to={item.href}
                                   className={classNames(
-                                    item.current ? "bg-gray-50 text-indigo-600" : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                                    "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                    item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                   )}
                                 >
                                   <item.icon
                                     className={classNames(
-                                      item.current ? "text-indigo-600" : "text-gray-400 group-hover:text-indigo-600",
-                                      "h-6 w-6 shrink-0"
+                                      item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                                      'h-6 w-6 shrink-0'
                                     )}
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -256,22 +256,22 @@ export default function Example() {
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigationOne.map((item) => (
                       <li key={item.name}>
-                        <a
-                          href={item.href}
+                        <Link
+                          to={item.href}
                           className={classNames(
-                            item.current ? "bg-gray-50 text-indigo-600" : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                            "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                            item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                           )}
                         >
                           <item.icon
                             className={classNames(
-                              item.current ? "text-indigo-600" : "text-gray-400 group-hover:text-indigo-600",
-                              "h-6 w-6 shrink-0"
+                              item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                              'h-6 w-6 shrink-0'
                             )}
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -281,22 +281,22 @@ export default function Example() {
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigationTwo.map((item) => (
                       <li key={item.name}>
-                        <a
-                          href={item.href}
+                        <Link
+                          to={item.href}
                           className={classNames(
-                            item.current ? "bg-gray-50 text-indigo-600" : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                            "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                            item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                           )}
                         >
                           <item.icon
                             className={classNames(
-                              item.current ? "text-indigo-600" : "text-gray-400 group-hover:text-indigo-600",
-                              "h-6 w-6 shrink-0"
+                              item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                              'h-6 w-6 shrink-0'
                             )}
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>

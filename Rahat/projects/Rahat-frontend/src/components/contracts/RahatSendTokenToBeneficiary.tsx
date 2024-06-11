@@ -105,7 +105,7 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
   return (
     <>
       <Modal
-        isOpen={true}
+        isOpen={false}
         onAfterOpen={afterOpenModal}
         onRequestClose={() => setIsOpen(false)}
         style={customStyles}
@@ -113,7 +113,7 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
       >
 
         <div id="authentication-modal" aria-hidden="true" className="overflow-y-auto flex overflow-x-hidden z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full py-8">
-          <div className="w-full max-h-full w-full">
+          <div className="w-full max-h-full ">
 
             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 

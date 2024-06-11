@@ -66,8 +66,8 @@ export const transaction = [
 ];
 
 export default function BeneficiaryDetail() {
-  const { id ,beneficiaryId} = useParams();
-  const { activeAddress, signer } = useWallet(); 
+  const { id, beneficiaryId } = useParams();
+  const { activeAddress, signer } = useWallet();
 
   const [beneficiaries, setBeneficiaries] = useState<any>(null);
   const [assetStatus, setassetStatus] = useState({ isFrozen: false, isCreated: true, amount: 0 });
@@ -96,7 +96,7 @@ export default function BeneficiaryDetail() {
       }
     };
     checkAssetFrozenStatus();
-  }, [beneficiaries]);
+  }, [beneficiaries, assetStatus]);
 
   useEffect(() => {
     if (data) {

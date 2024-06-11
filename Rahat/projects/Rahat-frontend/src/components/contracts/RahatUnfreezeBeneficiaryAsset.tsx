@@ -51,8 +51,7 @@ const RahatUnfreezeBeneficiaryAsset = (props: Props) => {
         ],
       }
     );
-
-    res &&
+    if (res) {
       postMutation({
         urls: URLS.BENEFICIARY + '/update',
         data: {
@@ -60,12 +59,15 @@ const RahatUnfreezeBeneficiaryAsset = (props: Props) => {
           status: 'UNFREEZED',
         },
       });
-    snack.default.success('Beneficiary asset unfreezed successfully.');
-    setLoading(false);
+      snack.default.success('Beneficiary asset freezed successfully.');
+      setLoading(false);
+
+      // res && window.location.reload();
+    }
   };
 
   return (
-    <button type="submit" className="fblock px-3 py-1 text-sm leading-6 text-green-900" onClick={callMethod}>
+    <button type="submit" className="fblock ml-3 px-3 pb-3 text-sm leading-6 text-green-900" onClick={callMethod}>
       {loading ? 'Transating' : 'Unfreeze asset'}
     </button>
   );

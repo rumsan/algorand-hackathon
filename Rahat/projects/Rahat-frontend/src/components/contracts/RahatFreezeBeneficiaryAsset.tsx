@@ -7,6 +7,7 @@ import usePost from '@/hooks/usePost';
 import { URLS } from '@/constants';
 import algosdk from 'algosdk';
 import { asaId } from '@/utils/asaId';
+import * as snack from '../../components/Toaster';
 
 type RahatFreezeBeneficiaryAssetArgs = Rahat['methods']['freezeBeneficiaryAsset(address,uint64)void']['argsObj'];
 
@@ -48,7 +49,7 @@ const RahatFreezeBeneficiaryAsset = (props: Props) => {
       }
     );
 
-    res &&
+    if (res) {
       postMutation({
         urls: URLS.BENEFICIARY + '/update',
         data: {
@@ -56,8 +57,11 @@ const RahatFreezeBeneficiaryAsset = (props: Props) => {
           status: 'FREEZED',
         },
       });
+      snack.default.success('Beneficiary asset unfreezed successfully.');
 
-    setLoading(false);
+      setLoading(false);
+      // window.location.reload();
+    }
   };
 
   return (

@@ -59,6 +59,8 @@ export default function AddProject() {
         { sender, sendParams: { fee: new AlgoAmount({ algos: 0.02 }) }}
       );
 
+      
+    token ?   localStorage.setItem('voucherId', JSON.stringify(Number(token?.return))) : null;
       const asaIndex = Number(token?.return);
       const boxKey = algosdk.bigIntToBytes(asaIndex, 8);
 

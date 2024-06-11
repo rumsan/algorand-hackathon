@@ -50,7 +50,7 @@ const CreateBeneficiary = () => {
   const createBeneficiary = async (e: any) => {
     e.preventDefault();
     const encryptedPassword = encryptData(beneficiaryWallet?.mnemonicsQRText as string);
-    const data = {
+    const payload = {
       email: e.target['email'].value,
       name: e.target['firstName'].value,
       age: Number(e.target['age'].value),
@@ -63,21 +63,19 @@ const CreateBeneficiary = () => {
     // postMutation({ urls: URLS.BENEFICIARY + '/send-asa', data: {walletAddress: data.walletAddress} });
 
     // Send Algo
-    API.post(`${URLS.BENEFICIARY}/send-asa`, { walletAddress: data.walletAddress })
+    API.post(`${URLS.BENEFICIARY}/send-asa`, { walletAddress: payload.walletAddress })
       .then(async () => {
         // Optin to asset using beneficiary wallet
         const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
-          from: data.walletAddress as string,
-          to: data.walletAddress as string,
+          from: payload.walletAddress as string,
+          to: payload.walletAddress as string,
           amount: 0,
           suggestedParams: await algodClient.getTransactionParams().do(),
           assetIndex: Number(localStorage.getItem('voucherId')),
         });
         const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
         await algodClient.sendRawTransaction(signedTxn).do();
-     postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
-
-      
+        postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data: payload });
       })
       .catch((error) => {
         console.log(error);
@@ -86,13 +84,11 @@ const CreateBeneficiary = () => {
   };
 
   useEffect(() => {
-     if (isSuccess) {
-       snack.default.success('Beneficiary created successfully');
-       setShouldNavigate(true);
-     } else if(isError){
-       snack.default.error('There was a problem with your request');
-     }
-  }, [isSuccess, isError]);
+    if (isSuccess) {
+      snack.default.success('Beneficiary created successfully');
+      setShouldNavigate(true);
+    }
+  }, [isSuccess]);
 
   if (shouldNavigate) {
     const route = `/admin/project/${id}/beneficiary`;

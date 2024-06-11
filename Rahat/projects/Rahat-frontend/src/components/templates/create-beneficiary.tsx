@@ -97,7 +97,7 @@ const CreateBeneficiary = () => {
     } else if (isError) {
       console.log(error);
       setBeneficiaryWallet({ mnemonicsQRText: undefined, walletAddress: '', secretKey: undefined });
-      snack.default.error(error.toString());
+      snack.default.error(error ? error.toString() : 'An error occurred');
 
       setLoading(false);
     }

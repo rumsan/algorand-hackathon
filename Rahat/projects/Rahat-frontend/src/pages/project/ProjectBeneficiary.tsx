@@ -81,7 +81,7 @@ export default function ProjectBeneficiary() {
   const [tabsValue, setTabsValue] = useState<AssetStatus>('NOT_ASSIGNED');
 
   // Refactor - Asim, please use object
-  const { data, isLoading } = useList(
+  const { data, isLoading, refetch } = useList(
     `listProjectBeneficiary-${id}`,
     `${URLS.PROJECT}/${id}/beneficiaries`,
     currentPage,
@@ -93,7 +93,11 @@ export default function ProjectBeneficiary() {
 
   const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost('updateBeneficiary');
 
-  const wallet = useWallet()
+  const wallet = useWallet();
+
+  useEffect(() => {
+    refetch()
+  }, [tabsValue])
 
   const handleCheckboxChange = (walletAddress: string) => {
     setSelectedBeneficiaries((prevSelected) =>
@@ -249,7 +253,7 @@ export default function ProjectBeneficiary() {
             )}
           </div>
         </div>
-        <Tabs.Root className="flex flex-col w-[full] mt-8" defaultValue="not_assigned">
+        <Tabs.Root className="flex flex-col w-[full] mt-8" defaultValue={tabsValue}>
           <Tabs.List className="shrink-0 flex border-b border-mauve6" aria-label="Manage your account">
             <Tabs.Trigger className={tabs} value="not_assigned" onClick={() => setTabsValue('NOT_ASSIGNED')}>
               ASA Not Assigned

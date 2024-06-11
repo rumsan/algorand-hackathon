@@ -9,7 +9,6 @@ import { Fragment } from 'react';
 import { EllipsisVerticalIcon } from 'lucide-react';
 import { algodClient } from '@/utils/typedClient';
 import { AssetStatus } from './ProjectBeneficiary';
-import { atomicTxnComposer, atomicTxnComposerFreeze } from '@/utils/atc';
 import usePost from '@/hooks/usePost';
 import { useWallet } from '@txnlab/use-wallet';
 
@@ -99,15 +98,11 @@ export default function BeneficiaryDetail() {
     checkAssetFrozenStatus();
   }, [beneficiaries]);
 
-  console.log(assetStatus);
-
-
   useEffect(() => {
     if (data) {
       setBeneficiaries(data);
     }
   }, [data]);
-  console.log('beneficiaries', beneficiaries);
 
   return (
     <>

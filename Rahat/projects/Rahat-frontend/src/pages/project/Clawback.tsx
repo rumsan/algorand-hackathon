@@ -145,6 +145,8 @@ const Clawback = () => {
             rawSign1 as Uint8Array
           );
 
+        
+
         signersDetails?.forEach((txn:any) => {
             const decodedTxn = algosdk.decodeSignedTransaction(stringToUint8Array(txn.signature))
             const rawSign = decodedTxn.msig?.subsig[0].s

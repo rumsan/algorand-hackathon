@@ -24,7 +24,7 @@ const CreateBeneficiary = () => {
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const { postMutation, isError, data, isSuccess, success, isPending } = usePost(`listProjectBeneficiary${id}`);
+  const { postMutation, isError, data, isSuccess, success, isPending } = usePost(`listProjectBeneficiary-${id}`);
 
   const secretKey = import.meta.env.VITE_SECRET_KEY;
 
@@ -47,7 +47,6 @@ const CreateBeneficiary = () => {
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! };
 
-
   const createBeneficiary = async (e: any) => {
     e.preventDefault();
     const encryptedPassword = encryptData(beneficiaryWallet?.mnemonicsQRText as string);
@@ -61,12 +60,11 @@ const CreateBeneficiary = () => {
       projectId: id,
     };
 
-   
     // postMutation({ urls: URLS.BENEFICIARY + '/send-asa', data: {walletAddress: data.walletAddress} });
 
-  // Send Algo
-    API.post(`${URLS.BENEFICIARY}/send-asa`, {walletAddress: data.walletAddress})
-    .then(async () => {
+    // Send Algo
+    API.post(`${URLS.BENEFICIARY}/send-asa`, { walletAddress: data.walletAddress })
+      .then(async () => {
         // Optin to asset using beneficiary wallet
         const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
           from: data.walletAddress as string,
@@ -77,30 +75,23 @@ const CreateBeneficiary = () => {
         });
         const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
         await algodClient.sendRawTransaction(signedTxn).do();
+     postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
 
-        postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data });
-        if (data.email) {
-          snack.default.success('Beneficiary created successfully');
-          setShouldNavigate(true);
-        } else {
-          snack.default.error('There was a problem with your request');
-        }
-    })
-    .catch((error) => {
-      console.log(error)
-      snack.default.error('Couldnot send Algo to beneficiary');
-    })
-
-    
+      
+      })
+      .catch((error) => {
+        console.log(error);
+        snack.default.error('Couldnot send Algo to beneficiary');
+      });
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      snack.default.success('Project created successfully');
-      setShouldNavigate(true);
-    } else if (isError) {
-      snack.default.error('There was a problem with your request');
-    }
+     if (isSuccess) {
+       snack.default.success('Beneficiary created successfully');
+       setShouldNavigate(true);
+     } else if(isError){
+       snack.default.error('There was a problem with your request');
+     }
   }, [isSuccess, isError]);
 
   if (shouldNavigate) {
@@ -113,7 +104,7 @@ const CreateBeneficiary = () => {
       <div>
         <SnackbarUtilsConfigurator />
       </div>
-      <form className='bg-gray-100 p-10 rounded-sm' onSubmit={(e) => createBeneficiary(e)}>
+      <form className="bg-gray-100 p-10 rounded-sm" onSubmit={(e) => createBeneficiary(e)}>
         <div className="space-y-6">
           <div className="pb-12">
             <h2 className="text-base font-semibold leading-7 text-blue-900">Create A New Beneficiary</h2>
@@ -123,7 +114,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">First name</label>
                 <div className="mt-2">
                   <input
-                  required
+                    required
                     type="text"
                     name="firstName"
                     id="first-name"
@@ -136,7 +127,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Last name</label>
                 <div className="mt-2">
                   <input
-                  required
+                    required
                     type="text"
                     name="last-name"
                     id="last-name"
@@ -163,7 +154,7 @@ const CreateBeneficiary = () => {
                 <label className="block text-sm font-medium leading-6 text-gray-900">Wallet Address</label>
                 <div className="mt-2 flex w-full gap-[2%]">
                   <input
-                  required
+                    required
                     type="text"
                     name="walletAddress"
                     id="walletAddress"

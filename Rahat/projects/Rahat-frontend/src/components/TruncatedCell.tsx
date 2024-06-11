@@ -1,4 +1,3 @@
-import React from 'react';
 import { SnackbarUtilsConfigurator } from './Toaster';
 import * as snack from './Toaster';
 

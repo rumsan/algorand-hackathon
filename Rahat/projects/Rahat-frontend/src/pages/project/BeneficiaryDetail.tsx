@@ -67,8 +67,8 @@ export const transaction = [
 ];
 
 export default function BeneficiaryDetail() {
-  const { beneficiaryId } = useParams();
-  const { activeAddress, signer } = useWallet();
+  const { id ,beneficiaryId} = useParams();
+  const { activeAddress, signer } = useWallet(); 
 
   const [beneficiaries, setBeneficiaries] = useState<any>(null);
   const [assetStatus, setassetStatus] = useState({ isFrozen: false, isCreated: true, amount: 0 });
@@ -107,6 +107,7 @@ export default function BeneficiaryDetail() {
       setBeneficiaries(data);
     }
   }, [data]);
+  console.log('beneficiaries', beneficiaries);
 
   return (
     <>

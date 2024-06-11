@@ -19,9 +19,9 @@ const usePost = (qkey: string) => {
     isPending,
   } = useMutation({
     mutationFn: async (payload: any) => {
-      const response = await API.post(payload.urls, { ...payload.data });
-      // setDataState(data);
-      return response.data; // Ensure returning response.data
+      const { data } = await API.post(payload.urls, { ...payload.data });
+
+      return data; // Ensure returning response.data
     },
     onError(error) {
       setSuccess(false);
@@ -34,10 +34,14 @@ const usePost = (qkey: string) => {
       setSuccess(true);
 
       if (qkey != 'false') {
+        console.log('invalidateQueries huna pugyo');
         queryClient.invalidateQueries({ queryKey: [qkey] });
       }
     },
+
+
   });
+  console.log('dataayo', data);
   return { postMutation, data, isError, isSuccess, dataState, error, success, isPending };
 };
 

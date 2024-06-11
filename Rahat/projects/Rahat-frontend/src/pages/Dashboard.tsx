@@ -39,15 +39,15 @@ export default function DashBoard() {
   let { isLoading, isError, data } = useList('listCount', `${URLS.BENEFICIARY}/get-count`, 1, 6);
   const [projects, setProjects] = useState<project[]>([]);
 
-  useEffect(()=>{})
+  useEffect(() => {});
 
   let { data: projectData } = useList('listProject', URLS.PROJECT, 1, 3);
 
   useEffect(() => {
-    if (data) {
+    if (projectData) {
       setProjects(projectData?.data);
     }
-  }, [data]);
+  }, [projectData]);
   const stats = [
     { name: ' Projects', value: data?.totalProject, change: 'active', changeType: 'positive' },
     { name: ' Beneficiaries', value: data?.totalBeneficiary, change: '+54.02%', changeType: 'positive' },
@@ -61,7 +61,7 @@ export default function DashBoard() {
     <>
       {/* start */}
 
-      <main >
+      <main>
         <div className="relative isolate overflow-hidden">
           <div className="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5">
             <dl className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-2 xl:px-0">
@@ -213,8 +213,6 @@ export default function DashBoard() {
                         className="h-12 w-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10"
                       />
                       <div className="text-sm font-medium leading-6 text-gray-900">{project.name}</div>
-                      
-                          
                     </div>
                     <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
                       <div className="flex justify-between gap-x-4 py-3">
@@ -227,7 +225,6 @@ export default function DashBoard() {
                         <dt className="text-gray-500">Asset Id</dt>
                         <dd className="flex items-start gap-x-2">
                           <div className="font-medium text-gray-900">{project.voucherId}</div>
-                     
                         </dd>
                       </div>
                     </dl>

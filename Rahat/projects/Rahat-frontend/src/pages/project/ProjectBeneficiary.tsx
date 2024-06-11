@@ -82,7 +82,7 @@ export default function ProjectBeneficiary() {
 
   // Refactor - Asim, please use object
   const { data, isLoading } = useList(
-    `listProjectBeneficiary-${tabsValue}`,
+    `listProjectBeneficiary-${id}`,
     `${URLS.PROJECT}/${id}/beneficiaries`,
     currentPage,
     limit,

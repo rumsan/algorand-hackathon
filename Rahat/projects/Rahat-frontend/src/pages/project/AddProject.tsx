@@ -15,6 +15,8 @@ import algosdk from "algosdk";
 import { AlgoAmount } from "@algorandfoundation/algokit-utils/types/amount";
 import API from "@/utils/API";
 import Loader from "@/components/Loader";
+import Stepper from "@/components/stepper";
+import { Loader2 } from "lucide-react";
 
 type ProjectType = z.infer<typeof projectSchema>;
 
@@ -24,7 +26,7 @@ export default function AddProject() {
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! }
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(0);
 
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
@@ -43,7 +45,7 @@ export default function AddProject() {
   });
 
   const onSubmit = async (data: ProjectType) => {
-    setLoading(true)
+    setLoading(1)
 
     const adminAddress = [activeAddress];
     // @ts-ignore
@@ -60,7 +62,10 @@ export default function AddProject() {
       );
 
       
-    token ?   localStorage.setItem('voucherId', JSON.stringify(Number(token?.return))) : null;
+    token ?  localStorage.setItem('voucherId', JSON.stringify(Number(token?.return))) : null;
+
+    setLoading(2)
+
       const asaIndex = Number(token?.return);
       const boxKey = algosdk.bigIntToBytes(asaIndex, 8);
 
@@ -81,6 +86,8 @@ export default function AddProject() {
       );
       snack.default.success("Adding project to contract")
 
+      setLoading(3)
+
     // Needs refactor: Quick fix, need to refactor usePost()
     const res = await API.post(`${SERVER_URL}${URLS.PROJECT}`, {
       name: data.name,
@@ -95,11 +102,12 @@ export default function AddProject() {
       voucherSymbol: data.asaSymbol,
       assetId: asaIndex.toString()
     } });
+
+    setLoading(4)
   };
 
   useEffect(() => {
     if (isSuccess) {
-      setLoading(false)
       snack.default.success("Project created successfully");
       setShouldNavigate(true);
     } else if (isError) {
@@ -117,10 +125,15 @@ export default function AddProject() {
 
       <div className="space-y-10 divide-y divide-gray-900/10 w-full max-w-4xl px-4">
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
-          {!loading ? <form
+          <div className="bg-gray-50 text-white ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-3">
+        {loading != 0 && <Stepper step={loading}/>}
+        
+        </div>
+          <form
             onSubmit={handleSubmit(onSubmit)}
-            className="bg-gray-50 text-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-3"
+            className={`bg-gray-50 text-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-3 ${loading != 0 && 'opacity-60'}`}
           >
+            
             <div className="px-4 py-6 sm:p-8">
               <div className="px-4 sm:px-0">
                 <h2 className=" font-semibold leading-7 text-2xl text-blue-900">Project Information</h2>
@@ -207,13 +220,14 @@ export default function AddProject() {
               
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading != 0}
                 className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
                 Create
               </button>
+              
             </div>
-          </form>: <Loader />}
+          </form>
         </div>
       </div>
     </div>

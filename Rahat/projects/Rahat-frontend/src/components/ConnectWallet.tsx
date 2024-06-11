@@ -17,7 +17,6 @@ const ConnectWallet = () => {
   useEffect(() => {
     if (activeAddress) {
       login();
-      enqueueSnackbar(`You have been successfully logged in.`, { variant: "success" });
       const redirectTo = location.state?.from?.pathname || "/admin/dashboard";
       navigate(redirectTo, { replace: true });
     }

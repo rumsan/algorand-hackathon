@@ -67,8 +67,8 @@ export const transaction = [
 ];
 
 export default function BeneficiaryDetail() {
-  const { id ,beneficiaryId} = useParams();
-  const { activeAddress, signer } = useWallet(); 
+  const { id, beneficiaryId } = useParams();
+  const { activeAddress, signer } = useWallet();
 
   const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -99,7 +99,7 @@ export default function BeneficiaryDetail() {
       }
     };
     checkAssetFrozenStatus();
-  }, [beneficiaries]);
+  }, [beneficiaries, assetStatus]);
 
   useEffect(() => {
     if (data) {

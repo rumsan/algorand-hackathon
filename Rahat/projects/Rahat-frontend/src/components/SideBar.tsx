@@ -113,6 +113,7 @@ import { URLS } from "@/constants";
 import useGet from "@/hooks/useGet";
 import { useParams } from "react-router-dom";
 
+//@ts-ignore
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }

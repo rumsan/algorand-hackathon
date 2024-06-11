@@ -66,7 +66,7 @@ export default function AddProject() {
 
       snack.default.success("Created ASA for the project")
 
-      await typedClient.createProject(
+       await typedClient.createProject(
         {
           _assetId: asaIndex,
           _project: [data.name, adminAddress[0] as string, [adminAddress[0] as string]]

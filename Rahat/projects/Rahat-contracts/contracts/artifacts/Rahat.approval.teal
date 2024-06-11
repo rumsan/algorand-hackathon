@@ -22,16 +22,16 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
-// createProject(uint64,(string,address,address[],address))void
+// createProject(uint64,(string,address,address[]))void
 *abi_route_createProject:
-	// _project: (string,address,address[],address)
+	// _project: (string,address,address[])
 	txna ApplicationArgs 2
 
 	// _assetId: uint64
 	txna ApplicationArgs 1
 	btoi
 
-	// execute createProject(uint64,(string,address,address[],address))void
+	// execute createProject(uint64,(string,address,address[]))void
 	callsub createProject
 	int 1
 	return
@@ -45,7 +45,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 createProject:
 	proto 2 0
 
-	// contracts\Rahat.algo.ts:21
+	// contracts\Rahat.algo.ts:20
 	// this.project(_assetId).value = _project
 	frame_dig -1 // _assetId: AssetID
 	itob
@@ -85,7 +85,7 @@ createProject:
 addAdminToProject:
 	proto 2 0
 
-	// contracts\Rahat.algo.ts:30
+	// contracts\Rahat.algo.ts:29
 	// assert(this.project(_assetId).value.superAdmin === this.txn.sender, "Only super admin can assign admin")
 	frame_dig -2 // _assetId: AssetID
 	itob
@@ -102,8 +102,8 @@ addAdminToProject:
 	// Only super admin can assign admin
 	assert
 
-	// contracts\Rahat.algo.ts:31
-	// this.project(_assetId).value.admins = [_address]
+	// contracts\Rahat.algo.ts:30
+	// this.project(_assetId).value.admins = [_address, this.project(_assetId).value.superAdmin]
 	frame_dig -2 // _assetId: AssetID
 	itob
 	box_get
@@ -134,6 +134,16 @@ addAdminToProject:
 	load 254 // element start
 	substring3
 	frame_dig -1 // _address: Address
+	frame_dig -2 // _assetId: AssetID
+	itob
+	box_get
+
+	// box value does not exist: this.project(_assetId).value
+	assert
+	store 255 // full array
+	load 255 // full array
+	extract 2 32
+	concat
 	dup
 	len
 	int 32
@@ -165,7 +175,7 @@ addAdminToProject:
 	box_put
 	retsub
 
-// getProject(uint64)(string,address,address[],address)
+// getProject(uint64)(string,address,address[])
 *abi_route_getProject:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -174,7 +184,7 @@ addAdminToProject:
 	txna ApplicationArgs 1
 	btoi
 
-	// execute getProject(uint64)(string,address,address[],address)
+	// execute getProject(uint64)(string,address,address[])
 	callsub getProject
 	concat
 	log
@@ -189,7 +199,7 @@ addAdminToProject:
 getProject:
 	proto 1 1
 
-	// contracts\Rahat.algo.ts:40
+	// contracts\Rahat.algo.ts:39
 	// return this.project(_assetId).value;
 	frame_dig -1 // _assetId: AssetID
 	itob
@@ -233,7 +243,7 @@ createAnAsset:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// contracts\Rahat.algo.ts:51
+	// contracts\Rahat.algo.ts:50
 	// asset = sendAssetCreation({
 	//       configAssetTotal: 1_000_000_000_000_000,
 	//       configAssetFreeze: this.app.address,
@@ -245,27 +255,27 @@ createAnAsset:
 	int acfg
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:52
+	// contracts\Rahat.algo.ts:51
 	// configAssetTotal: 1_000_000_000_000_000
 	int 1_000_000_000_000_000
 	itxn_field ConfigAssetTotal
 
-	// contracts\Rahat.algo.ts:53
+	// contracts\Rahat.algo.ts:52
 	// configAssetFreeze: this.app.address
 	global CurrentApplicationAddress
 	itxn_field ConfigAssetFreeze
 
-	// contracts\Rahat.algo.ts:54
+	// contracts\Rahat.algo.ts:53
 	// configAssetName: asaName
 	frame_dig -1 // asaName: string
 	itxn_field ConfigAssetName
 
-	// contracts\Rahat.algo.ts:55
+	// contracts\Rahat.algo.ts:54
 	// configAssetUnitName: asaSymbol
 	frame_dig -2 // asaSymbol: string
 	itxn_field ConfigAssetUnitName
 
-	// contracts\Rahat.algo.ts:56
+	// contracts\Rahat.algo.ts:55
 	// configAssetClawback: this.app.address
 	global CurrentApplicationAddress
 	itxn_field ConfigAssetClawback
@@ -279,7 +289,7 @@ createAnAsset:
 	itxn CreatedAssetID
 	frame_bury 0 // asset: uint64
 
-	// contracts\Rahat.algo.ts:58
+	// contracts\Rahat.algo.ts:57
 	// return asset;
 	frame_dig 0 // asset: uint64
 
@@ -325,13 +335,13 @@ sendTokenToBeneficiary:
 	byte 0x
 	dup
 
-	// contracts\Rahat.algo.ts:70
+	// contracts\Rahat.algo.ts:69
 	// projectAdmins = this.project(assetId).value.admins
 	frame_dig -3 // assetId: AssetID
 	itob
 	frame_bury 0 // storage key//projectAdmins
 
-	// contracts\Rahat.algo.ts:71
+	// contracts\Rahat.algo.ts:70
 	// isAdmin = this.checkAdminRecursive(projectAdmins, this.txn.sender, 0)
 	int 0
 	txn Sender
@@ -359,14 +369,14 @@ sendTokenToBeneficiary:
 	callsub checkAdminRecursive
 	frame_bury 1 // isAdmin: bool
 
-	// contracts\Rahat.algo.ts:72
+	// contracts\Rahat.algo.ts:71
 	// assert(isAdmin, "Not an admin")
 	frame_dig 1 // isAdmin: bool
 
 	// Not an admin
 	assert
 
-	// contracts\Rahat.algo.ts:75
+	// contracts\Rahat.algo.ts:74
 	// sendAssetTransfer({
 	//       xferAsset: assetId,
 	//       assetReceiver: benAddress,
@@ -376,17 +386,17 @@ sendTokenToBeneficiary:
 	int axfer
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:76
+	// contracts\Rahat.algo.ts:75
 	// xferAsset: assetId
 	frame_dig -3 // assetId: AssetID
 	itxn_field XferAsset
 
-	// contracts\Rahat.algo.ts:77
+	// contracts\Rahat.algo.ts:76
 	// assetReceiver: benAddress
 	frame_dig -1 // benAddress: Address
 	itxn_field AssetReceiver
 
-	// contracts\Rahat.algo.ts:78
+	// contracts\Rahat.algo.ts:77
 	// assetAmount: amount
 	frame_dig -2 // amount: uint64
 	itxn_field AssetAmount
@@ -398,7 +408,7 @@ sendTokenToBeneficiary:
 	// Submit inner transaction
 	itxn_submit
 
-	// contracts\Rahat.algo.ts:82
+	// contracts\Rahat.algo.ts:81
 	// sendAssetFreeze({
 	//       freezeAsset: assetId,
 	//       freezeAssetAccount: benAddress,
@@ -408,17 +418,17 @@ sendTokenToBeneficiary:
 	int afrz
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:83
+	// contracts\Rahat.algo.ts:82
 	// freezeAsset: assetId
 	frame_dig -3 // assetId: AssetID
 	itxn_field FreezeAsset
 
-	// contracts\Rahat.algo.ts:84
+	// contracts\Rahat.algo.ts:83
 	// freezeAssetAccount: benAddress
 	frame_dig -1 // benAddress: Address
 	itxn_field FreezeAssetAccount
 
-	// contracts\Rahat.algo.ts:85
+	// contracts\Rahat.algo.ts:84
 	// freezeAssetFrozen: true
 	int 1
 	itxn_field FreezeAssetFrozen
@@ -463,13 +473,13 @@ freezeBeneficiaryAsset:
 	byte 0x
 	dup
 
-	// contracts\Rahat.algo.ts:96
+	// contracts\Rahat.algo.ts:95
 	// projectAdmins = this.project(assetId).value.admins
 	frame_dig -2 // assetId: AssetID
 	itob
 	frame_bury 0 // storage key//projectAdmins
 
-	// contracts\Rahat.algo.ts:97
+	// contracts\Rahat.algo.ts:96
 	// isAdmin = this.checkAdminRecursive(projectAdmins, this.txn.sender, 0)
 	int 0
 	txn Sender
@@ -497,14 +507,14 @@ freezeBeneficiaryAsset:
 	callsub checkAdminRecursive
 	frame_bury 1 // isAdmin: bool
 
-	// contracts\Rahat.algo.ts:98
+	// contracts\Rahat.algo.ts:97
 	// assert(isAdmin, "Not an admin")
 	frame_dig 1 // isAdmin: bool
 
 	// Not an admin
 	assert
 
-	// contracts\Rahat.algo.ts:100
+	// contracts\Rahat.algo.ts:99
 	// sendAssetFreeze({
 	//       freezeAsset: assetId,
 	//       freezeAssetAccount: benAddress,
@@ -514,17 +524,17 @@ freezeBeneficiaryAsset:
 	int afrz
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:101
+	// contracts\Rahat.algo.ts:100
 	// freezeAsset: assetId
 	frame_dig -2 // assetId: AssetID
 	itxn_field FreezeAsset
 
-	// contracts\Rahat.algo.ts:102
+	// contracts\Rahat.algo.ts:101
 	// freezeAssetAccount: benAddress
 	frame_dig -1 // benAddress: Address
 	itxn_field FreezeAssetAccount
 
-	// contracts\Rahat.algo.ts:103
+	// contracts\Rahat.algo.ts:102
 	// freezeAssetFrozen: true
 	int 1
 	itxn_field FreezeAssetFrozen
@@ -569,13 +579,13 @@ unfreezeBeneficiaryAsset:
 	byte 0x
 	dup
 
-	// contracts\Rahat.algo.ts:113
+	// contracts\Rahat.algo.ts:112
 	// projectAdmins = this.project(assetId).value.admins
 	frame_dig -2 // assetId: AssetID
 	itob
 	frame_bury 0 // storage key//projectAdmins
 
-	// contracts\Rahat.algo.ts:114
+	// contracts\Rahat.algo.ts:113
 	// isAdmin = this.checkAdminRecursive(projectAdmins, this.txn.sender, 0)
 	int 0
 	txn Sender
@@ -603,14 +613,14 @@ unfreezeBeneficiaryAsset:
 	callsub checkAdminRecursive
 	frame_bury 1 // isAdmin: bool
 
-	// contracts\Rahat.algo.ts:115
+	// contracts\Rahat.algo.ts:114
 	// assert(isAdmin, "Not an admin")
 	frame_dig 1 // isAdmin: bool
 
 	// Not an admin
 	assert
 
-	// contracts\Rahat.algo.ts:117
+	// contracts\Rahat.algo.ts:116
 	// sendAssetFreeze({
 	//       freezeAsset: assetId,
 	//       freezeAssetAccount: benAddress,
@@ -620,17 +630,17 @@ unfreezeBeneficiaryAsset:
 	int afrz
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:118
+	// contracts\Rahat.algo.ts:117
 	// freezeAsset: assetId
 	frame_dig -2 // assetId: AssetID
 	itxn_field FreezeAsset
 
-	// contracts\Rahat.algo.ts:119
+	// contracts\Rahat.algo.ts:118
 	// freezeAssetAccount: benAddress
 	frame_dig -1 // benAddress: Address
 	itxn_field FreezeAssetAccount
 
-	// contracts\Rahat.algo.ts:120
+	// contracts\Rahat.algo.ts:119
 	// freezeAssetFrozen: false
 	int 0
 	itxn_field FreezeAssetFrozen
@@ -676,33 +686,33 @@ unfreezeBeneficiaryAsset:
 sendTokenToVendor:
 	proto 3 0
 
-	// contracts\Rahat.algo.ts:130
+	// contracts\Rahat.algo.ts:129
 	// sendAssetTransfer({
-	//       sender: this.txn.sender,
+	//       sender: venderAddress,
 	//       xferAsset: assetId,
-	//       assetReceiver: venderAddress,
+	//       assetReceiver: this.txn.sender,
 	//       assetAmount: amount,
 	//     })
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:131
-	// sender: this.txn.sender
-	txn Sender
+	// contracts\Rahat.algo.ts:130
+	// sender: venderAddress
+	frame_dig -1 // venderAddress: Address
 	itxn_field Sender
 
-	// contracts\Rahat.algo.ts:132
+	// contracts\Rahat.algo.ts:131
 	// xferAsset: assetId
 	frame_dig -3 // assetId: AssetID
 	itxn_field XferAsset
 
-	// contracts\Rahat.algo.ts:133
-	// assetReceiver: venderAddress
-	frame_dig -1 // venderAddress: Address
+	// contracts\Rahat.algo.ts:132
+	// assetReceiver: this.txn.sender
+	txn Sender
 	itxn_field AssetReceiver
 
-	// contracts\Rahat.algo.ts:134
+	// contracts\Rahat.algo.ts:133
 	// assetAmount: amount
 	frame_dig -2 // amount: uint64
 	itxn_field AssetAmount
@@ -753,13 +763,13 @@ clawbackBeneficiaryAsset:
 	byte 0x
 	dup
 
-	// contracts\Rahat.algo.ts:146
+	// contracts\Rahat.algo.ts:145
 	// projectAdmins = this.project(assetId).value.admins
 	frame_dig -2 // assetId: AssetID
 	itob
 	frame_bury 0 // storage key//projectAdmins
 
-	// contracts\Rahat.algo.ts:147
+	// contracts\Rahat.algo.ts:146
 	// isAdmin = this.checkAdminRecursive(projectAdmins, this.txn.sender, 0)
 	int 0
 	txn Sender
@@ -787,20 +797,20 @@ clawbackBeneficiaryAsset:
 	callsub checkAdminRecursive
 	frame_bury 1 // isAdmin: bool
 
-	// contracts\Rahat.algo.ts:148
+	// contracts\Rahat.algo.ts:147
 	// assert(isAdmin, "Not an admin")
 	frame_dig 1 // isAdmin: bool
 
 	// Not an admin
 	assert
 
-	// contracts\Rahat.algo.ts:151
+	// contracts\Rahat.algo.ts:150
 	// this.unfreezeBeneficiaryAsset(benAddress, assetId)
 	frame_dig -2 // assetId: AssetID
 	frame_dig -1 // benAddress: Address
 	callsub unfreezeBeneficiaryAsset
 
-	// contracts\Rahat.algo.ts:154
+	// contracts\Rahat.algo.ts:153
 	// sendAssetTransfer({
 	//       xferAsset: assetId,
 	//       assetSender: benAddress,
@@ -811,22 +821,22 @@ clawbackBeneficiaryAsset:
 	int axfer
 	itxn_field TypeEnum
 
-	// contracts\Rahat.algo.ts:155
+	// contracts\Rahat.algo.ts:154
 	// xferAsset: assetId
 	frame_dig -2 // assetId: AssetID
 	itxn_field XferAsset
 
-	// contracts\Rahat.algo.ts:156
+	// contracts\Rahat.algo.ts:155
 	// assetSender: benAddress
 	frame_dig -1 // benAddress: Address
 	itxn_field AssetSender
 
-	// contracts\Rahat.algo.ts:157
+	// contracts\Rahat.algo.ts:156
 	// assetReceiver: this.app.address
 	global CurrentApplicationAddress
 	itxn_field AssetReceiver
 
-	// contracts\Rahat.algo.ts:158
+	// contracts\Rahat.algo.ts:157
 	// assetAmount: amount
 	frame_dig -3 // amount: uint64
 	itxn_field AssetAmount
@@ -878,7 +888,7 @@ checkAdminRecursive:
 	proto 3 1
 
 	// *if0_condition
-	// contracts\Rahat.algo.ts:163
+	// contracts\Rahat.algo.ts:162
 	// index >= admins.length
 	frame_dig -3 // index: uint64
 	frame_dig -1 // admins: Address[]
@@ -889,14 +899,14 @@ checkAdminRecursive:
 	bz *if0_end
 
 	// *if0_consequent
-	// contracts\Rahat.algo.ts:164
+	// contracts\Rahat.algo.ts:163
 	// return false;
 	int 0
 	retsub
 
 *if0_end:
 	// *if1_condition
-	// contracts\Rahat.algo.ts:166
+	// contracts\Rahat.algo.ts:165
 	// admins[index] == address
 	frame_dig -1 // admins: Address[]
 	store 255 // full array
@@ -914,13 +924,13 @@ checkAdminRecursive:
 	bz *if1_end
 
 	// *if1_consequent
-	// contracts\Rahat.algo.ts:167
+	// contracts\Rahat.algo.ts:166
 	// return true;
 	int 1
 	retsub
 
 *if1_end:
-	// contracts\Rahat.algo.ts:169
+	// contracts\Rahat.algo.ts:168
 	// return this.checkAdminRecursive(admins, address, index + 1);
 	frame_dig -3 // index: uint64
 	int 1
@@ -943,9 +953,9 @@ checkAdminRecursive:
 	err
 
 *call_NoOp:
-	method "createProject(uint64,(string,address,address[],address))void"
+	method "createProject(uint64,(string,address,address[]))void"
 	method "addAdminToProject(address,uint64)void"
-	method "getProject(uint64)(string,address,address[],address)"
+	method "getProject(uint64)(string,address,address[])"
 	method "createAnAsset(string,string)uint64"
 	method "sendTokenToBeneficiary(address,uint64,uint64)void"
 	method "freezeBeneficiaryAsset(address,uint64)void"

@@ -1,4 +1,4 @@
-import { Contract, asset_transfer } from '@algorandfoundation/tealscript';
+import { Contract } from '@algorandfoundation/tealscript';
 
 type projectType = {
   name: string,

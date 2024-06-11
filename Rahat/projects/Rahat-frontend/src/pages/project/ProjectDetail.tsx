@@ -17,6 +17,8 @@ import { UserGroupIcon, ClockIcon } from "@heroicons/react/24/outline";
 import { asaId } from "@/utils/asaId";
 
 import Jdenticon from "react-jdenticon";
+import { assetHoldinig } from "@/utils/sdkCall/assetHolding";
+import { algodClient } from "@/utils/typedClient";
 
 export const navigation = [
   {
@@ -44,6 +46,8 @@ export default function Example() {
   const [showVendorDetail, setShowVendorDetail] = useState(false);
 
   const { data } = useGet(`getById${id}`, URLS.PROJECT, id as string);
+
+  const [projectASA, setProjectASA] = useState(0);
 
   const vid = project?.voucherId;
 
@@ -120,7 +124,7 @@ export default function Example() {
       changeType: "increase",
     },
     { name: "Asset Id", stat: asaId, previousStat: "28.62%" },
-    { name: "Asset Assigned", stat: "71,897" },
+    { name: "Asset Assigned", stat: projectASA.toLocaleString() },
     { name: "Asset Redeemed ", stat: "58", changeType: "increase" },
   ];
   const statsTwo = [
@@ -128,6 +132,19 @@ export default function Example() {
     { name: "Asset Redem ", stat: "58" },
     // { name: "Avg. Click Rate", stat: "24.57%" },
   ];
+
+  useEffect(() => {
+    getProjectDetail();
+  }, [])
+  const getProjectDetail = async () => {
+    const address = await algodClient.getAssetByID(asaId).do()
+    const assetHoldingOfProject = await assetHoldinig(address.params.clawback)
+    const totalAssetMinted = await address.params.total
+
+    const totalAssetAssigned = totalAssetMinted - assetHoldingOfProject.amount;
+
+    setProjectASA(totalAssetAssigned)
+  }
 
   return (
     <>

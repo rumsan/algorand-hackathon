@@ -222,72 +222,46 @@ export default function ProjectBeneficiary() {
                       </div>
                   </div>
               </div> 
-
-                  {/* <form>
-                    <input
-                      className="p-2 border-gray-500 w-full border border-1"
-                      type="number"
-                      placeholder="1"
-                      value={numberOfAsa === undefined ? '' : numberOfAsa}
-                      onChange={(e) => setNumberOfASA(Number(e.target.value))}
-                    />
-                    <button onClick={() => submitTransferToken()} type="button" className={sendBtns}>
-                      Assign ASA
-                    </button>
-                    <button className="" onClick={closeModal}>
-                      close
-                    </button>
-                  </form> */}
                 </Modal>
               </div>
-
-              // <button onClick={() => submitTransferToken()} type="button" className={sendBtns}>
-              //   {tabsValue === 'NOT_ASSIGNED'
-              //     ? 'Assign Token'
-              //     : tabsValue === 'FREEZED'
-              //     ? 'UnFreeze Token'
-              //     : tabsValue === 'UNFREEZED'
-              //     ? 'Unfreeze Token'
-              //     : 'Assign Token'}
-              // </button>
             )}
           </div>
         </div>
-        <Tabs.Root className="flex flex-col w-[full] mt-8" defaultValue={tabsValue}>
+        <Tabs.Root className="flex flex-col w-[full] mt-8" defaultValue='NOT_ASSIGNED'>
           <Tabs.List className="shrink-0 flex border-b border-mauve6" aria-label="Manage your account">
-            <Tabs.Trigger className={tabs} value="not_assigned" onClick={() => setTabsValue('NOT_ASSIGNED')}>
+            <Tabs.Trigger className={tabs} value="NOT_ASSIGNED" onClick={() => {setTabsValue('NOT_ASSIGNED'); setSelectedBeneficiaries([]);}}>
               ASA Not Assigned
             </Tabs.Trigger>
-            <Tabs.Trigger className={tabs} value="freezed" onClick={() => setTabsValue('FREEZED')}>
+            <Tabs.Trigger className={tabs} value="FREEZED" onClick={() => {setTabsValue('FREEZED'); setSelectedBeneficiaries([]);}}>
               Freezed ASA
             </Tabs.Trigger>
-            <Tabs.Trigger className={tabs} value="unfreezed" onClick={() => setTabsValue('UNFREEZED')}>
+            <Tabs.Trigger className={tabs} value="UNFREEZED" onClick={() => {setTabsValue('UNFREEZED'); setSelectedBeneficiaries([]);}}>
               Unfreezed ASA
             </Tabs.Trigger>
           </Tabs.List>
-          <Tabs.Content className={tabsContent} value="not_assigned">
-            <BeneficiaryTab
+          <Tabs.Content className={tabsContent} value="NOT_ASSIGNED">
+            {data ? <BeneficiaryTab
               handleSelectAll={handleSelectAll}
               setSelectedBeneficiaries={setSelectedBeneficiaries}
               selectedBeneficiaries={selectedBeneficiaries}
               data={data}
-            />
+            />: <Loader />}
           </Tabs.Content>
-          <Tabs.Content className={tabsContent} value="freezed">
-            <BeneficiaryTab
+          <Tabs.Content className={tabsContent} value="FREEZED">
+            {data ? <BeneficiaryTab
               handleSelectAll={handleSelectAll}
               setSelectedBeneficiaries={setSelectedBeneficiaries}
               selectedBeneficiaries={selectedBeneficiaries}
               data={data}
-            />
+            />: <Loader />}
           </Tabs.Content>
-          <Tabs.Content className={tabsContent} value="unfreezed">
-            <BeneficiaryTab
+          <Tabs.Content className={tabsContent} value="UNFREEZED">
+            {data ? <BeneficiaryTab
               handleSelectAll={handleSelectAll}
               setSelectedBeneficiaries={setSelectedBeneficiaries}
               selectedBeneficiaries={selectedBeneficiaries}
               data={data}
-            />
+            />: <Loader />}
           </Tabs.Content>
           <div className=" pr-24">{data?.data.length === 0 && <NoBeneficiary />}</div>
         </Tabs.Root>

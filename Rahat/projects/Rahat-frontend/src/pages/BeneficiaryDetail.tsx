@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import RahatUnfreezeBeneficiaryAsset from '@/components/contracts/RahatUnfreezeBeneficiaryAsset'
 import RahatFreezeBeneficiaryAsset from '@/components/contracts/RahatFreezeBeneficiaryAsset'
 import RahatClawbackBeneficiaryAsset from '@/components/contracts/RahatClawbackBeneficiaryAsset'
+import { asaId } from '@/utils/asaId'
 
 const BeneficiaryDetailClawback = () => {
 
@@ -16,7 +17,7 @@ const BeneficiaryDetailClawback = () => {
   const checkAssetFrozenStatus = async () => {
     const accountInfo = await algodClient.accountInformation(beneficiaryWallet).do();
     //@ts-ignore
-    const assetHolding = accountInfo['assets'].find(asset => asset['asset-id'] === Number(localStorage.getItem('voucherId')));
+    const assetHolding = accountInfo['assets'].find(asset => asset['asset-id'] === asaId);
     if (assetHolding) {
       setassetStatus({ isFrozen: assetHolding['is-frozen'], isCreated: true, amount: assetHolding['amount'] })
     }

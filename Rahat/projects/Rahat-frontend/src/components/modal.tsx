@@ -1,6 +1,9 @@
 import React, { useRef, useState } from 'react'
 import Modal from 'react-modal';
-const Modals = ({modalIsOpen}) => {
+import RahatSendTokenToBeneficiary from './contracts/RahatSendTokenToBeneficiary';
+import { typedClient } from '@/utils/typedClient';
+import { asaId } from '@/utils/asaId';
+const Modals = ({modalIsOpen, walletAddress, setIsOpen}:any) => {
     
   const customStyles = {
     content: {
@@ -25,20 +28,26 @@ const Modals = ({modalIsOpen}) => {
     }
   }
 
-  const [numberOfAsa, setNumberOfASA] = useState(0);
-
   const subtitle = useRef<HTMLHeadingElement | null>(null);
 
   return (
     <Modal
-        isOpen={true}
+        isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
-        // onRequestClose={() => setIsOpen(false)}
+        onRequestClose={() => setIsOpen(false)}
         style={customStyles}
         contentLabel="Send ASA"
       >
-
-        <div id="authentication-modal" aria-hidden="true" className="overflow-y-auto flex overflow-x-hidden z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full py-8">
+        <RahatSendTokenToBeneficiary
+          buttonClass="btn"
+          buttonLoadingNode={<span className="loading loading-spinner" />}
+          buttonNode="Send Token"
+          typedClient={typedClient}
+          benAddress={walletAddress}
+          assetId={asaId}
+          setIsOpen={setIsOpen}
+        />
+        {/* <div id="authentication-modal" aria-hidden="true" className="overflow-y-auto flex overflow-x-hidden z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full py-8">
           <div className="w-full max-h-full w-full">
 
             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -75,7 +84,7 @@ const Modals = ({modalIsOpen}) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </Modal>
   )
 }

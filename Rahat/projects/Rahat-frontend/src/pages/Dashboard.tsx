@@ -151,7 +151,9 @@ export default function DashBoard() {
                                         {transaction.status}
                                       </div>
                                     </div>
-                                    {transaction.tax ? <div className="mt-1 text-xs leading-5 text-gray-500">{transaction.tax}</div> : null}
+                                    {transaction.tax ? (
+                                      <div className="mt-1 text-xs leading-5 text-gray-500">Txn Fee: {transaction.tax}</div>
+                                    ) : null}
                                   </div>
                                 </div>
                                 <div className="absolute bottom-0 right-full h-px w-screen bg-gray-100" />
@@ -164,7 +166,7 @@ export default function DashBoard() {
                               <td className="py-5 text-right">
                                 <div className="flex justify-end">
                                   <a
-                                    href="https://app.dappflow.org/explorer/home"
+                                    href={`https://app.dappflow.org/explorer/transaction/${transaction?.invoiceNumber}`}
                                     className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500"
                                   >
                                     View<span className="hidden sm:inline"> transaction</span>

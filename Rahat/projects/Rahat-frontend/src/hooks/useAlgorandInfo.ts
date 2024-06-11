@@ -24,20 +24,17 @@ export const useAlgorandContractTransactions = (contractAppId: number) => {
         }
 
         // Search for recent transactions involving the specified contract App ID
-        const response = await indexerClient
-          .searchForTransactions()
-          .txType("appl") // Filter by application call transactions
-          .applicationID(contractAppId) // Filter by the contract's application ID
-          .limit(5)
-          .do();
+        const response = await indexerClient.searchForTransactions().txType("appl").applicationID(contractAppId).limit(5).do();
 
         // Get the current date
         const currentDate = new Date().toISOString().split("T")[0];
 
+        console.log(response?.transactions);
+
         // Format the transactions
         const formattedTransactions = [
           {
-            date: "Recent Transactions",
+            date: "Recent Application Transactions",
             dateTime: currentDate,
             transactions: response.transactions.map((txn: any, index: any) => {
               const amount = txn["payment-transaction"] ? txn["payment-transaction"].amount : 0;
@@ -47,7 +44,7 @@ export const useAlgorandContractTransactions = (contractAppId: number) => {
                 invoiceNumber: txn.id,
                 href: `#${txn.id}`,
                 amount: `${amount} Algos`,
-                tax: `${tax.toFixed(2)} Algos`,
+                tax: `${tax} Algos`,
                 status: txn["confirmed-round"] ? "Confirmed" : "Pending",
                 client: txn.sender,
                 description: "Application Call Transaction",

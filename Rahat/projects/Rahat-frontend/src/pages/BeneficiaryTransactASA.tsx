@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import RahatUnfreezeBeneficiaryAsset from '@/components/contracts/RahatUnfreezeBeneficiaryAsset';
 import RahatFreezeBeneficiaryAsset from '@/components/contracts/RahatFreezeBeneficiaryAsset';
 import RahatClawbackBeneficiaryAsset from '@/components/contracts/RahatClawbackBeneficiaryAsset';
+import { asaId } from '@/utils/asaId';
 
 const BeneficiaryTransactASA = ({ walletAddress, assetStatus }: any) => {
 
@@ -21,7 +22,7 @@ const BeneficiaryTransactASA = ({ walletAddress, assetStatus }: any) => {
           typedClient={typedClient}
           benAddress={walletAddress}
           amount={amount}
-          assetId={Number(localStorage.getItem('voucherId'))}
+          assetId={asaId}
         />
         }
 
@@ -32,7 +33,7 @@ const BeneficiaryTransactASA = ({ walletAddress, assetStatus }: any) => {
           buttonNode="Unfreeze Asset"
           typedClient={typedClient}
           benAddress={walletAddress}
-          assetId={Number(localStorage.getItem('voucherId'))}
+          assetId={asaId}
         />
         }
 
@@ -43,7 +44,7 @@ const BeneficiaryTransactASA = ({ walletAddress, assetStatus }: any) => {
             buttonNode=" freeze Asset"
             typedClient={typedClient}
             benAddress={walletAddress}
-            assetId={Number(localStorage.getItem('voucherId'))}
+            assetId={asaId}
           />
         }
 
@@ -54,7 +55,7 @@ const BeneficiaryTransactASA = ({ walletAddress, assetStatus }: any) => {
           buttonNode="Clawback"
           typedClient={typedClient}
           benAddress={walletAddress}
-          assetId={Number(localStorage.getItem('voucherId'))}
+          assetId={asaId}
           amount={1}
         />}
       </div>

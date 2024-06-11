@@ -9,7 +9,6 @@ import { Fragment } from 'react';
 import { EllipsisVerticalIcon } from 'lucide-react';
 import { algodClient } from '@/utils/typedClient';
 import { AssetStatus } from './ProjectBeneficiary';
-import { atomicTxnComposer, atomicTxnComposerFreeze } from '@/utils/atc';
 import usePost from '@/hooks/usePost';
 import { useWallet } from '@txnlab/use-wallet';
 
@@ -67,8 +66,8 @@ export const transaction = [
 ];
 
 export default function BeneficiaryDetail() {
-  const { beneficiaryId } = useParams();
-  const { activeAddress, signer } = useWallet();
+  const { id ,beneficiaryId} = useParams();
+  const { activeAddress, signer } = useWallet(); 
 
   const [beneficiaries, setBeneficiaries] = useState<any>(null);
   const [assetStatus, setassetStatus] = useState({ isFrozen: false, isCreated: true, amount: 0 });
@@ -98,9 +97,6 @@ export default function BeneficiaryDetail() {
     };
     checkAssetFrozenStatus();
   }, [beneficiaries]);
-
-  console.log(assetStatus);
-
 
   useEffect(() => {
     if (data) {

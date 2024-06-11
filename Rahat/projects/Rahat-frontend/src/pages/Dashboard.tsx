@@ -40,11 +40,10 @@ export default function DashBoard() {
   }
 
   useEffect(() => {
-    if (data) {
+    if (projectData) {
       setProjects(projectData?.data);
     }
-  }, [data]);
-
+  }, [projectData, data]);
   const stats = [
     { name: " Projects", value: formatValue(data?.totalProject), change: "active", changeType: "positive" },
     { name: " Beneficiaries", value: formatValue(data?.totalBeneficiary), change: "+54.02%", changeType: "positive" },

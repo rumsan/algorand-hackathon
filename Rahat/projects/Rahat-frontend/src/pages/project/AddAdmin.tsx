@@ -137,7 +137,7 @@ export default function addAdmin() {
     }
   }, [isSuccess, isError]);
 
-  const route = `/admin/project/${id}/beneficiary`;
+  const route = `/admin/project/${id}`;
   if (shouldNavigate) {
     return <Navigate to={route} replace />;
   }

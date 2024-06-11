@@ -81,8 +81,8 @@ export default function ProjectBeneficiary() {
   const [tabsValue, setTabsValue] = useState<AssetStatus>('NOT_ASSIGNED');
 
   // Refactor - Asim, please use object
-  const { data, isLoading } = useList(
-    `listProjectBeneficiary-${tabsValue}`,
+  const { data, isLoading, refetch } = useList(
+    `listProjectBeneficiary-${id}`,
     `${URLS.PROJECT}/${id}/beneficiaries`,
     currentPage,
     limit,
@@ -93,7 +93,11 @@ export default function ProjectBeneficiary() {
 
   const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost('updateBeneficiary');
 
-  const wallet = useWallet()
+  const wallet = useWallet();
+
+  useEffect(() => {
+    refetch()
+  }, [tabsValue])
 
   const handleCheckboxChange = (walletAddress: string) => {
     setSelectedBeneficiaries((prevSelected) =>
@@ -180,7 +184,7 @@ export default function ProjectBeneficiary() {
                 >
 
               <div id="authentication-modal"  aria-hidden="true" className="overflow-y-auto flex overflow-x-hidden z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full py-8">
-              <div className="w-full max-h-full w-full">
+              <div className=" max-h-full w-full">
   
               <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 
@@ -249,7 +253,7 @@ export default function ProjectBeneficiary() {
             )}
           </div>
         </div>
-        <Tabs.Root className="flex flex-col w-[full] mt-8" defaultValue="not_assigned">
+        <Tabs.Root className="flex flex-col w-[full] mt-8" defaultValue={tabsValue}>
           <Tabs.List className="shrink-0 flex border-b border-mauve6" aria-label="Manage your account">
             <Tabs.Trigger className={tabs} value="not_assigned" onClick={() => setTabsValue('NOT_ASSIGNED')}>
               ASA Not Assigned

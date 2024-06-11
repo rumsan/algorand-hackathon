@@ -1,36 +1,7 @@
-/* eslint-disable no-console */
-import { ReactNode, useRef, useState } from 'react';
-import { Rahat, RahatClient } from '../../contracts/RahatClient';
-import { useWallet } from '@txnlab/use-wallet';
-import algosdk, { Transaction } from 'algosdk';
-import { algodClient } from '../../utils/typedClient';
-import { AlgoAmount } from '@algorandfoundation/algokit-utils/types/amount';
-import { asaId } from '@/utils/asaId';
-import { PeraWalletConnect } from '@perawallet/connect';
-import { atomicTxnComposer } from '@/utils/atc';
-import { URLS } from '@/constants';
-import usePost from '@/hooks/usePost';
+import React, { useRef, useState } from 'react'
 import Modal from 'react-modal';
-
-type RahatSendTokenToBeneficiaryArgs = Rahat['methods']['sendTokenToBeneficiary(address,uint64,uint64)void']['argsObj'];
-
-type Props = {
-  buttonClass: string;
-  buttonLoadingNode?: ReactNode;
-  buttonNode: ReactNode;
-  typedClient: RahatClient;
-  benAddress: RahatSendTokenToBeneficiaryArgs['benAddress'];
-  amount: RahatSendTokenToBeneficiaryArgs['amount'];
-  assetId: RahatSendTokenToBeneficiaryArgs['assetId'];
-};
-
-const RahatSendTokenToBeneficiary = (props: Props) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const { activeAddress, signer } = useWallet();
-  const sender = { signer, addr: activeAddress! };
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const subtitle = useRef<HTMLHeadingElement | null>(null);
-
+const Modals = ({modalIsOpen}) => {
+    
   const customStyles = {
     content: {
       top: '50%',
@@ -47,10 +18,6 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
     },
   };
 
-  function openModal() {
-    setIsOpen(true);
-  }
-
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
     if (subtitle.current) {
@@ -60,54 +27,13 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
 
   const [numberOfAsa, setNumberOfASA] = useState(0);
 
-  let methodInstance = algosdk.ABIMethod.fromSignature('sendTokenToBeneficiary(address,uint64,uint64)void');
-  let selector = methodInstance.getSelector();
-  const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost('updateBeneficiary');
-
-  const callMethod = async () => {
-    setLoading(true);
-
-    const boxKey = algosdk.bigIntToBytes(asaId, 8);
-
-    const res = await props.typedClient.sendTokenToBeneficiary(
-      {
-        benAddress: props?.benAddress,
-        amount: props?.amount,
-        assetId: asaId,
-      },
-      {
-        sender,
-        assets: [asaId],
-        accounts: [props?.benAddress],
-        sendParams: { fee: new AlgoAmount({ algos: 0.003 }) },
-        boxes: [
-          {
-            appIndex: 0,
-            name: boxKey,
-          },
-        ],
-      }
-    );
-
-    res &&
-      postMutation({
-        urls: URLS.BENEFICIARY + '/update',
-        data: {
-          addresses: [props?.benAddress],
-          status: 'FREEZED',
-        },
-      });
-
-    setLoading(false);
-  };
-
+  const subtitle = useRef<HTMLHeadingElement | null>(null);
 
   return (
-    <>
-      <Modal
+    <Modal
         isOpen={true}
         onAfterOpen={afterOpenModal}
-        onRequestClose={() => setIsOpen(false)}
+        // onRequestClose={() => setIsOpen(false)}
         style={customStyles}
         contentLabel="Send ASA"
       >
@@ -141,7 +67,7 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
                       <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Transfer {numberOfAsa} ASA</label>
                     </div>
                   </div>
-                  <button className="w-full text-white bg-indigo-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={callMethod}>Transfer</button>
+                  <button className="w-full text-white bg-indigo-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Transfer</button>
                   <div className="text-xs font-medium text-gray-500 dark:text-gray-300">
                     Once transferred, ASA's will be frozen in beneficiary wallet. You can unfreeze it later.
                   </div>
@@ -151,13 +77,7 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
           </div>
         </div>
       </Modal>
+  )
+}
 
-      <button type="submit" className="block px-5 py-1 text-sm leading-6 text-gray-900" onClick={openModal}>
-        Send ASA
-      </button>
-    </>
-
-  );
-};
-
-export default RahatSendTokenToBeneficiary;
+export default Modals

@@ -20,6 +20,7 @@ import VendorDetail from './pages/project/VendorDetail';
 import VendorDetails from './pages/vendor/VendorDetails';
 import UtilizeAsa from './pages/beneficiary/UtilizeAsa';
 import Model from './components/Model';
+import BeneficiaryLayout from './layout/BeneficiaryLayout';
 
 export default function App() {
   return (
@@ -154,7 +155,7 @@ export default function App() {
           </Route>
 
           {/* Real beneficiary route */}
-          <Route path="/beneficiary" element={<AdminLayout />}>
+          <Route path="/beneficiary" element={<BeneficiaryLayout />}>
             <Route
               path="/beneficiary/details/:id"
               element={
@@ -162,29 +163,28 @@ export default function App() {
                   <BeneficiaryDetails />
                 </AdminRoute>
               }
-              />
+            />
+          </Route>
+          <Route
+            path="/beneficiary/utilize-asa/:id"
+            element={
+              <AdminRoute>
+                <UtilizeAsa />
+              </AdminRoute>
+            }
+          />
 
-              </Route>
+          {/* Real vendor route */}
+
+          <Route path="/vendor" element={<BeneficiaryLayout />}>
             <Route
-              path="/beneficiary/utilize-asa/:id"
+              path="/vendor/details/:id"
               element={
                 <AdminRoute>
-                  <UtilizeAsa />
+                  <VendorDetails />
                 </AdminRoute>
               }
             />
-
-            {/* Real vendor route */}
-
-            <Route path="/vendor" element={<AdminLayout />}>
-              <Route
-                path="/vendor/details/:id"
-                element={
-                  <AdminRoute>
-                    <VendorDetails />
-                  </AdminRoute>
-                }
-              />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -35,16 +35,6 @@ export const APP_SPEC: AppSpec = {
         "no_op": "CALL"
       }
     },
-    "addAdminToProject(address,uint64)void": {
-      "call_config": {
-        "no_op": "CALL"
-      }
-    },
-    "getProject(uint64)(string,address,address[],address)": {
-      "call_config": {
-        "no_op": "CALL"
-      }
-    },
     "createAnAsset(string,string)uint64": {
       "call_config": {
         "no_op": "CALL"
@@ -178,13 +168,11 @@ export const APP_SPEC: AppSpec = {
         "args": [
           {
             "name": "asaName",
-            "type": "string",
-            "desc": "Address of beneficiary to send token"
+            "type": "string"
           },
           {
             "name": "asaSymbol",
-            "type": "string",
-            "desc": "Address of beneficiary to send token"
+            "type": "string"
           }
         ],
         "returns": {
@@ -421,28 +409,9 @@ export type Rahat = {
        */
       returns: void
     }>
-    & Record<'getProject(uint64)(string,address,address[],address)' | 'getProject', {
-      argsObj: {
-        /**
-         * Address of project to get
-         */
-        assetId: bigint | number
-      }
-      argsTuple: [assetId: bigint | number]
-      /**
-       * Project details
-       */
-      returns: [string, string, string[], string]
-    }>
     & Record<'createAnAsset(string,string)uint64' | 'createAnAsset', {
       argsObj: {
-        /**
-         * Address of beneficiary to send token
-         */
         asaName: string
-        /**
-         * Address of beneficiary to send token
-         */
         asaSymbol: string
       }
       argsTuple: [asaName: string, asaSymbol: string]
@@ -637,22 +606,6 @@ export abstract class RahatCallFactory {
     return {
       method: 'addAdminToProject(address,uint64)void' as const,
       methodArgs: Array.isArray(args) ? args : [args.address, args.assetId],
-      ...params,
-    }
-  }
-  /**
-   * Constructs a no op call for the getProject(uint64)(string,address,address[],address) ABI method
-   *
-   * A method to get project
-   *
-   * @param args Any args for the contract call
-   * @param params Any additional parameters for the call
-   * @returns A TypedCallParams object for the call
-   */
-  static getProject(args: MethodArgs<'getProject(uint64)(string,address,address[],address)'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
-    return {
-      method: 'getProject(uint64)(string,address,address[],address)' as const,
-      methodArgs: Array.isArray(args) ? args : [args.assetId],
       ...params,
     }
   }
@@ -892,19 +845,6 @@ export class RahatClient {
   }
 
   /**
-   * Calls the getProject(uint64)(string,address,address[],address) ABI method.
-   *
-   * A method to get project
-   *
-   * @param args The arguments for the contract call
-   * @param params Any additional parameters for the call
-   * @returns The result of the call: Project details
-   */
-  public getProject(args: MethodArgs<'getProject(uint64)(string,address,address[],address)'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
-    return this.call(RahatCallFactory.getProject(args, params))
-  }
-
-  /**
    * Calls the createAnAsset(string,string)uint64 ABI method.
    *
    * A method to create token
@@ -1004,16 +944,6 @@ export class RahatClient {
         resultMappers.push(undefined)
         return this
       },
-      addAdminToProject(args: MethodArgs<'addAdminToProject(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.addAdminToProject(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
-        resultMappers.push(undefined)
-        return this
-      },
-      getProject(args: MethodArgs<'getProject(uint64)(string,address,address[],address)'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.getProject(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
-        resultMappers.push(undefined)
-        return this
-      },
       createAnAsset(args: MethodArgs<'createAnAsset(string,string)uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
         promiseChain = promiseChain.then(() => client.createAnAsset(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
@@ -1103,17 +1033,6 @@ export type RahatComposer<TReturns extends [...any[]] = []> = {
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
   addAdminToProject(args: MethodArgs<'addAdminToProject(address,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'addAdminToProject(address,uint64)void'>]>
-
-  /**
-   * Calls the getProject(uint64)(string,address,address[],address) ABI method.
-   *
-   * A method to get project
-   *
-   * @param args The arguments for the contract call
-   * @param params Any additional parameters for the call
-   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
-   */
-  getProject(args: MethodArgs<'getProject(uint64)(string,address,address[],address)'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): RahatComposer<[...TReturns, MethodReturn<'getProject(uint64)(string,address,address[],address)'>]>
 
   /**
    * Calls the createAnAsset(string,string)uint64 ABI method.

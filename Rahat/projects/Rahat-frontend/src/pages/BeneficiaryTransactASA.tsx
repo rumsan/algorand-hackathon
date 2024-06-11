@@ -7,23 +7,23 @@ import RahatFreezeBeneficiaryAsset from '@/components/contracts/RahatFreezeBenef
 import RahatClawbackBeneficiaryAsset from '@/components/contracts/RahatClawbackBeneficiaryAsset';
 import { asaId } from '@/utils/asaId';
 
-const BeneficiaryTransactASA = ({ walletAddress, assetStatus }: any) => {
+const BeneficiaryTransactASA = ({ walletAddress, assetStatus, setIsOpen }: any) => {
 
   const amount = 1;
 
   return (
     <>
       <div className="  block justify-end  bg-gray-200 align-middle mt-4 space-x-2 ">
-        {assetStatus.isCreated && !assetStatus.isFrozen && 
-        <RahatSendTokenToBeneficiary
-          buttonClass="btn"
-          buttonLoadingNode={<span className="loading loading-spinner" />}
-          buttonNode="Send Token"
-          typedClient={typedClient}
-          benAddress={walletAddress}
-          amount={amount}
-          assetId={asaId}
-        />
+        {assetStatus.isCreated && !assetStatus.isFrozen && <button onClick={() => setIsOpen(true)} className='fblock pl-4 py-1 text-sm leading-6 text-green-900'>Send ASA</button>
+        // <RahatSendTokenToBeneficiary
+        //   buttonClass="btn"
+        //   buttonLoadingNode={<span className="loading loading-spinner" />}
+        //   buttonNode="Send Token"
+        //   typedClient={typedClient}
+        //   benAddress={walletAddress}
+        //   amount={amount}
+        //   assetId={asaId}
+        // />
         }
 
         {assetStatus.isCreated && assetStatus.isFrozen && 
@@ -59,6 +59,7 @@ const BeneficiaryTransactASA = ({ walletAddress, assetStatus }: any) => {
           amount={1}
         />}
       </div>
+      
     </>
   );
 };

@@ -11,6 +11,7 @@ import { algodClient } from '@/utils/typedClient';
 import { AssetStatus } from './ProjectBeneficiary';
 import usePost from '@/hooks/usePost';
 import { useWallet } from '@txnlab/use-wallet';
+import Modals from '@/components/modal';
 
 export const transaction = [
   {
@@ -68,6 +69,8 @@ export const transaction = [
 export default function BeneficiaryDetail() {
   const { id ,beneficiaryId} = useParams();
   const { activeAddress, signer } = useWallet(); 
+
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const [beneficiaries, setBeneficiaries] = useState<any>(null);
   const [assetStatus, setassetStatus] = useState({ isFrozen: false, isCreated: true, amount: 0 });
@@ -159,7 +162,7 @@ export default function BeneficiaryDetail() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="bg-gray-200 absolute right-0 z-10 mt-0.5 w-44 origin-top-right rounded-md  py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                      <BeneficiaryTransactASA walletAddress={beneficiaries?.walletAddress} assetStatus={assetStatus} />
+                      <BeneficiaryTransactASA walletAddress={beneficiaries?.walletAddress} assetStatus={assetStatus} setIsOpen={setIsOpen}/>
                     </Menu.Items>
                   </Transition>
                 </Menu>
@@ -245,6 +248,8 @@ export default function BeneficiaryDetail() {
             </div>
           </main>
         </div>
+
+        <Modals modalIsOpen={modalIsOpen} walletAddress={beneficiaries?.walletAddress} setIsOpen={setIsOpen}/>
       </div>
     </>
   );

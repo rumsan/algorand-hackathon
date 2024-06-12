@@ -135,7 +135,7 @@ function UtilizeAsa() {
               
             </div>
 
-            <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
+            {selectedProject?.vendor?.walletAddress && <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
               <Link
                 className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                 to={backRoute}
@@ -144,7 +144,7 @@ function UtilizeAsa() {
               </Link>
               
               <RahatSendTokenToVendor
-                buttonClass="bg-blue-600 p-1 rounded-sm"
+                buttonClass="bg-blue-600 p-1 rounded-sm px-4"
                 buttonLoadingNode={<span className="loading loading-spinner" />}
                 buttonNode=" Send Token To Vendor"
                 venderAddress={selectedProject?.vendor?.walletAddress || ''}
@@ -152,7 +152,7 @@ function UtilizeAsa() {
                 assetId={selectedProject?.voucherId || 0}
                 typedClient={typedClient}
               />
-            </div>
+            </div>}
           </form>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { useWallet } from '@txnlab/use-wallet';
 import algosdk from 'algosdk';
 import { algodClient } from '@/utils/typedClient';
 import LoadingSpinner from '../LoadingSpinner';
+import * as snack from '../../components/Toaster';
 
 /* Example usage
 <RahatSendTokenToVendor
@@ -39,8 +40,6 @@ const RahatSendTokenToVendor = (props: Props) => {
   const callMethod = async (event: any) => {
     event.preventDefault();
     setLoading(true);
-    console.log(props.venderAddress, 'vendorin conreact');
-    console.log(sender.addr, 'senderin conreact');
     const sentTxn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
       amount: props.amount as number,
       assetIndex: props.assetId as number,
@@ -49,16 +48,19 @@ const RahatSendTokenToVendor = (props: Props) => {
       suggestedParams: await algodClient.getTransactionParams().do(),
     });
 
-    // const signedTxnSender = await wallet.signTransactions([sentTxn.toByte()]);
+    const signedTxnSender = await wallet.signTransactions([sentTxn.toByte()]);
 
-    // await algodClient.sendRawTransaction(signedTxnSender).do();
+    await algodClient.sendRawTransaction(signedTxnSender).do();
 
+      snack.default.success('Vendor created successfully');
+    //   snack.default.error('There was a problem with your request');
+   
     setLoading(false);
   };
 
   return (
     <button className={props.buttonClass} onClick={callMethod}>
-      {props.buttonNode}
+      {loading ? 'Sending ASA to vendor....' : 'Send ASA'}
     </button>
   );
 };

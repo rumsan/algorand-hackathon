@@ -113,7 +113,7 @@ export default function NavBar() {
               </div>
               <div className="hidden lg:ml-4 lg:flex lg:items-center lg:justify-center">
                 <button className="ml-4 flex gap-3 flex-shrink-0 rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  <Link to="/admin/ask-rumi"> Ask rumee</Link>
+                  <Link to="/admin/ask-rumi"> Ask RUMI</Link>
                 </button>
 
                 {/* Profile dropdown */}

@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import useGet from '@/hooks/useGet';
 import { transaction } from '../project/BeneficiaryDetail';
+import { useAlgorandTokenTransactions } from '@/hooks/useAlgorandInfo';
+import TruncatedCell from '@/components/TruncatedCell';
 
 const BeneficiaryDetails = () => {
   const peraWallet = new PeraWalletConnect({ chainId: 416002 });
@@ -23,7 +25,7 @@ const BeneficiaryDetails = () => {
   const [vouchers, setVouchers] = useState<any>({});
 
   const { data } = useGet(`getById${id}`, `${URLS.BENEFICIARY}/find-by-wallet`, id);
-
+  console.log(data, 'bendetailsdata');
   useEffect(() => {
     if (data) {
       setBeneficiary(data);
@@ -36,7 +38,15 @@ const BeneficiaryDetails = () => {
     //   setVoucher(JSON.parse(storedVoucher));
     // }
   }, [data]);
-  console.log(projects);
+  console.log(data);
+  const wal = data?.walletAddress;
+  const vi = Number(data?.projects?.[0]?.voucherId);
+  // const walletAddress = data ? data?.walletAddress : null;
+  // const voucherId = projects && projects.length > 0 ? Number(projects[0]?.voucherId) : 0;
+
+  const { transactions, loading, error } = useAlgorandTokenTransactions(wal, vi);
+
+  console.log(transactions, 'transactions');
 
   return (
     <>
@@ -144,12 +154,12 @@ const BeneficiaryDetails = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {transaction.map((transac: any) => (
-                      <tr key={transac.id}>
+                    {transaction.map((transac: any, idx) => (
+                      <tr key={idx}>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.timestamp}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.txnHash}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.amount}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.txnFee}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.amount}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.txnFee}</td>
                       </tr>
                     ))}
                   </tbody>

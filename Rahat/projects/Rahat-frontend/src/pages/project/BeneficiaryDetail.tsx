@@ -19,50 +19,50 @@ export const transaction = [
     beneficiaryId: 'B12345',
     from: '0xabcdef1234567890abcdef1234567890abcdef00',
     to: '0x1234567890abcdef1234567890abcdef12345600',
-    timestamp: '2024-05-24T10:30:00Z',
-    txnHash: '0x123abc',
-    amount: '100.00',
-    txnFee: '1.00',
+    timestamp: '2024-06-14T10:90:00Z',
+    txnHash: '0x173...lyu',
+    amount: '900.00',
+    txnFee: '1',
   },
   {
     id: 8,
     beneficiaryId: 'B12345',
     from: '0xabcdef1234567890abcdef1234567890abcdef00',
     to: '0x1234567890abcdef1234567890abcdef12345600',
-    timestamp: '2024-05-24T10:30:00Z',
-    txnHash: '0x123abc',
-    amount: '100.00',
-    txnFee: '1.00',
+    timestamp: '2025-09-24T10:80:00Z',
+    txnHash: '0x124...gbc',
+    amount: '200.00',
+    txnFee: '3',
   },
   {
     id: 2,
     beneficiaryId: 'B12345',
     from: '0xabcdef1234567890abcdef1234567890abcdef00',
     to: '0x1234567890abcdef1234567890abcdef12345600',
-    timestamp: '2024-05-24T10:30:00Z',
-    txnHash: '0x123abc',
-    amount: '100.00',
-    txnFee: '1.00',
+    timestamp: '2024-01-16T10:60:00Z',
+    txnHash: '0x123...aua',
+    amount: '600.00',
+    txnFee: '2',
   },
   {
     id: 3,
     beneficiaryId: 'B12345',
     from: '0xabcdef1234567890abcdef1234567890abcdef00',
     to: '0x1234567890abcdef1234567890abcdef12345600',
-    timestamp: '2024-05-24T10:30:00Z',
-    txnHash: '0x123abc',
-    amount: '100.00',
-    txnFee: '1.00',
+    timestamp: '2024-11-24T10:50:00Z',
+    txnHash: '0x324...abc',
+    amount: '800.00',
+    txnFee: '1',
   },
   {
     id: 4,
     beneficiaryId: 'B12345',
     from: '0xabcdef1234567890abcdef1234567890abcdef00',
     to: '0x1234567890abcdef1234567890abcdef12345600',
-    timestamp: '2024-05-24T10:30:00Z',
-    txnHash: '0x123abc',
-    amount: '100.00',
-    txnFee: '1.00',
+    timestamp: '2024-04-24T10:20:00Z',
+    txnHash: '0x987...qwe',
+    amount: '700.00',
+    txnFee: '2',
   },
 ];
 
@@ -160,7 +160,11 @@ export default function BeneficiaryDetail() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="bg-gray-200 absolute right-0 z-10 mt-0.5 w-44 origin-top-right rounded-md  py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                      <BeneficiaryTransactASA walletAddress={beneficiaries?.walletAddress} assetStatus={assetStatus} setIsOpen={setIsOpen}/>
+                      <BeneficiaryTransactASA
+                        walletAddress={beneficiaries?.walletAddress}
+                        assetStatus={assetStatus}
+                        setIsOpen={setIsOpen}
+                      />
                     </Menu.Items>
                   </Transition>
                 </Menu>
@@ -247,7 +251,7 @@ export default function BeneficiaryDetail() {
           </main>
         </div>
 
-        <Modals modalIsOpen={modalIsOpen} walletAddress={beneficiaries?.walletAddress} setIsOpen={setIsOpen}/>
+        <Modals modalIsOpen={modalIsOpen} walletAddress={beneficiaries?.walletAddress} setIsOpen={setIsOpen} />
       </div>
     </>
   );

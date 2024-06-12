@@ -55,6 +55,7 @@ function UtilizeAsa() {
 
   const backRoute = `/beneficiary/details/${id}`;
   console.log(projects);
+  console.log(selectedProject?.vendor?.walletAddress);
   return (
     <div className="h-screen flex items-center justify-center">
       <SnackbarUtilsConfigurator />
@@ -141,6 +142,7 @@ function UtilizeAsa() {
               >
                 Cancel
               </Link>
+              
               <RahatSendTokenToVendor
                 buttonClass="bg-blue-600 p-1 rounded-sm"
                 buttonLoadingNode={<span className="loading loading-spinner" />}

@@ -127,8 +127,11 @@ function UtilizeAsa() {
                       onChange={(e) => setUtilizeToken(Number(e.target.value))}
                     />
                   </div>
+                  
+                  {selectedProject?.vendor?.name && <div className='bg-green-200 text-green-800 p-2 rounded mt-6'>You will receive {utilizeToken} sack of rice from {selectedProject?.vendor?.name}</div>}
                 </div>
               </div>
+              
             </div>
 
             <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">

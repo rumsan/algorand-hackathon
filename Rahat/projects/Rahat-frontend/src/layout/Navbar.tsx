@@ -120,7 +120,7 @@ export default function NavBar() {
                 <Menu as="div" className="relative ml-4 flex-shrink-0">
                   <div>
                     <Menu.Button className="flex items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                      <p className="text-white">{<TruncatedCell text={activeAddress?.toString() ?? ""} />}</p>
+                      <p className="text-white pr-2">{<TruncatedCell text={activeAddress?.toString() ?? ""} />}</p>
                       <img
                         className="h-8 w-8 rounded-full bg-gray-50"
                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPmYB6XE3DV1YfFD3Y41ej68S8pg2lbxMecA&usqp=CAU"

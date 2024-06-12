@@ -240,8 +240,8 @@ export default function BeneficiaryDetail() {
                       <tr key={transac.id}>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.timestamp}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.txnHash}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.amount}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.txnFee}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.amount}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.txnFee}</td>
                       </tr>
                     ))}
                   </tbody>

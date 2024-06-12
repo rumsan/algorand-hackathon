@@ -12,6 +12,8 @@ import { Navigate, useParams } from 'react-router-dom';
 import { SnackbarUtilsConfigurator } from '../../components/Toaster';
 import * as snack from '../../components/Toaster';
 import API from '@/utils/API';
+import { MutatingDots } from 'react-loader-spinner';
+import LoadingSpinner from '../LoadingSpinner';
 
 interface WalletType {
   mnemonicsQRText: string | undefined;
@@ -24,7 +26,7 @@ const CreateBeneficiary = () => {
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const { postMutation, isError, data, isSuccess, success, isPending } = usePost(`listProjectBeneficiary-${id}`);
+  const { postMutation, isError, error, data, isSuccess, success, isPending } = usePost(`listProjectBeneficiary-${id}`);
 
   const secretKey = import.meta.env.VITE_SECRET_KEY;
 
@@ -49,6 +51,8 @@ const CreateBeneficiary = () => {
 
   const createBeneficiary = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
+
     const encryptedPassword = encryptData(beneficiaryWallet?.mnemonicsQRText as string);
     const payload = {
       email: e.target['email'].value,
@@ -63,38 +67,54 @@ const CreateBeneficiary = () => {
     // postMutation({ urls: URLS.BENEFICIARY + '/send-asa', data: {walletAddress: data.walletAddress} });
 
     // Send Algo
-    API.post(`${URLS.BENEFICIARY}/send-asa`, { walletAddress: payload.walletAddress })
-      .then(async () => {
-        // Optin to asset using beneficiary wallet
-        const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
-          from: payload.walletAddress as string,
-          to: payload.walletAddress as string,
-          amount: 0,
-          suggestedParams: await algodClient.getTransactionParams().do(),
-          assetIndex: Number(localStorage.getItem('voucherId')),
-        });
-        const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
-        await algodClient.sendRawTransaction(signedTxn).do();
-        postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data: payload });
-      })
-      .catch((error) => {
-        console.log(error);
-        snack.default.error('Couldnot send Algo to beneficiary');
+    try {
+      await API.post(`${URLS.BENEFICIARY}/send-asa`, { walletAddress: payload.walletAddress });
+
+      const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+        from: payload.walletAddress as string,
+        to: payload.walletAddress as string,
+        amount: 0,
+        suggestedParams: await algodClient.getTransactionParams().do(),
+        assetIndex: Number(localStorage.getItem('voucherId')),
       });
+
+      const signedTxn = txn.signTxn(beneficiaryWallet.secretKey as Uint8Array);
+      await algodClient.sendRawTransaction(signedTxn).do();
+      postMutation({ urls: URLS.BENEFICIARY + '/create-ben', data: payload });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      snack.default.error('Could not send Algo to beneficiary');
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     if (isSuccess) {
       snack.default.success('Beneficiary created successfully');
       setShouldNavigate(true);
+    } else if (isError) {
+      console.log(error);
+      setBeneficiaryWallet({ mnemonicsQRText: undefined, walletAddress: '', secretKey: undefined });
+      snack.default.error(error ? error.toString() : 'An error occurred');
+
+      setLoading(false);
     }
-  }, [isSuccess]);
+  }, [isSuccess, isError]);
 
   if (shouldNavigate) {
     const route = `/admin/project/${id}/beneficiary`;
     return <Navigate to={route} replace />;
   }
 
+  if (loading || isPending) {
+    return (
+      <div>
+        <LoadingSpinner visible={true} />
+      </div>
+    );
+  }
   return (
     <>
       <div>
@@ -230,7 +250,7 @@ const CreateBeneficiary = () => {
                 type="submit"
                 className="rounded-md bg-blue-600 px-12 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 w-[40%] focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                {loading ? 'Creating asset...' : 'Create'}
+                Create
               </button>
             </div>
           </div>

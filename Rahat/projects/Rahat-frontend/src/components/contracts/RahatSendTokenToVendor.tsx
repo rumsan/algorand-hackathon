@@ -33,19 +33,19 @@ const RahatSendTokenToVendor = (props: Props) => {
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! };
 
-  const wallet = useWallet()
+  const wallet = useWallet();
 
   const callMethod = async (event: any) => {
     event.preventDefault();
     setLoading(true);
 
     const sentTxn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
-      amount: 1,
+      amount: props.amount as number,
       assetIndex: props.assetId as number,
       from: sender.addr,
       to: props.venderAddress,
-      suggestedParams: await algodClient.getTransactionParams().do()
-    })    
+      suggestedParams: await algodClient.getTransactionParams().do(),
+    });
 
     const signedTxnSender = await wallet.signTransactions([sentTxn.toByte()]);
 

@@ -1,17 +1,18 @@
-import SideBar from "@/components/SideBar";
-import { SnackbarUtilsConfigurator } from "@/components/Toaster";
-import { URLS } from "@/constants";
-import z from "zod";
-import { useForm } from "react-hook-form";
+import SideBar from '@/components/SideBar';
+import { SnackbarUtilsConfigurator } from '@/components/Toaster';
+import { URLS } from '@/constants';
+import z from 'zod';
+import { useForm } from 'react-hook-form';
 
-import usePost from "@/hooks/usePost";
-import vendorSchema from "@/validation/vendorSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import * as snack from "../../components/Toaster";
-import { Navigate, useParams } from "react-router-dom";
-import { Building } from "lucide-react";
-import { BuildingOffice2Icon } from "@heroicons/react/20/solid";
+import usePost from '@/hooks/usePost';
+import vendorSchema from '@/validation/vendorSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from 'react';
+import * as snack from '../../components/Toaster';
+import { Navigate, useParams } from 'react-router-dom';
+import { Building } from 'lucide-react';
+import { BuildingOffice2Icon } from '@heroicons/react/20/solid';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 type VendorType = z.infer<typeof vendorSchema>;
 
@@ -19,7 +20,7 @@ function CreateVendor() {
   const { id } = useParams();
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
-  const { postMutation, data, isSuccess, error, success, isError, isPending } = usePost("vendor");
+  const { postMutation, data, isSuccess, error, success, isError, isPending } = usePost('vendor');
 
   const {
     register,
@@ -28,16 +29,16 @@ function CreateVendor() {
   } = useForm<VendorType>({
     resolver: zodResolver(vendorSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      location: "",
-      walletAddress: "",
+      name: '',
+      email: '',
+      location: '',
+      walletAddress: '',
       // projectId: '',
     },
   });
 
   const onSubmit = async (data: VendorType) => {
-    console.log("ajhsdj");
+    console.log('ajhsdj');
     // console.log(data);
     // @ts-ignore
 
@@ -49,13 +50,20 @@ function CreateVendor() {
 
   useEffect(() => {
     if (isSuccess) {
-      snack.default.success("Project created successfully");
+      snack.default.success('Vendor created successfully');
       setShouldNavigate(true);
     } else if (isError) {
-      snack.default.error("There was a problem with your request");
+      snack.default.error('There was a problem with your request');
     }
   }, [isSuccess, isError]);
 
+  if (isPending) {
+    return (
+      <div>
+        <LoadingSpinner visible={true} />
+      </div>
+    );
+  }
   if (shouldNavigate) {
     const route = `/admin/project/${id}`;
     return <Navigate to={route} replace />;
@@ -91,7 +99,7 @@ function CreateVendor() {
                       <label className="block text-sm font-medium leading-6 text-gray-900">Full Name</label>
                       <div className="mt-2">
                         <input
-                          {...register("name")}
+                          {...register('name')}
                           type="text"
                           // name="firstName"
                           // id="first-name"
@@ -105,7 +113,7 @@ function CreateVendor() {
                       <label className="block text-sm font-medium leading-6 text-gray-900">Email</label>
                       <div className="mt-2">
                         <input
-                          {...register("email")}
+                          {...register('email')}
                           type="email"
                           name="email"
                           id="e-mail"
@@ -121,7 +129,7 @@ function CreateVendor() {
                       <label className="block text-sm font-medium leading-6 text-gray-900">Address</label>
                       <div className="mt-2">
                         <input
-                          {...register("location")}
+                          {...register('location')}
                           type="text"
                           // name="first-name"
                           // id="first-name"
@@ -135,7 +143,7 @@ function CreateVendor() {
                       <label className="block text-sm font-medium leading-6 text-gray-900">Wallet Address</label>
                       <div className="mt-2">
                         <input
-                          {...register("walletAddress")}
+                          {...register('walletAddress')}
                           type="text"
                           name="walletAddress"
                           id="walletAddress"

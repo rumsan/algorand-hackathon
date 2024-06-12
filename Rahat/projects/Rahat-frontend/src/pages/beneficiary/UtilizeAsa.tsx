@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { algodClient, typedClient } from '../../utils/typedClient';
 import RahatSendTokenToVendor from '@/components/contracts/RahatSendTokenToVendor';
+import useGet from '@/hooks/useGet';
+import { URLS } from '@/constants';
 
 function UtilizeAsa() {
   const { id } = useParams<{ id: string }>();
@@ -31,17 +33,19 @@ function UtilizeAsa() {
     check();
   }, [id, selectedProject]);
 
+  const { data } = useGet(`getById${id}`, `${URLS.BENEFICIARY}/find-by-wallet`, id);
+
   useEffect(() => {
-    const p = localStorage.getItem('projects');
-    if (p) {
-      try {
-        const parsedProjects = JSON.parse(p);
-        setProjects(parsedProjects);
-      } catch (error) {
-        console.error('Error parsing projects from localStorage:', error);
-      }
+    if (data) {
+      setProjects(data?.projects);
     }
-  }, []);
+    localStorage.setItem('projects', JSON.stringify(data?.projects));
+
+    // const storedVoucher = localStorage.getItem('voucher');
+    // if (storedVoucher) {
+    //   setVoucher(JSON.parse(storedVoucher));
+    // }
+  }, [data]);
 
   const handleProjectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const projectId = e.target.value;
@@ -50,7 +54,7 @@ function UtilizeAsa() {
   };
 
   const backRoute = `/beneficiary/details/${id}`;
-console.log(projects);
+  console.log(projects);
   return (
     <div className="h-screen flex items-center justify-center">
       <SnackbarUtilsConfigurator />

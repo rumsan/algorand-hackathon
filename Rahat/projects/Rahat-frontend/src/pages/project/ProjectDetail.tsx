@@ -168,8 +168,8 @@ export default function Example() {
                     </div>
                     <div className=" text-2xl mt-1  font-semibold leading-6 text-blue-900">{project?.name}</div>
                     <div className="text-sm leading-6 text-gray-500">
-                      <span className="bg-green-100 text-green-800 p-1">{project?.status ? project?.status : "Active"}</span>
-                    </div>{" "}
+                      <span className="bg-green-100 text-green-800 p-1">{project?.status ? project?.status : 'Active'}</span>
+                    </div>{' '}
                   </h1>
                 </div>
                 <div>
@@ -253,8 +253,8 @@ export default function Example() {
 
                       <div
                         className={classNames(
-                          item.changeType === "increase" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800",
-                          "inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0"
+                          item.changeType === 'increase' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                          'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0'
                         )}
                       ></div>
                     </dd>
@@ -304,7 +304,9 @@ export default function Example() {
                   <li key={item.commit} className="py-4">
                     <div className="flex items-center gap-x-3">
                       {item.user.imageUrl}
-                      <h3 className="flex-auto truncate text-sm font-semibold leading-6 text-gray-900">{item.user.name}</h3>
+                      <h3 className="flex-auto truncate text-sm font-semibold leading-6 text-gray-900">
+                        {<TruncatedCell text={project?.vendor?.walletAddress ? project?.vendor?.walletAddress : ''} />}
+                      </h3>
                       <time dateTime={item.dateTime} className="flex-none text-xs text-gray-500">
                         {item.date}
                       </time>

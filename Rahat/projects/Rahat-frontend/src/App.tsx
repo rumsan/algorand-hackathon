@@ -1,26 +1,27 @@
-import TokenDetail from './pages/project/TokenDetail';
-import AdminLayout from './layout/AdminLayout';
-import { AdminRoute } from './components/Routes';
-import Dashboard from './pages/Dashboard';
-import LoginPage from './pages/Login';
-import AddBeneficiary from './pages/AddBeneficiary';
-import Transaction from './pages/project/Transaction';
-import ProjectDetail from './pages/project/ProjectDetail';
-import ProjectBeneficiary from './pages/project/ProjectBeneficiary';
-import AddProject from './pages/project/AddProject';
-import BeneficiaryDetail from './pages/project/BeneficiaryDetail';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ProjectList from './pages/project/ProjectList';
-import AddAdmin from './pages/project/AddAdmin';
-import Clawback from './pages/project/Clawback';
-import BeneficiaryDetails from './pages/beneficiary/details';
-import InviteTeamMembers from './components/AddTeamMembers';
-import CreateVendor from './pages/project/CreateVendor';
-import VendorDetail from './pages/project/VendorDetail';
-import VendorDetails from './pages/vendor/VendorDetails';
-import UtilizeAsa from './pages/beneficiary/UtilizeAsa';
-import Model from './components/Model';
-import BeneficiaryLayout from './layout/BeneficiaryLayout';
+import TokenDetail from "./pages/project/TokenDetail";
+import AdminLayout from "./layout/AdminLayout";
+import { AdminRoute } from "./components/Routes";
+import Dashboard from "./pages/Dashboard";
+import LoginPage from "./pages/Login";
+import AddBeneficiary from "./pages/AddBeneficiary";
+import Transaction from "./pages/project/Transaction";
+import ProjectDetail from "./pages/project/ProjectDetail";
+import ProjectBeneficiary from "./pages/project/ProjectBeneficiary";
+import AddProject from "./pages/project/AddProject";
+import BeneficiaryDetail from "./pages/project/BeneficiaryDetail";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ProjectList from "./pages/project/ProjectList";
+import AddAdmin from "./pages/project/AddAdmin";
+import Clawback from "./pages/project/Clawback";
+import BeneficiaryDetails from "./pages/beneficiary/details";
+import InviteTeamMembers from "./components/AddTeamMembers";
+import CreateVendor from "./pages/project/CreateVendor";
+import VendorDetail from "./pages/project/VendorDetail";
+import VendorDetails from "./pages/vendor/VendorDetails";
+import UtilizeAsa from "./pages/beneficiary/UtilizeAsa";
+import Model from "./components/Model";
+import BeneficiaryLayout from "./layout/BeneficiaryLayout";
+import { AskRumi } from "./pages/AskRumi";
 
 export default function App() {
   return (
@@ -35,6 +36,14 @@ export default function App() {
               element={
                 <AdminRoute>
                   <Dashboard />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/ask-rumi"
+              element={
+                <AdminRoute>
+                  <AskRumi />
                 </AdminRoute>
               }
             />
@@ -164,15 +173,15 @@ export default function App() {
                 </AdminRoute>
               }
             />
-          <Route
-            path="/beneficiary/utilize-asa/:id"
-            element={
-              <AdminRoute>
-                <UtilizeAsa />
-              </AdminRoute>
-            }
+            <Route
+              path="/beneficiary/utilize-asa/:id"
+              element={
+                <AdminRoute>
+                  <UtilizeAsa />
+                </AdminRoute>
+              }
             />
-            </Route>
+          </Route>
 
           {/* Real vendor route */}
 

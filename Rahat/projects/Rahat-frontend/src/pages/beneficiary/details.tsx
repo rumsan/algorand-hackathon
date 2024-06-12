@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import useGet from '@/hooks/useGet';
 import { transaction } from '../project/BeneficiaryDetail';
+import { useAlgorandTokenTransactions } from '@/hooks/useAlgorandInfo';
+import TruncatedCell from '@/components/TruncatedCell';
 
 const BeneficiaryDetails = () => {
   const peraWallet = new PeraWalletConnect({ chainId: 416002 });
@@ -23,6 +25,9 @@ const BeneficiaryDetails = () => {
   const [vouchers, setVouchers] = useState<any>({});
 
   const { data } = useGet(`getById${id}`, `${URLS.BENEFICIARY}/find-by-wallet`, id);
+  console.log(data, 'bendata');
+  const { transactions, loading, error } = useAlgorandTokenTransactions(data?.walletAddress, data?.project?.voucherId);
+  console.log(transactions, 'transactions');
 
   useEffect(() => {
     if (data) {
@@ -123,20 +128,20 @@ const BeneficiaryDetails = () => {
               <div className="w-1/2 -mx-4 px-4 py-8 shadow-sm ring-1 ring-gray-900/5 sm:mx-0 sm:rounded-lg sm:px-8 sm:pb-14 xl:px-16 xl:pb-20 xl:pt-16">
                 <h2 className="text-2xl font-semibold leading-6 text-blue-900">Transaction details</h2>
                 <br />
-                <table className="min-w-full table-fixed divide-y divide-gray-300">
+                <table className="w-full table-fixed divide-y divide-gray-300">
                   <thead>
                     <tr>
                       <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        Timestamp
+                        From
                       </th>
                       <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        TxnHash
+                        AssetId
                       </th>
                       <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                         Amount
                       </th>
                       <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        TxnFee
+                        RoundTime
                       </th>
                       <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3">
                         <span className="sr-only">Edit</span>
@@ -144,12 +149,21 @@ const BeneficiaryDetails = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {transaction.map((transac: any) => (
-                      <tr key={transac.id}>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.timestamp}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.txnHash}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.amount}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.txnFee}</td>
+                    {transactions.map((transac: any, idx) => (
+                      <tr key={idx}>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {<TruncatedCell text={transac.from.toString() ?? ''} />}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {<TruncatedCell text={transac.assetId.toString() ?? ''} />}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {<TruncatedCell text={transac.amount.toString() ?? ''} />}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {transac.roundTime}
+                          {/* {<TruncatedCell text={transac.roundTime.toString() ?? ''} />} */}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

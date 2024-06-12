@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import API from '@/utils/API';
+import { URLS } from '@/constants';
 
-const useGet = (qkey: string, urls: string, id?: string,projectId? :string) => {
+const useVendor = (qkey: string, urls: string, id?: string, projectId?: string) => {
   const { isError, isLoading, data } = useQuery({
     queryKey: [qkey, id],
     queryFn: async () => {
-      const { data } = id ? await API.get(`${urls}/${id}`) : await API.get(`${urls}`);
+      const { data } = await API.get(`${URLS.VENDOR}/${id}`) 
 
       return data;
     },
@@ -13,4 +14,4 @@ const useGet = (qkey: string, urls: string, id?: string,projectId? :string) => {
   return { isError, isLoading, data };
 };
 
-export default useGet;
+export default useVendor;

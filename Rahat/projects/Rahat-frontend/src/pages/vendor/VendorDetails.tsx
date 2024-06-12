@@ -2,12 +2,14 @@ import { URLS } from '@/constants';
 import useGet from '@/hooks/useGet';
 import { useParams } from 'react-router-dom';
 import { transaction } from '../project/BeneficiaryDetail';
-
+import { useAlgorandTokenTransactions } from '@/hooks/useAlgorandInfo';
+import TruncatedCell from '@/components/TruncatedCell';
 function VendorDetails() {
   const { id } = useParams();
 
   const { data, isError, isLoading } = useGet(`vendor/${id}`, URLS.VENDOR, id);
-  
+  const { transactions, loading, error } = useAlgorandTokenTransactions(data?.resp?.walletAddress, data?.voucherId);
+  console.log(transactions, 'transactions');
 
   return (
     <>
@@ -38,10 +40,10 @@ function VendorDetails() {
                   <h1>
                     <div className="py-1 text-2xl mt-1 font-semibold leading-6 text-blue-900">{data?.name}</div>
                     <div className="py-1 text-sm leading-6 text-gray-500">
-                      <span className="text-gray-700">{data?.walletAddress}</span>
+                      <span className="text-gray-700">{data?.resp?.walletAddress}</span>
                     </div>
                     <div className="py-1 text-sm leading-6 text-gray-500">
-                      <span className="text-gray-700">{data?.email}</span>
+                      <span className="text-gray-700">{data?.resp?.email}</span>
                     </div>
                   </h1>
                 </div>
@@ -59,16 +61,16 @@ function VendorDetails() {
                     <thead>
                       <tr>
                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                          Timestamp
+                          From
                         </th>
                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                          TxnHash
+                          AssetId
                         </th>
                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                           Amount
                         </th>
                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                          TxnFee
+                          RoundTime
                         </th>
                         <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3">
                           <span className="sr-only">Edit</span>
@@ -76,12 +78,21 @@ function VendorDetails() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
-                      {transaction.map((transac: any) => (
-                        <tr key={transac.id}>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.timestamp}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transac.txnHash}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.amount}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${transac.txnFee}</td>
+                      {transactions.map((transac: any, idx) => (
+                        <tr key={idx}>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {<TruncatedCell text={transac.from.toString() ?? ''} />}
+                          </td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {<TruncatedCell text={transac.assetId.toString() ?? ''} />}
+                          </td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {<TruncatedCell text={transac.amount.toString() ?? ''} />}
+                          </td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {transac.roundTime}
+                            {/* {<TruncatedCell text={transac.roundTime.toString() ?? ''} />} */}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

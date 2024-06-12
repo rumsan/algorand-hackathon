@@ -164,7 +164,6 @@ export default function App() {
                 </AdminRoute>
               }
             />
-          </Route>
           <Route
             path="/beneficiary/utilize-asa/:id"
             element={
@@ -172,7 +171,8 @@ export default function App() {
                 <UtilizeAsa />
               </AdminRoute>
             }
-          />
+            />
+            </Route>
 
           {/* Real vendor route */}
 

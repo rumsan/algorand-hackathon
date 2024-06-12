@@ -85,8 +85,6 @@ export default function BeneficiaryDetail() {
     return storedVoucher ? JSON.parse(storedVoucher) : null;
   });
 
-  const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost('updateBeneficiary');
-
   useEffect(() => {
     const checkAssetFrozenStatus = async () => {
       const accountInfo = await algodClient.accountInformation(beneficiaries?.walletAddress).do();
@@ -99,7 +97,7 @@ export default function BeneficiaryDetail() {
       }
     };
     checkAssetFrozenStatus();
-  }, [beneficiaries, assetStatus]);
+  }, [beneficiaries]);
 
   useEffect(() => {
     if (data) {

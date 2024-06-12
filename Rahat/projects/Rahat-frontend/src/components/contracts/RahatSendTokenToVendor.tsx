@@ -4,6 +4,7 @@ import { Rahat, RahatClient } from '../../contracts/RahatClient';
 import { useWallet } from '@txnlab/use-wallet';
 import algosdk from 'algosdk';
 import { algodClient } from '@/utils/typedClient';
+import LoadingSpinner from '../LoadingSpinner';
 
 /* Example usage
 <RahatSendTokenToVendor
@@ -38,7 +39,8 @@ const RahatSendTokenToVendor = (props: Props) => {
   const callMethod = async (event: any) => {
     event.preventDefault();
     setLoading(true);
-
+    console.log(props.venderAddress, 'vendorin conreact');
+    console.log(sender.addr, 'senderin conreact');
     const sentTxn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
       amount: props.amount as number,
       assetIndex: props.assetId as number,
@@ -47,16 +49,16 @@ const RahatSendTokenToVendor = (props: Props) => {
       suggestedParams: await algodClient.getTransactionParams().do(),
     });
 
-    const signedTxnSender = await wallet.signTransactions([sentTxn.toByte()]);
+    // const signedTxnSender = await wallet.signTransactions([sentTxn.toByte()]);
 
-    await algodClient.sendRawTransaction(signedTxnSender).do();
+    // await algodClient.sendRawTransaction(signedTxnSender).do();
 
     setLoading(false);
   };
 
   return (
     <button className={props.buttonClass} onClick={callMethod}>
-      {loading ? props.buttonLoadingNode || props.buttonNode : props.buttonNode}
+      {props.buttonNode}
     </button>
   );
 };

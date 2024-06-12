@@ -29,7 +29,7 @@ const RahatFreezeBeneficiaryAsset = (props: Props) => {
   const callMethod = async () => {
     setLoading(true);
     console.log(`Calling freezeBeneficiaryAsset`);
-    const boxKey = algosdk.bigIntToBytes(asaId, 8);
+    const boxKey = algosdk.bigIntToBytes(Number(localStorage.getItem('voucherId')), 8);
     const res = await props.typedClient.freezeBeneficiaryAsset(
       {
         benAddress: props.benAddress,

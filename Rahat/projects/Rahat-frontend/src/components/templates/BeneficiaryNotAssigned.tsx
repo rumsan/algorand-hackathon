@@ -34,7 +34,7 @@ const BeneficiaryTab = ({handleSelectAll, setSelectedBeneficiaries, selectedBene
   };
 
   const submitTransferToken = async () => {
-    const signedTxn = await atomicTxnComposer(activeAddress as string, selectedBeneficiaries, 1, asaId, sender)
+    const signedTxn = await atomicTxnComposer(activeAddress as string, selectedBeneficiaries, 1, Number(localStorage.getItem('voucherId')), sender)
     await algodClient.sendRawTransaction(signedTxn).do()
     snack.default.success("Adding project to contract")
   };

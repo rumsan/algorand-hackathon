@@ -7,8 +7,8 @@ const LoadingSpinner = ({ visible, height, width, color, secondaryColor, radius,
       <MutatingDots
         height={height || '100'}
         width={width || '100'}
-        color={color || 'green'}
-        secondaryColor={secondaryColor || '#4fa94d'}
+        color='rgb(79 70 229)'
+        secondaryColor={'rgb(67 56 202)'}
         radius={radius || '12.5'}
         ariaLabel={ariaLabel || 'mutating-dots-loading'}
         visible={visible}

@@ -38,10 +38,10 @@ export default function addAdmin() {
 
   const getProjectDetails = async () => {
     try {
-      const boxKey = algosdk.bigIntToBytes(asaId, 8);
+      const boxKey = algosdk.bigIntToBytes(Number(localStorage.getItem('voucherId')), 8);
       const res = await typedClient.getProject(
         {
-          _assetId: asaId,
+          _assetId: Number(localStorage.getItem('voucherId')),
         },
         {
           sender,
@@ -65,12 +65,12 @@ export default function addAdmin() {
   }, []);
 
   const onSubmit = async (data: AdminType) => {
-    const boxKey = algosdk.bigIntToBytes(asaId, 8);
+    const boxKey = algosdk.bigIntToBytes(Number(localStorage.getItem('voucherId')), 8);
     console.log(data.adminIds, "adfa")
     const res = await typedClient.addAdminToProject(
       {
         _address: data.adminIds,
-        _assetId: asaId,
+        _assetId: Number(localStorage.getItem('voucherId')),
       },
       {
         sender,
@@ -91,10 +91,10 @@ export default function addAdmin() {
 
 
   const testBtn = async () => {
-    const boxKey = algosdk.bigIntToBytes(asaId, 8);
+    const boxKey = algosdk.bigIntToBytes(Number(localStorage.getItem('voucherId')), 8);
     const res = await typedClient.getProject(
       {
-        _assetId: asaId,
+        _assetId: Number(localStorage.getItem('voucherId')),
       },
       {
         sender,

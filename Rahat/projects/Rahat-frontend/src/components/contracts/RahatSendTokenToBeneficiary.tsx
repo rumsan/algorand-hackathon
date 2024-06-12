@@ -40,17 +40,17 @@ const RahatSendTokenToBeneficiary = (props: Props) => {
   const callMethod = async () => {
     setLoading(true);
 
-    const boxKey = algosdk.bigIntToBytes(asaId, 8);
+    const boxKey = algosdk.bigIntToBytes(Number(localStorage.getItem('voucherId')), 8);
 
     const res = await props.typedClient.sendTokenToBeneficiary(
       {
         benAddress: props?.benAddress,
         amount: numberOfAsa,
-        assetId: asaId,
+        assetId: Number(localStorage.getItem('voucherId')),
       },
       {
         sender,
-        assets: [asaId],
+        assets: [Number(localStorage.getItem('voucherId'))],
         accounts: [props?.benAddress],
         sendParams: { fee: new AlgoAmount({ algos: 0.003 }) },
         boxes: [

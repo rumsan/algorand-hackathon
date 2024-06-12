@@ -62,7 +62,7 @@ export default function AddProject() {
       );
 
       
-    token ?  localStorage.setItem('voucherId', JSON.stringify(Number(token?.return))) : null;
+    localStorage.setItem('voucherId', JSON.stringify(Number(token?.return)));
 
     setLoading(2)
 
@@ -125,9 +125,14 @@ export default function AddProject() {
 
       <div className="space-y-10 divide-y divide-gray-900/10 w-full max-w-4xl px-4">
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
-          <div className="bg-gray-50 text-white ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-3">
+          <div className="text-white sm:rounded-xl md:col-span-3">
         {loading != 0 && <Stepper step={loading}/>}
-        
+        {loading != 0 && <div className='bg-green-200 p-2 text-sm text-green-800 border rounded mt-4 text-center'>
+        {loading === 1 && 'Confirm in your wallet to create ASA for the project.'}  
+        {loading === 2 && 'Confirm in your wallet to create project in our application.'}  
+        {loading === 3 && 'All done, we are now updating our server.'}  
+        </div>}
+
         </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -187,7 +192,7 @@ export default function AddProject() {
                       id="imageUrl"
                       className="block w-full rounded-md border-0 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
-                    {errors.imageUrl && <p className="text-red-500">{errors.imageUrl.message}</p>}
+                    {errors.imageUrl && <p className="text-red-500">{errors.asaName?.message}</p>}
                   </div>
                 </div>
 
@@ -204,7 +209,7 @@ export default function AddProject() {
                       id="imageUrl"
                       className="block w-full rounded-md border-0 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
-                    {errors.imageUrl && <p className="text-red-500">{errors.imageUrl.message}</p>}
+                    {errors.imageUrl && <p className="text-red-500">{errors.asaSymbol?.message}</p>}
                   </div>
                 </div>
 
@@ -224,7 +229,7 @@ export default function AddProject() {
                 disabled={loading != 0}
                 className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
-                Create
+                {loading === 0 ? 'Create' : 'Creating...'}
               </button>
               
             </div>

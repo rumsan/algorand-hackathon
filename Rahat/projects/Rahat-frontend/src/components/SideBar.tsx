@@ -195,7 +195,7 @@ export default function Example() {
                     </div>
                   </Transition.Child>
                   {/* Sidebar component, swap this element with another sidebar if you like */}
-                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
+                  <div className="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-12 w-auto"
@@ -241,8 +241,8 @@ export default function Example() {
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col fixed top-0 left-0 w-64 h-full bg-white shadow-md p-4 ">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto  bg-white px-6 pb-4">
-            <div className="flex h-16 shrink-0 items-center">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4">
+            <div className="flex h-16 ml-[-25px]">
               <img
                 className="h-16 w-auto m-2"
                 src="https://rahat-rumsan.s3.amazonaws.com/website-images/lecksw9nyac3hp5pye.png"

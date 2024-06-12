@@ -123,7 +123,7 @@ export default function Example() {
       change: "12%",
       changeType: "increase",
     },
-    { name: "Asset Id", stat: asaId, previousStat: "28.62%" },
+    { name: "Asset Id", stat: Number(localStorage.getItem('voucherId')), previousStat: "28.62%" },
     { name: "Asset Assigned", stat: projectASA.toLocaleString() },
     { name: "Asset Redeemed ", stat: "58", changeType: "increase" },
   ];
@@ -137,14 +137,18 @@ export default function Example() {
     getProjectDetail();
   }, [])
   const getProjectDetail = async () => {
-    const address = await algodClient.getAssetByID(asaId).do()
+    const address = await algodClient.getAssetByID(Number(localStorage.getItem('voucherId'))).do()
     const assetHoldingOfProject = await assetHoldinig(address.params.clawback)
     const totalAssetMinted = await address.params.total
 
     const totalAssetAssigned = totalAssetMinted - assetHoldingOfProject.amount;
 
+    const assetHoldingOfVendor = project?.vendor?.walletAddress && await assetHoldinig(project?.vendor?.walletAddress)
+
     setProjectASA(totalAssetAssigned)
   }
+
+
 
   return (
     <>

@@ -80,6 +80,7 @@ export default function ProjectBeneficiary() {
   const { activeAddress, signer } = useWallet();
   const sender = { signer, addr: activeAddress! };
   const [tabsValue, setTabsValue] = useState<AssetStatus>('NOT_ASSIGNED');
+  const [loading, setLoading] = useState<boolean>(false)
 
   // Refactor - Asim, please use object
   const { data, isLoading, refetch } = useList(
@@ -112,6 +113,7 @@ export default function ProjectBeneficiary() {
   };
 
   const submitTransferToken = async () => {
+    setLoading(true)
     const signedTxn =
       tabsValue === 'NOT_ASSIGNED'
         ? await updateBeneficiaryData('FREEZED')
@@ -120,17 +122,20 @@ export default function ProjectBeneficiary() {
         : await updateBeneficiaryData('FREEZED');
 
     await algodClient.sendRawTransaction(signedTxn).do();
-    closeModal()
+    setLoading(false);
+    setSelectedBeneficiaries([]);
+    refetch()
+    closeModal();
   };
 
   const [numberOfAsa, setNumberOfASA] = useState(0);
   const updateBeneficiaryData = async (status: AssetStatus) => {
     const signedTxn =
       status === 'FREEZED'
-        ? await atomicTxnComposer(activeAddress as string, selectedBeneficiaries, numberOfAsa, asaId, sender, wallet)
+        ? await atomicTxnComposer(activeAddress as string, selectedBeneficiaries, numberOfAsa, Number(localStorage.getItem('voucherId')), sender, wallet)
         : status === 'UNFREEZED'
-        ? await atomicTxnComposerFreeze(activeAddress as string, selectedBeneficiaries, asaId, sender, true, wallet)
-        : await atomicTxnComposerFreeze(activeAddress as string, selectedBeneficiaries, asaId, sender, false, wallet);
+        ? await atomicTxnComposerFreeze(activeAddress as string, selectedBeneficiaries, Number(localStorage.getItem('voucherId')), sender, false, wallet)
+        : await atomicTxnComposerFreeze(activeAddress as string, selectedBeneficiaries, Number(localStorage.getItem('voucherId')), sender, true, wallet);
     postMutation({
       urls: URLS.BENEFICIARY + '/update',
       data: {
@@ -174,7 +179,7 @@ export default function ProjectBeneficiary() {
                   : tabsValue === 'FREEZED'
                   ? <button onClick={() => submitTransferToken()} className={sendBtns}>Unfrezze ASA</button>
                   : tabsValue === 'UNFREEZED' && 
-                  <button onClick={() => submitTransferToken()} className={sendBtns}>Unfrezze ASA</button>}
+                  <button onClick={() => submitTransferToken()} className={sendBtns}>Frezze ASA</button>}
                 
                 <Modal
                   isOpen={modalIsOpen}
@@ -214,7 +219,7 @@ export default function ProjectBeneficiary() {
                             <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Transfer {numberOfAsa} ASA to {selectedBeneficiaries.length} beneficiaries: {selectedBeneficiaries.length * numberOfAsa}</label>
                         </div>
                     </div>
-                    <button type="button" className="w-full text-white bg-indigo-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => submitTransferToken()}>Transfer</button>
+                    <button type="button" className="w-full text-white bg-indigo-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" disabled={loading} onClick={() => submitTransferToken()}>{loading ? 'Transfering ASA to Beneficiary...' : 'Transfer'}</button>
                     <div className="text-xs font-medium text-gray-500 dark:text-gray-300">
                         Once transferred, ASA's will be frozen in beneficiary wallet. You can unfreeze it later.
                     </div>

@@ -22,7 +22,7 @@ const BeneficiaryTransactASA = ({ walletAddress, assetStatus, setIsOpen }: any) 
         //   typedClient={typedClient}
         //   benAddress={walletAddress}
         //   amount={amount}
-        //   assetId={asaId}
+        //   assetId={Number(localStorage.getItem('voucherId'))}
         // />
         }
 
@@ -33,7 +33,7 @@ const BeneficiaryTransactASA = ({ walletAddress, assetStatus, setIsOpen }: any) 
           buttonNode="Unfreeze Asset"
           typedClient={typedClient}
           benAddress={walletAddress}
-          assetId={asaId}
+          assetId={Number(localStorage.getItem('voucherId'))}
         />
         }
 
@@ -44,7 +44,7 @@ const BeneficiaryTransactASA = ({ walletAddress, assetStatus, setIsOpen }: any) 
             buttonNode=" freeze Asset"
             typedClient={typedClient}
             benAddress={walletAddress}
-            assetId={asaId}
+            assetId={Number(localStorage.getItem('voucherId'))}
           />
         }
 
@@ -55,7 +55,7 @@ const BeneficiaryTransactASA = ({ walletAddress, assetStatus, setIsOpen }: any) 
           buttonNode="Clawback"
           typedClient={typedClient}
           benAddress={walletAddress}
-          assetId={asaId}
+          assetId={Number(localStorage.getItem('voucherId'))}
           amount={1}
         />}
       </div>

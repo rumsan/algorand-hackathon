@@ -31,7 +31,7 @@ const RahatUnfreezeBeneficiaryAsset = (props: Props) => {
   const { postMutation, data: projectData, isSuccess, error, success, isError, isPending } = usePost('updateBeneficiary');
 
   const callMethod = async () => {
-    const boxKey = algosdk.bigIntToBytes(asaId, 8);
+    const boxKey = algosdk.bigIntToBytes(Number(localStorage.getItem('voucherId')), 8);
 
     const res = await props.typedClient.unfreezeBeneficiaryAsset(
       {

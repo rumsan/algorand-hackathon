@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import Modal from 'react-modal';
 import RahatSendTokenToBeneficiary from './contracts/RahatSendTokenToBeneficiary';
 import { typedClient } from '@/utils/typedClient';
-import { asaId } from '@/utils/asaId';
 const Modals = ({modalIsOpen, walletAddress, setIsOpen}:any) => {
     
   const customStyles = {
@@ -44,7 +43,7 @@ const Modals = ({modalIsOpen, walletAddress, setIsOpen}:any) => {
           buttonNode="Send Token"
           typedClient={typedClient}
           benAddress={walletAddress}
-          assetId={asaId}
+          assetId={Number(localStorage.getItem('voucherId'))}
           setIsOpen={setIsOpen}
         />
         {/* <div id="authentication-modal" aria-hidden="true" className="overflow-y-auto flex overflow-x-hidden z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full py-8">
